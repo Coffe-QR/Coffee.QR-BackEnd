@@ -1,0 +1,20 @@
+﻿using Coffee.QR.API.Controllers;
+using Coffee.QR.API.DTOs;
+using Coffee.QR.API.Public;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Coffee.QR_BackEnd.Controllers
+{
+    [Route("api/users")]
+    public class UserController : BaseApiController
+    {
+        private readonly IUserService _userService;
+
+        [HttpGet("GetById/{userId:int}")]
+        public ActionResult<UserDto> GetById(long userId)
+        {
+            var result = _userService.GetById(userId);
+            return CreateResponse(result);
+        }
+    }
+}
