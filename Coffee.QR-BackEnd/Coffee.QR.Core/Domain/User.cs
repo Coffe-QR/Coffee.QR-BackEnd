@@ -24,6 +24,11 @@ namespace Coffee.QR.Core.Domain
             if (string.IsNullOrWhiteSpace(Password)) throw new ArgumentException("Invalid Surname");
         }
 
+        public string GetPrimaryRoleName()
+        {
+            return Role.ToString().ToLower();
+        }
+
     }
 }
 

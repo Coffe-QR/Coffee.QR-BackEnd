@@ -24,10 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Coffee.QR.API\Coffee.QR.API.csproj" />
     <ProjectReference Include="..\Coffee.QR.BuildingBlocks.Infrastructure\Coffee.QR.BuildingBlocks.Infrastructure.csproj" />
     <ProjectReference Include="..\Coffee.QR.Core\Coffee.QR.Core.csproj" />

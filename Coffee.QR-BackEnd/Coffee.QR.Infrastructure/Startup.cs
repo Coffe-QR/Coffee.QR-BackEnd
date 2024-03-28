@@ -8,7 +8,6 @@ using Coffee.QR.Core.Mappers;
 using Coffee.QR.Core.Services;
 using Coffee.QR.Infrastructure.Database;
 using Coffee.QR.Infrastructure.Database.Repositories;
-using Explorer.BuildingBlocks.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
