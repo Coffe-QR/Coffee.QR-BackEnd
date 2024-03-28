@@ -399,3 +399,4 @@ FodyWeavers.xsd
 
 # Migrations
 src/**/Migrations/*
+Coffee.QR-BackEnd/Coffee.QR.Infrastructure/Migrations/**
