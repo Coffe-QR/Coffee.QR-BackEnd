@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Coffee.QR_BackEnd.Controllers
 {
-    [Authorize(Policy = "clientPolicy")]
+    //[Authorize(Policy = "clientPolicy")]
     [Route("api/users")]
     public class UserController : BaseApiController
     {
