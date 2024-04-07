@@ -26,14 +26,15 @@ namespace Coffee.QR.Infrastructure
 
         private static void SetupCore(IServiceCollection services)
         {
-            //services.AddScoped<IUserService, UserService>(); // treba ovo ali iz nekog razloga prolazi samo sa repom
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+           
 
         }
 
         private static void SetupInfrastructure(IServiceCollection services)
         {
             services.AddScoped(typeof(ICrudRepository<User>), typeof(CrudDatabaseRepository<User, Context>));
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddDbContext<Context>(opt =>
                 opt.UseNpgsql(DbConnectionStringBuilder.Build("CoffeeQRSchema"),

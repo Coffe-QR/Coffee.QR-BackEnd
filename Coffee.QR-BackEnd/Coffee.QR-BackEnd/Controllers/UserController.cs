@@ -10,6 +10,11 @@ namespace Coffee.QR_BackEnd.Controllers
     {
         private readonly IUserService _userService;
 
+        public UserController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
         [HttpGet("GetById/{userId:int}")]
         public ActionResult<UserDto> GetById(long userId)
         {
