@@ -20,8 +20,8 @@ namespace Coffee.QR.Core.Domain
 
         private void Validate()
         {
-            if (string.IsNullOrWhiteSpace(Username)) throw new ArgumentException("Invalid Name");
-            if (string.IsNullOrWhiteSpace(Password)) throw new ArgumentException("Invalid Surname");
+            if (string.IsNullOrWhiteSpace(Username)) throw new ArgumentException("Invalid Username");
+            if (string.IsNullOrWhiteSpace(Password)) throw new ArgumentException("Invalid Password");
         }
 
         public string GetPrimaryRoleName()

@@ -6,6 +6,7 @@ using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
 using Coffee.QR.Core.Mappers;
 using Coffee.QR.Core.Services;
+using Coffee.QR.Infrastructure.Auth;
 using Coffee.QR.Infrastructure.Database;
 using Coffee.QR.Infrastructure.Database.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +28,8 @@ namespace Coffee.QR.Infrastructure
         private static void SetupCore(IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
-           
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ITokenGenerator,JwtGenerator>();
 
         }
 

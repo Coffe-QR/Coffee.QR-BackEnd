@@ -12,23 +12,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//-------------------AUTH-------------------------
-/*
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("YourSecretKeyHere")),
-            ValidateIssuer = false,
-            ValidateAudience = false
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY") ?? "coffeeQR_secret_key")),
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "coffeeQR",
+            ValidAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "coffeeQR-front.com"
         };
     });
-
-builder.Services.AddAuthorization();
-*/
-//------------------------------------------------
 
 
 builder.Services.RegisterModules();
@@ -44,6 +40,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

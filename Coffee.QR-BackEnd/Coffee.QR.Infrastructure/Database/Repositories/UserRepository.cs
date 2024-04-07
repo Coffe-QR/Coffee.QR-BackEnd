@@ -17,5 +17,22 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             if (user == null) throw new KeyNotFoundException("Not found.");
             return user;
         }
+
+        public User? GetActiveByName(string username)
+        {
+            return _dbContext.Users.FirstOrDefault(user => user.Username == username && user.IsActive);
+        }
+
+        public bool Exists(string username)
+        {
+            return _dbContext.Users.Any(user => user.Username == username);
+        }
+
+        public User Create(User user)
+        {
+            _dbContext.Users.Add(user);
+            _dbContext.SaveChanges();
+            return user;
+        }
     }
 }
