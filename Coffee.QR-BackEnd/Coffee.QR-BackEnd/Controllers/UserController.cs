@@ -1,10 +1,12 @@
 ﻿using Coffee.QR.API.Controllers;
 using Coffee.QR.API.DTOs;
 using Coffee.QR.API.Public;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coffee.QR_BackEnd.Controllers
 {
+    [Authorize(Policy = "clientPolicy")]
     [Route("api/users")]
     public class UserController : BaseApiController
     {

@@ -1,4 +1,5 @@
 using Coffee.QR_BackEnd;
+using Coffee.QR_BackEnd.Startup;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -12,19 +13,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY") ?? "coffeeQR_secret_key")),
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "coffeeQR",
-            ValidAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "coffeeQR-front.com"
-        };
-    });
+//-------------------------------------
+builder.Services.ConfigureSwagger(builder.Configuration);
+const string corsPolicy = "_corsPolicy";
+builder.Services.ConfigureCors(corsPolicy);
+builder.Services.ConfigureAuth();
+//------------------------------------
 
 
 builder.Services.RegisterModules();
