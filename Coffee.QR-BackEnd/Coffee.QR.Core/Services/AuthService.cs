@@ -35,12 +35,12 @@ namespace Coffee.QR.Core.Services
         {
 //          if (account.Role == UserRoleDto.Administrator) return Result.Fail(FailureCode.InvalidArgument);
             if (_userRepository.Exists(account.Username)) return Result.Fail(FailureCode.NonUniqueUsername);
-            UserRole role = UserRole.Client; // UserRole role = account.Role == UserRoleDto.Manager? UserRole.Manager : UserRole.Client;
+            //UserRole role = UserRole.Client; // UserRole role = account.Role == UserRoleDto.Manager? UserRole.Manager : UserRole.Client;
 
 
             try
             {
-                var user = _userRepository.Create(new User(account.Username, account.Password, role, true));
+                var user = _userRepository.Create(new User(account.Username, account.Password, (UserRole)account.Role, true));
 
                 return _tokenGenerator.GenerateAccessToken(user);
             }
