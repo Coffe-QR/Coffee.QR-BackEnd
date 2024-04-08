@@ -34,7 +34,7 @@ namespace Coffee.QR.Core.Domain
 
 public enum UserRole
 {
-    Administrator,
+    Bartender,
     Waiter,
     Manager,
     Client,
