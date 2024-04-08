@@ -33,7 +33,7 @@ namespace Coffee.QR.Core.Services
 
         public Result<AuthenticationTokensDto> RegisterTourist(RegisterDto account)
         {
-            if (account.Role == UserRoleDto.Administrator) return Result.Fail(FailureCode.InvalidArgument);
+//          if (account.Role == UserRoleDto.Administrator) return Result.Fail(FailureCode.InvalidArgument);
             if (_userRepository.Exists(account.Username)) return Result.Fail(FailureCode.NonUniqueUsername);
             UserRole role = UserRole.Client; // UserRole role = account.Role == UserRoleDto.Manager? UserRole.Manager : UserRole.Client;
 
