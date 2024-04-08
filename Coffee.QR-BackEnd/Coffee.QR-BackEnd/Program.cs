@@ -34,7 +34,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
+app.UseRouting(); // Ensure UseRouting is after UseCors
+app.UseCors(corsPolicy);
+app.UseHttpsRedirection();
+//app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
