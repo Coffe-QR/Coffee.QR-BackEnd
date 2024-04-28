@@ -43,11 +43,11 @@ namespace Coffee.QR_BackEnd.Controllers
 
             if (result.IsSuccess)
             {
-                return Ok(result.Value);  // Return the list of EventDto objects
+                return Ok(result.Value);
             }
             else
             {
-                return BadRequest(result.Errors);  // Return the errors if the operation was unsuccessful
+                return BadRequest(result.Errors);
             }
         }
 
