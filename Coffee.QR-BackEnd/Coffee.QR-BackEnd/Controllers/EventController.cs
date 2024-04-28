@@ -52,16 +52,17 @@ namespace Coffee.QR_BackEnd.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteEvent(long id)
+        public IActionResult DeleteEvent(int id)
         {
             var isDeleted = _eventService.DeleteEvent(id);
             if (isDeleted)
             {
-                return Ok("Event deleted successfully.");
+                // Return JSON response
+                return Ok(new { message = "Event deleted successfully." });
             }
             else
             {
-                return NotFound("Event not found.");
+                return NotFound(new { message = "Event not found." });
             }
         }
 
