@@ -17,10 +17,23 @@ namespace Coffee.QR_BackEnd.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateEvent(EventDto eventDto)
+        public IActionResult Create([FromBody] EventDto eventDto)
         {
-            var result =  _eventService.CreateEvent(eventDto);
-            return CreateResponse(result);
+            if (eventDto == null)
+            {
+                return BadRequest("Event data is required");
+            }
+
+            var result = _eventService.CreateEvent(eventDto);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
         }
 
         [HttpGet("{id}")]
