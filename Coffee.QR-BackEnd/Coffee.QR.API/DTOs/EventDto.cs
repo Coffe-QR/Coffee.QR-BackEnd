@@ -9,8 +9,8 @@ namespace Coffee.QR.API.DTOs
     public class EventDto
     {
         public long Id { get; set; }
-        public string Name { get; private set; }
-        public DateTime DateTime { get; private set; }
+        public string Name { get; set; }
+        public DateTime DateTime { get; set; }
 
     }
 }

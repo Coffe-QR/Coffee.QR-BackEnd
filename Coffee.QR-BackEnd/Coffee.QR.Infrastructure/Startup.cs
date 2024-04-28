@@ -38,7 +38,7 @@ namespace Coffee.QR.Infrastructure
         private static void SetupInfrastructure(IServiceCollection services)
         {
             services.AddScoped(typeof(ICrudRepository<User>), typeof(CrudDatabaseRepository<User, Context>));
-            services.AddScoped(typeof(ICrudRepository<Event>), typeof(CrudDatabaseRepository<Event, Context>)); // Register the ICrudRepository for Event
+            services.AddScoped(typeof(ICrudRepository<Event>), typeof(CrudDatabaseRepository<Event, Context>));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
 
