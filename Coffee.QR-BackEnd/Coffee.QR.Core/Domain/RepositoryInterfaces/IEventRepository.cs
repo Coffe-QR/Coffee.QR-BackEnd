@@ -10,5 +10,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
     {
         Event Create(Event @event);
         List<Event> GetAll();
+        Event Delete(long eventId);
     }
 }

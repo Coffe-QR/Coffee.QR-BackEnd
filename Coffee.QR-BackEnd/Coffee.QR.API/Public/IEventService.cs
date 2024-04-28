@@ -13,8 +13,8 @@ namespace Coffee.QR.API.Public
     {
         Result<EventDto> CreateEvent(EventDto eventDto);
         Result<List<EventDto>> GetAllEvents();
+        bool DeleteEvent(long eventId);
         Task<Result<EventDto>> GetEventByIdAsync(long id);
         Task<Result<EventDto>> UpdateEventAsync(EventDto eventDto);
-        Task<Result<bool>> DeleteEventAsync(long id);
     }
 }
