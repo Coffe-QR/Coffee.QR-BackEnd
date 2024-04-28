@@ -22,5 +22,10 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             _dbContext.SaveChanges();
             return @event;
         }
+
+        public List<Event> GetAll()
+        {
+            return _dbContext.Events.ToList();
+        }
     }
 }

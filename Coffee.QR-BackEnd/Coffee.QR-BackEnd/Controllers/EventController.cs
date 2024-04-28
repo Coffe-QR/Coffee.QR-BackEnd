@@ -36,6 +36,24 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpGet("getAll")]
+        public IActionResult GetAll()
+        {
+            var result = _eventService.GetAllEvents();
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);  // Return the list of EventDto objects
+            }
+            else
+            {
+                return BadRequest(result.Errors);  // Return the errors if the operation was unsuccessful
+            }
+        }
+
+
+        //IN PROGRESS...
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEvent(long id)
         {

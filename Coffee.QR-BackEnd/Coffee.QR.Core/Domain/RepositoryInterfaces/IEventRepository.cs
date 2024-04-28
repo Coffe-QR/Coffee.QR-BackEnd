@@ -9,5 +9,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
     public interface IEventRepository
     {
         Event Create(Event @event);
+        List<Event> GetAll();
     }
 }

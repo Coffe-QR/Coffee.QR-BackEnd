@@ -23,23 +23,38 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                // Create the event using the repository and receive an Event object.
                 var eventt = _eventRepository.Create(new Event(eventDto.Name, eventDto.DateTime));
 
-                // Convert the Event object to EventDto.
                 EventDto resultDto = new EventDto
                 {
                     Name = eventt.Name,
                     DateTime = eventt.DateTime
                 };
 
-                // Return a successful Result containing the EventDto.
                 return Result.Ok(resultDto);
             }
             catch (ArgumentException e)
             {
-                // Return a failed Result with the error message.
                 return Result.Fail<EventDto>(FailureCode.InvalidArgument).WithError(e.Message);
+            }
+        }
+        public Result<List<EventDto>> GetAllEvents()
+        {
+            try
+            {
+                var events = _eventRepository.GetAll();
+                var eventDtos = events.Select(e => new EventDto
+                {
+                    Id = e.Id,
+                    Name = e.Name,
+                    DateTime = e.DateTime  
+                }).ToList();
+
+                return Result.Ok(eventDtos);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<List<EventDto>>("Failed to retrieve events").WithError(e.Message);
             }
         }
 
@@ -48,6 +63,7 @@ namespace Coffee.QR.Core.Services
         {
             throw new NotImplementedException();
         }
+
 
         public Task<Result<EventDto>> GetEventByIdAsync(long id)
         {
