@@ -1,4 +1,8 @@
 using Coffee.QR_BackEnd;
+using Coffee.QR_BackEnd.Startup;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +12,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//-------------------------------------
+builder.Services.ConfigureSwagger(builder.Configuration);
+const string corsPolicy = "_corsPolicy";
+builder.Services.ConfigureCors(corsPolicy);
+builder.Services.ConfigureAuth();
+//------------------------------------
+
 
 builder.Services.RegisterModules();
 
@@ -22,6 +34,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting(); // Ensure UseRouting is after UseCors
+app.UseCors(corsPolicy);
+app.UseHttpsRedirection();
+//app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

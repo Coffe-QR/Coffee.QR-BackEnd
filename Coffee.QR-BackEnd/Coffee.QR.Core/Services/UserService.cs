@@ -5,6 +5,7 @@ using Coffee.QR.BuildingBlocks.Core.UseCases;
 using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
 using FluentResults;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
