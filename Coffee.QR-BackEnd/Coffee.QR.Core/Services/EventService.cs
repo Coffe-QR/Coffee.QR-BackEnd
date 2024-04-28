@@ -59,9 +59,10 @@ namespace Coffee.QR.Core.Services
         }
 
 
-        public Task<Result<bool>> DeleteEventAsync(long id)
+        public bool DeleteEvent(long eventId)
         {
-            throw new NotImplementedException();
+            var eventToDelete = _eventRepository.Delete(eventId);
+            return eventToDelete != null;
         }
 
 

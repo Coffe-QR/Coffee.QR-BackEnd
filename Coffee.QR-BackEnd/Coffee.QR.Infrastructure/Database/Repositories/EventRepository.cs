@@ -1,5 +1,6 @@
 ﻿using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,17 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
         public List<Event> GetAll()
         {
             return _dbContext.Events.ToList();
+        }
+
+        public Event Delete(long eventId)
+        {
+            var eventToDelete = _dbContext.Events.Find(eventId);
+            if (eventToDelete != null)
+            {
+                _dbContext.Events.Remove(eventToDelete);
+                _dbContext.SaveChanges();
+            }
+            return eventToDelete;
         }
     }
 }

@@ -51,6 +51,19 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult DeleteEvent(long id)
+        {
+            var isDeleted = _eventService.DeleteEvent(id);
+            if (isDeleted)
+            {
+                return Ok("Event deleted successfully.");
+            }
+            else
+            {
+                return NotFound("Event not found.");
+            }
+        }
 
         //IN PROGRESS...
 
@@ -72,13 +85,5 @@ namespace Coffee.QR_BackEnd.Controllers
             return BadRequest(result.Errors);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEvent(long id)
-        {
-            var result = await _eventService.DeleteEventAsync(id);
-            if (result.IsSuccess)
-                return Ok();
-            return BadRequest(result.Errors);
-        }
     }
 }
