@@ -11,7 +11,8 @@ namespace Coffee.QR.Core.Domain
     public enum ItemType
     {
         FOOD, 
-        DRINK
+        DRINK,
+        INGREDIENT
     };
     public class Item : Entity
     {
@@ -19,9 +20,9 @@ namespace Coffee.QR.Core.Domain
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public Item(string type, string name, string description)
+        public Item(ItemType type, string name, string description)
         {
-            Type = (ItemType)Enum.Parse(typeof(ItemType), type, true);
+            Type = type;
             Name = name;
             Description = description;
         }
