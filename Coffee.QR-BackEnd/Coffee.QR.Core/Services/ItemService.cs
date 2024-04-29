@@ -29,13 +29,14 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var item = _itemRepository.Create(new Item((ItemType)Enum.Parse(typeof(ItemType), itemDto.Type.ToString(), true), itemDto.Name, itemDto.Description));
+                var item = _itemRepository.Create(new Item((ItemType)Enum.Parse(typeof(ItemType), itemDto.Type.ToString(), true), itemDto.Name, itemDto.Description, itemDto.Price));
 
                 ItemDto resultDto = new ItemDto
                 {
                     Id = item.Id,
                     Name = itemDto.Name,
                     Description = itemDto.Description,
+                    Price = itemDto.Price,
                 };
 
                 return Result.Ok(resultDto);
@@ -63,6 +64,7 @@ namespace Coffee.QR.Core.Services
                     Name = i.Name,
                     Description = i.Description,
                     Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), i.Type.ToString(), true),
+                    Price = i.Price,    
             }).ToList();
 
                 return Result.Ok(itemDtos);
