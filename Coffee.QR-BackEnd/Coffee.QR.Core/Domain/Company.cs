@@ -7,8 +7,13 @@ using System.Threading.Tasks;
 
 namespace Coffee.QR.Core.Domain
 {
-    public class Ingredient : Entity
+    public class Company : Entity
     {
+        public string Name { get; set; }
 
+        public Company(string name)
+        {
+            Name = name;
+        }
     }
 }
