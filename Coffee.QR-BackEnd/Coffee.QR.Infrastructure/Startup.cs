@@ -25,6 +25,8 @@ namespace Coffee.QR.Infrastructure
             services.AddAutoMapper(typeof(CompanyService).Assembly);
             services.AddAutoMapper(typeof(MenuService).Assembly);
             services.AddAutoMapper(typeof(SupplyService).Assembly);
+            services.AddAutoMapper(typeof(SupplyItemService).Assembly);
+
             SetupCore(services);
             SetupInfrastructure(services);
             return services;
@@ -40,6 +42,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<IMenuService, MenuService>();
             services.AddScoped<ISupplyService, SupplyService>();
+            services.AddScoped<ISupplyItemService, SupplyItemService>();
 
         }
 
@@ -51,12 +54,15 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped(typeof(ICrudRepository<Company>), typeof(CrudDatabaseRepository<Company, Context>));
             services.AddScoped(typeof(ICrudRepository<Menu>), typeof(CrudDatabaseRepository<Menu, Context>));
             services.AddScoped(typeof(ICrudRepository<Supply>), typeof(CrudDatabaseRepository<Supply, Context>));
+            services.AddScoped(typeof(ICrudRepository<SupplyItem>), typeof(CrudDatabaseRepository<SupplyItem, Context>));
+
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IMenuRepository, MenuRepository>();
             services.AddScoped<ISupplyRepository, SupplyRepository>();
+            services.AddScoped<ISupplyItemRepository, SupplyItemRepository>();
 
 
             services.AddDbContext<Context>(opt =>
