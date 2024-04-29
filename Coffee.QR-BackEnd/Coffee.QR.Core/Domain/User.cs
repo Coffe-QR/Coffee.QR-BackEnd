@@ -6,13 +6,19 @@ namespace Coffee.QR.Core.Domain
     {
         public string Username { get; private set; }
         public string Password { get; private set; }
+        public string Email { get; private set; }
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
         public UserRole Role { get; private set; }
         public bool IsActive { get; set; }
 
-        public User(string username, string password, UserRole role, bool isActive)
+        public User(string username,string email, string password, string firstName, string lastName, UserRole role, bool isActive)
         {
             Username = username;
+            Email = email;
             Password = password;
+            FirstName = firstName;
+            LastName = lastName;
             Role = role;
             IsActive = isActive;
             Validate();

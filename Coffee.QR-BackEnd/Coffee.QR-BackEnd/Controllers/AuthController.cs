@@ -16,9 +16,9 @@ namespace Coffee.QR_BackEnd.Controllers
         }
 
         [HttpPost("register")]
-        public ActionResult<AuthenticationTokensDto> RegisterTourist([FromBody] RegisterDto account)
+        public ActionResult<AuthenticationTokensDto> Register([FromBody] RegisterDto account)
         {
-            var result = _authService.RegisterTourist(account);
+            var result = _authService.Register(account);
             return CreateResponse(result);
         }
 

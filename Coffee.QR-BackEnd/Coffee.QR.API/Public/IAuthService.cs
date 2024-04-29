@@ -11,6 +11,6 @@ namespace Coffee.QR.API.Public
     public interface IAuthService
     {
         Result<AuthenticationTokensDto> Login(LoginDto credentials);
-        Result<AuthenticationTokensDto> RegisterTourist(RegisterDto account);
+        Result<AuthenticationTokensDto> Register(RegisterDto account);
     }
 }

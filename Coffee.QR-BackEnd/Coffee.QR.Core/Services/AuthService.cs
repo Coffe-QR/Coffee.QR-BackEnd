@@ -31,7 +31,7 @@ namespace Coffee.QR.Core.Services
             return _tokenGenerator.GenerateAccessToken(user);
         }
 
-        public Result<AuthenticationTokensDto> RegisterTourist(RegisterDto account)
+        public Result<AuthenticationTokensDto> Register(RegisterDto account)
         {
 //          if (account.Role == UserRoleDto.Administrator) return Result.Fail(FailureCode.InvalidArgument);
             if (_userRepository.Exists(account.Username)) return Result.Fail(FailureCode.NonUniqueUsername);
@@ -40,7 +40,7 @@ namespace Coffee.QR.Core.Services
 
             try
             {
-                var user = _userRepository.Create(new User(account.Username, account.Password, (UserRole)account.Role, true));
+                var user = _userRepository.Create(new User(account.Username, account.Email, account.Password, account.FirstName, account.LastName, (UserRole)account.Role, true));
 
                 return _tokenGenerator.GenerateAccessToken(user);
             }
