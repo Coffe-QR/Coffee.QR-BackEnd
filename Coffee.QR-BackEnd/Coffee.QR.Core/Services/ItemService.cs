@@ -29,7 +29,7 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var item = _itemRepository.Create(new Item(itemDto.Type.ToString(), itemDto.Name, itemDto.Description));
+                var item = _itemRepository.Create(new Item((ItemType)Enum.Parse(typeof(ItemType), itemDto.Type.ToString(), true), itemDto.Name, itemDto.Description));
 
                 ItemDto resultDto = new ItemDto
                 {
