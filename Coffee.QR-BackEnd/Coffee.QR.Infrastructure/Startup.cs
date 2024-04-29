@@ -23,6 +23,7 @@ namespace Coffee.QR.Infrastructure
             services.AddAutoMapper(typeof(EventProfile).Assembly);
             services.AddAutoMapper(typeof(ItemService).Assembly);
             services.AddAutoMapper(typeof(CompanyService).Assembly);
+            services.AddAutoMapper(typeof(MenuService).Assembly);
             SetupCore(services);
             SetupInfrastructure(services);
             return services;
@@ -36,6 +37,8 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IItemService, ItemService>();
             services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<IMenuService, MenuService>();
+
         }
 
         private static void SetupInfrastructure(IServiceCollection services)
@@ -44,10 +47,13 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped(typeof(ICrudRepository<Event>), typeof(CrudDatabaseRepository<Event, Context>));
             services.AddScoped(typeof(ICrudRepository<Item>), typeof(CrudDatabaseRepository<Item, Context>));
             services.AddScoped(typeof(ICrudRepository<Company>), typeof(CrudDatabaseRepository<Company, Context>));
+            services.AddScoped(typeof(ICrudRepository<Menu>), typeof(CrudDatabaseRepository<Menu, Context>));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<IMenuRepository, MenuRepository>();
+
 
             services.AddDbContext<Context>(opt =>
                 opt.UseNpgsql(DbConnectionStringBuilder.Build("CoffeeQRSchema"),

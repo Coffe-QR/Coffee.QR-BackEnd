@@ -15,6 +15,8 @@ namespace Coffee.QR.Infrastructure.Database
         public DbSet<Item> Items { get; set; }  
         public DbSet<Company> Companies { get;set; }
 
+        public DbSet<Menu> Menus { get; set; }
+
         public Context(DbContextOptions<Context> options) : base(options){}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
