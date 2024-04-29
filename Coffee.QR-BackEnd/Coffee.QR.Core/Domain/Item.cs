@@ -20,11 +20,14 @@ namespace Coffee.QR.Core.Domain
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public Item(ItemType type, string name, string description)
+        public double Price { get; set; }
+
+        public Item(ItemType type, string name, string description, double price)
         {
             Type = type;
             Name = name;
             Description = description;
+            Price = price;
         }
     }
 }
