@@ -11,11 +11,15 @@ namespace Coffee.QR.Core.Domain
     {
         public string Name { get; private set; }
         public DateTime DateTime { get; private set; }
+        public string Description { get; private set; }
+        public string Image { get; private set; }
 
-        public Event(string name,DateTime dateTime)
+        public Event(string name,DateTime dateTime, string description, string image)
         {
             Name = name;
             DateTime = dateTime;
+            Description = description;
+            Image = image;
         }
     }
 }
