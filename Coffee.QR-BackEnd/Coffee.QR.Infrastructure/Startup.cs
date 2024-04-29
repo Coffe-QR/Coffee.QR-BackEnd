@@ -21,6 +21,7 @@ namespace Coffee.QR.Infrastructure
         {
             services.AddAutoMapper(typeof(UserProfile).Assembly);
             services.AddAutoMapper(typeof(EventProfile).Assembly);
+            services.AddAutoMapper(typeof(ItemService).Assembly);
             SetupCore(services);
             SetupInfrastructure(services);
             return services;
@@ -32,15 +33,17 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ITokenGenerator,JwtGenerator>();
             services.AddScoped<IEventService, EventService>();
-
+            services.AddScoped<IItemService, ItemService>();
         }
 
         private static void SetupInfrastructure(IServiceCollection services)
         {
             services.AddScoped(typeof(ICrudRepository<User>), typeof(CrudDatabaseRepository<User, Context>));
             services.AddScoped(typeof(ICrudRepository<Event>), typeof(CrudDatabaseRepository<Event, Context>));
+            services.AddScoped(typeof(ICrudRepository<Item>), typeof(CrudDatabaseRepository<Item, Context>));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
 
             services.AddDbContext<Context>(opt =>
                 opt.UseNpgsql(DbConnectionStringBuilder.Build("CoffeeQRSchema"),
