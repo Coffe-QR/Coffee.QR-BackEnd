@@ -12,6 +12,7 @@ namespace Coffee.QR.Infrastructure.Database
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<Item> Items { get; set; }  
 
         public Context(DbContextOptions<Context> options) : base(options){}
 
