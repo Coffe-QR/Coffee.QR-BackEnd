@@ -86,5 +86,33 @@ namespace Coffee.QR.Core.Services
             throw new NotImplementedException();
         }
 
+        public Result<List<SupplyItemDto>> CreateSupplyItems(List<SupplyItemDto> supplyItemDtos)
+        {
+            try
+            {
+                List<SupplyItemDto> resultDtos = new();
+                foreach(var supplyItemDto in supplyItemDtos)
+                {
+                    var supplyItemt = _supplyItemRepository.Create(new SupplyItem(supplyItemDto.SupplyId, supplyItemDto.ItemId, supplyItemDto.Quantity, supplyItemDto.Price));
+
+                    SupplyItemDto resultDto = new SupplyItemDto
+                    {
+                        Id = supplyItemt.Id,
+                        Quantity = supplyItemt.Quantity,
+                        Price = supplyItemt.Price,
+                        SupplyId = supplyItemt.SupplyId,
+                        ItemId = supplyItemt.ItemId,
+                    };
+                    resultDtos.Add(resultDto);
+                }
+
+                return Result.Ok(resultDtos);
+            }
+            catch (ArgumentException e)
+            {
+                return Result.Fail<List<SupplyItemDto>>(FailureCode.InvalidArgument).WithError(e.Message);
+            }
+        }
+
     }
 }

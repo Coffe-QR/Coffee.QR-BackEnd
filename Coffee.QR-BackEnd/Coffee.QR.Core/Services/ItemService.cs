@@ -29,7 +29,7 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var item = _itemRepository.Create(new Item((ItemType)Enum.Parse(typeof(ItemType), itemDto.Type.ToString(), true), itemDto.Name, itemDto.Description, itemDto.Price));
+                var item = _itemRepository.Create(new Item((ItemType)Enum.Parse(typeof(ItemType), itemDto.Type.ToString(), true), itemDto.Name, itemDto.Description, itemDto.Price, itemDto.Picture));
 
                 ItemDto resultDto = new ItemDto
                 {
@@ -37,6 +37,7 @@ namespace Coffee.QR.Core.Services
                     Name = itemDto.Name,
                     Description = itemDto.Description,
                     Price = itemDto.Price,
+                    Picture = itemDto.Picture,
                 };
 
                 return Result.Ok(resultDto);
@@ -64,8 +65,9 @@ namespace Coffee.QR.Core.Services
                     Name = i.Name,
                     Description = i.Description,
                     Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), i.Type.ToString(), true),
-                    Price = i.Price,    
-            }).ToList();
+                    Price = i.Price,
+                    Picture = i.Picture,
+                }).ToList();
 
                 return Result.Ok(itemDtos);
             }
