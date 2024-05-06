@@ -23,14 +23,15 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var eventt = _eventRepository.Create(new Event(eventDto.Name, eventDto.DateTime,eventDto.Description,eventDto.Image));
+                var eventt = _eventRepository.Create(new Event(eventDto.Name, eventDto.DateTime,eventDto.Description,eventDto.Image,eventDto.UserId));
 
                 EventDto resultDto = new EventDto
                 {
                     Name = eventt.Name,
                     DateTime = eventt.DateTime,
                     Description = eventt.Description,
-                    Image = eventt.Image
+                    Image = eventt.Image,
+                    UserId = eventt.UserId,
                 };
 
                 return Result.Ok(resultDto);
