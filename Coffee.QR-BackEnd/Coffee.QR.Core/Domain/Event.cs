@@ -11,12 +11,6 @@ namespace Coffee.QR.Core.Domain
         public long UserId { get; private set; }
         public User Creator { get; private set; }
 
-        // Parameterless constructor required by EF Core
-/*        private Event()
-        {
-        }*/
-
-        // Main constructor for business logic
         public Event(string name, DateTime dateTime, string description, string image, long userId)
         {
             Name = name;
@@ -26,13 +20,5 @@ namespace Coffee.QR.Core.Domain
             UserId = userId;
         }
 
-/*        // Optional public method to update the event
-        public void UpdateDetails(string name, DateTime dateTime, string description, string image)
-        {
-            Name = name;
-            DateTime = dateTime;
-            Description = description;
-            Image = image;
-        }*/
     }
 }
