@@ -10,7 +10,7 @@ namespace Coffee.QR.API.DTOs
     {
         INPROGRESS,
         END,
-        WAITING
+        CREATED
     }
     public class SupplyDto { 
         public long Id { get; set; }

@@ -11,7 +11,7 @@ namespace Coffee.QR.Core.Domain
     {
         INPROGRESS,
         END,
-        WAITING
+        CREATED
     }
     public class Supply : Entity
     {
@@ -19,6 +19,7 @@ namespace Coffee.QR.Core.Domain
         public double TotalPrice { get; set; }  
         public SupplyStatus Status { get; set; }
 
+        public Supply() { }
         public Supply(long companyId, double totalPrice, SupplyStatus supplyStatus)
         {
             CompanyId = companyId;

@@ -86,5 +86,25 @@ namespace Coffee.QR_BackEnd.Controllers
             return BadRequest(result.Errors);
         }
 
+        [HttpPost("create-list")]
+        public IActionResult CreateList([FromBody] List<SupplyItemDto> supplyItemDtos)
+        {
+            if (supplyItemDtos == null)
+            {
+                return BadRequest("SupplyItems data is required");
+            }
+
+            var result = _supplyItemService.CreateSupplyItems(supplyItemDtos);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
     }
 }

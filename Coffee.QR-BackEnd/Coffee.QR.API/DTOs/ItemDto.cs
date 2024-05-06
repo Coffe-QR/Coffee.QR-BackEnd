@@ -10,7 +10,8 @@ namespace Coffee.QR.API.DTOs
     public enum ItemTypeDto
     {
         FOOD,
-        DRINK
+        DRINK,
+        INGREDIENT
     };
     public class ItemDto
     {
@@ -20,6 +21,7 @@ namespace Coffee.QR.API.DTOs
         public string Description { get; set; }
 
         public double Price { get; set; }
+        public string Picture { get; set; }
     }
 
 
