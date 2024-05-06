@@ -50,7 +50,10 @@ namespace Coffee.QR.Core.Services
                 {
                     Id = e.Id,
                     Name = e.Name,
-                    DateTime = e.DateTime  
+                    DateTime = e.DateTime,
+                    Description = e.Description,
+                    Image = e.Image,
+                    UserId = e.UserId,
                 }).ToList();
 
                 return Result.Ok(eventDtos);
