@@ -84,5 +84,23 @@ namespace Coffee.QR.Core.Services
             throw new NotImplementedException();
         }
 
+        public Result<SupplyDto> GetById(long supplyId)
+        {
+            try
+            {
+                var supply = _supplyRepository.GetById(supplyId);
+                SupplyDto supplyDtos = new();
+                supplyDtos.Id = supply.Id;
+                supplyDtos.CompanyId = supply.CompanyId;
+                supplyDtos.TotalPrice = supply.TotalPrice;
+                supplyDtos.Status = (SupplyStatusDto)Enum.Parse(typeof(SupplyStatusDto), supply.Status.ToString(), true);
+
+                return Result.Ok(supplyDtos);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<SupplyDto>("Failed to retrieve supplys").WithError(e.Message);
+            }
+        }
     }
 }

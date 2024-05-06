@@ -86,5 +86,20 @@ namespace Coffee.QR_BackEnd.Controllers
             return BadRequest(result.Errors);
         }
 
+        [HttpGet("getById/{supplyId}")]
+
+        public IActionResult GetById(long supplyId)
+        {
+            var result = _supplyService.GetById(supplyId);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
     }
 }

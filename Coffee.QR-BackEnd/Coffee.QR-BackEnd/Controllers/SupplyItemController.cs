@@ -106,5 +106,20 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpGet("for-supply/{supplyId}")]
+        public IActionResult GetAllForSupply(long supplyId)
+        {
+            var result = _supplyItemService.GetAllForSupply(supplyId);
+            
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
     }
 }
