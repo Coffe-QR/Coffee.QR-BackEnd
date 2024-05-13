@@ -66,6 +66,20 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpGet("byUser/{userId}")]
+        public IActionResult GetAllByUserId(long userId)
+        {
+            var result = _eventService.GetAllByUserId(userId);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
         //IN PROGRESS...
 
         [HttpGet("{id}")]
