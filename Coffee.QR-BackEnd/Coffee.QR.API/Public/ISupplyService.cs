@@ -15,5 +15,7 @@ namespace Coffee.QR.API.Public
         bool DeleteSupply(long supplyId);
         Task<Result<SupplyDto>> GetSupplyByIdAsync(long id);
         Task<Result<SupplyDto>> UpdateSupplyAsync(SupplyDto supplyDto);
+
+        Result<SupplyDto> GetById(long supplyId);
     }
 }

@@ -114,5 +114,21 @@ namespace Coffee.QR.Core.Services
             }
         }
 
+        public Result<List<SupplyItemDto>> GetAllForSupply(long supplyId)
+        {
+            try
+            {
+                List<SupplyItemDto> dtos = new();
+                foreach (var item in GetAllSupplyItems().Value)
+                {
+                    if (item.SupplyId == supplyId) dtos.Add(item);
+                }
+                return Result.Ok(dtos);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<List<SupplyItemDto>>("Failed to retrieve supplyItems").WithError(e.Message);
+            }
+        }
     }
 }
