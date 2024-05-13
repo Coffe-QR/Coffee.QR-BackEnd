@@ -22,6 +22,8 @@ namespace Coffee.QR.Infrastructure.Database
         public DbSet<StorageItem> StorageItems { get; set; }
         public DbSet<JobApplication> JobApplications { get; set; }
 
+        public DbSet<LocalUser> LocalUsers { get; set; }    
+
         public Context(DbContextOptions<Context> options) : base(options){}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
