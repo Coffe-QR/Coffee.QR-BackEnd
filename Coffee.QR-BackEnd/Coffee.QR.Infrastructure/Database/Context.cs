@@ -21,6 +21,7 @@ namespace Coffee.QR.Infrastructure.Database
         public DbSet<Storage> Storages { get; set; }
         public DbSet<StorageItem> StorageItems { get; set; }
         public DbSet<JobApplication> JobApplications { get; set; }
+        public DbSet<Local> Locals { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options){}
 

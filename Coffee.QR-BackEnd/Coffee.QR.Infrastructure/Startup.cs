@@ -30,6 +30,7 @@ namespace Coffee.QR.Infrastructure
             services.AddAutoMapper(typeof(StorageService).Assembly);
             services.AddAutoMapper(typeof(StorageItemService).Assembly);
             services.AddAutoMapper(typeof(JobApplicationService).Assembly);
+            services.AddAutoMapper(typeof(LocalProfile).Assembly);
 
             SetupCore(services);
             SetupInfrastructure(services);
@@ -51,6 +52,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<IStorageService, StorageService>();
             services.AddScoped<IStorageItemService, StorageItemService>();
             services.AddScoped<IJobApplicationService, JobApplicationService>();
+            services.AddScoped<ILocalService, LocalService>();
 
         }
 
@@ -67,6 +69,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped(typeof(ICrudRepository<Storage>), typeof(CrudDatabaseRepository<Storage, Context>));
             services.AddScoped(typeof(ICrudRepository<StorageItem>), typeof(CrudDatabaseRepository<StorageItem, Context>));
             services.AddScoped(typeof(ICrudRepository<JobApplication>), typeof(CrudDatabaseRepository<JobApplication, Context>));
+            services.AddScoped(typeof(ICrudRepository<Local>), typeof(CrudDatabaseRepository<Local, Context>));
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
@@ -79,6 +82,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<IStorageRepository, StorageRepository>();
             services.AddScoped<IStorageItemRepository, StorageItemRepository>();
             services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
+            services.AddScoped<ILocalRepository, LocalRepository>();
 
 
             services.AddDbContext<Context>(opt =>
