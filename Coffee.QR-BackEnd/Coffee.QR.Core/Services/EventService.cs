@@ -71,6 +71,30 @@ namespace Coffee.QR.Core.Services
             return eventToDelete != null;
         }
 
+        public Result<List<EventDto>> GetAllByUserId(long userId)
+        {
+            try
+            {
+                var events = _eventRepository.GetAllByUserId(userId);
+                var eventDtos = events.Select(e => new EventDto
+                {
+                    Id = e.Id,
+                    Name = e.Name,
+                    DateTime = e.DateTime,
+                    Description = e.Description,
+                    Image = e.Image,
+                    UserId = e.UserId,
+                }).ToList();
+
+                return Result.Ok(eventDtos);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<List<EventDto>>("Failed to retrieve events for user").WithError(e.Message);
+            }
+        }
+
+
 
         public Task<Result<EventDto>> GetEventByIdAsync(long id)
         {

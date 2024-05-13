@@ -39,5 +39,10 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             }
             return eventToDelete;
         }
+
+        public List<Event> GetAllByUserId(long userId)
+        {
+            return _dbContext.Events.Where(e => e.UserId == userId).ToList();
+        }
     }
 }

@@ -16,5 +16,6 @@ namespace Coffee.QR.API.Public
         bool DeleteEvent(long eventId);
         Task<Result<EventDto>> GetEventByIdAsync(long id);
         Task<Result<EventDto>> UpdateEventAsync(EventDto eventDto);
+        Result<List<EventDto>> GetAllByUserId(long userId);
     }
 }
