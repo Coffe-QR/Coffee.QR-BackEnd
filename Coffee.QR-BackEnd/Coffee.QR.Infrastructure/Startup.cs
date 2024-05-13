@@ -27,6 +27,11 @@ namespace Coffee.QR.Infrastructure
             services.AddAutoMapper(typeof(SupplyService).Assembly);
             services.AddAutoMapper(typeof(SupplyItemService).Assembly);
             services.AddAutoMapper(typeof(LocalUserService).Assembly);
+            services.AddAutoMapper(typeof(MenuItemService).Assembly);
+            services.AddAutoMapper(typeof(StorageService).Assembly);
+            services.AddAutoMapper(typeof(StorageItemService).Assembly);
+            services.AddAutoMapper(typeof(JobApplicationService).Assembly);
+
 
             SetupCore(services);
             SetupInfrastructure(services);
@@ -37,7 +42,7 @@ namespace Coffee.QR.Infrastructure
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<ITokenGenerator,JwtGenerator>();
+            services.AddScoped<ITokenGenerator, JwtGenerator>();
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IItemService, ItemService>();
             services.AddScoped<ICompanyService, CompanyService>();
@@ -45,6 +50,10 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<ISupplyService, SupplyService>();
             services.AddScoped<ISupplyItemService, SupplyItemService>();
             services.AddScoped<ILocalUserService, LocalUserService>();
+            services.AddScoped<IMenuItemService, MenuItemService>();
+            services.AddScoped<IStorageService, StorageService>();
+            services.AddScoped<IStorageItemService, StorageItemService>();
+            services.AddScoped<IJobApplicationService, JobApplicationService>();
         }
 
         private static void SetupInfrastructure(IServiceCollection services)
@@ -57,6 +66,11 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped(typeof(ICrudRepository<Supply>), typeof(CrudDatabaseRepository<Supply, Context>));
             services.AddScoped(typeof(ICrudRepository<SupplyItem>), typeof(CrudDatabaseRepository<SupplyItem, Context>));
             services.AddScoped(typeof(ICrudRepository<LocalUser>), typeof(CrudDatabaseRepository<LocalUser, Context>));
+            services.AddScoped(typeof(ICrudRepository<MenuItem>), typeof(CrudDatabaseRepository<MenuItem, Context>));
+            services.AddScoped(typeof(ICrudRepository<Storage>), typeof(CrudDatabaseRepository<Storage, Context>));
+            services.AddScoped(typeof(ICrudRepository<StorageItem>), typeof(CrudDatabaseRepository<StorageItem, Context>));
+            services.AddScoped(typeof(ICrudRepository<JobApplication>), typeof(CrudDatabaseRepository<JobApplication, Context>));
+
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
@@ -66,6 +80,10 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<ISupplyRepository, SupplyRepository>();
             services.AddScoped<ISupplyItemRepository, SupplyItemRepository>();
             services.AddScoped<ILocalUserRepository, LocalUserRepository>();
+            services.AddScoped<IMenuItemRepository, MenuItemRepository > ();
+            services.AddScoped<IStorageRepository, StorageRepository>();
+            services.AddScoped<IStorageItemRepository, StorageItemRepository>();
+            services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
 
             services.AddDbContext<Context>(opt =>
                 opt.UseNpgsql(DbConnectionStringBuilder.Build("CoffeeQRSchema"),
