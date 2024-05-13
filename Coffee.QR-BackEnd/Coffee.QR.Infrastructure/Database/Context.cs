@@ -17,6 +17,10 @@ namespace Coffee.QR.Infrastructure.Database
         public DbSet<Menu> Menus { get; set; }
         public DbSet<Supply> Supplies { get; set; }
         public DbSet<SupplyItem> SupplyItems { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<Storage> Storages { get; set; }
+        public DbSet<StorageItem> StorageItems { get; set; }
+        public DbSet<JobApplication> JobApplications { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options){}
 
