@@ -18,6 +18,8 @@ namespace Coffee.QR.Infrastructure.Database
         public DbSet<Supply> Supplies { get; set; }
         public DbSet<SupplyItem> SupplyItems { get; set; }
 
+        public DbSet<LocalUser> LocalUsers { get; set; }    
+
         public Context(DbContextOptions<Context> options) : base(options){}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
