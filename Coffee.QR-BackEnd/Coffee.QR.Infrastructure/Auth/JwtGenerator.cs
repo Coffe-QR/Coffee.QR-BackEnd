@@ -28,12 +28,12 @@ namespace Coffee.QR.Infrastructure.Auth
             var authenticationResponse = new AuthenticationTokensDto();
 
             var claims = new List<Claim>
-        {
-            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new("id", user.Id.ToString()),
-            new("username", user.Username),
-            new(ClaimTypes.Role, user.GetPrimaryRoleName())
-        };
+            {
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new("id", user.Id.ToString()),
+                new("username", user.Username),
+                new("role", user.GetPrimaryRoleName())
+            };
 
             var jwt = CreateToken(claims, 60 * 24);
             authenticationResponse.Id = user.Id;

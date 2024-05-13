@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 
-namespace Coffee.QR_BackEnd.Startup;
 public static class SwaggerConfiguration
 {
     public static IServiceCollection ConfigureSwagger(this IServiceCollection services, IConfiguration configuration)
@@ -10,12 +9,12 @@ public static class SwaggerConfiguration
         {
             setup.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "COFFE.QR ",
+                Title = "COFFEE.QR",
                 Version = "fat-man-V1",
-                Description= "by FAT-MAN team",
-
+                Description = "by FAT-MAN team"
             });
 
+            // Add security definition for JWT Bearer Authentication
             var jwtSecurityScheme = new OpenApiSecurityScheme
             {
                 BearerFormat = "JWT",
@@ -30,14 +29,16 @@ public static class SwaggerConfiguration
                     Type = ReferenceType.SecurityScheme
                 }
             };
+
             setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
             setup.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                 { jwtSecurityScheme, Array.Empty<string>() }
             });
 
-         });
+            // Support form-data parameters (file upload)
+            setup.OperationFilter<FileUploadOperation>();
+        });
         return services;
     }
 }
-

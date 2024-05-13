@@ -38,5 +38,10 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             }
             return eventToDelete;
         }
+
+        public Supply GetById(long supplyId)
+        {
+            return _dbContext.Supplies.Find(supplyId);
+        }
     }
 }
