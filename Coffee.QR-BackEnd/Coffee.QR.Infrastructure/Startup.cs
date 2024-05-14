@@ -31,6 +31,9 @@ namespace Coffee.QR.Infrastructure
             services.AddAutoMapper(typeof(StorageService).Assembly);
             services.AddAutoMapper(typeof(StorageItemService).Assembly);
             services.AddAutoMapper(typeof(JobApplicationService).Assembly);
+            services.AddAutoMapper(typeof(LocalProfile).Assembly);
+            services.AddAutoMapper(typeof(TableProfile).Assembly);
+            services.AddAutoMapper(typeof(NotificationProfile).Assembly);
 
 
             SetupCore(services);
@@ -54,6 +57,10 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<IStorageService, StorageService>();
             services.AddScoped<IStorageItemService, StorageItemService>();
             services.AddScoped<IJobApplicationService, JobApplicationService>();
+            services.AddScoped<ILocalService, LocalService>();
+            services.AddScoped<ITableService, TableService>();
+            services.AddScoped<INotificationService, NotificationService>();
+
         }
 
         private static void SetupInfrastructure(IServiceCollection services)
@@ -70,6 +77,9 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped(typeof(ICrudRepository<Storage>), typeof(CrudDatabaseRepository<Storage, Context>));
             services.AddScoped(typeof(ICrudRepository<StorageItem>), typeof(CrudDatabaseRepository<StorageItem, Context>));
             services.AddScoped(typeof(ICrudRepository<JobApplication>), typeof(CrudDatabaseRepository<JobApplication, Context>));
+            services.AddScoped(typeof(ICrudRepository<Local>), typeof(CrudDatabaseRepository<Local, Context>));
+            services.AddScoped(typeof(ICrudRepository<Table>), typeof(CrudDatabaseRepository<Table, Context>));
+            services.AddScoped(typeof(ICrudRepository<Notification>), typeof(CrudDatabaseRepository<Notification, Context>));
 
 
             services.AddScoped<IUserRepository, UserRepository>();
@@ -84,6 +94,9 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<IStorageRepository, StorageRepository>();
             services.AddScoped<IStorageItemRepository, StorageItemRepository>();
             services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
+            services.AddScoped<ILocalRepository, LocalRepository>();
+            services.AddScoped<ITableRepository, TableRepository>();
+            services.AddScoped<INotificationRepository, NotificationRepository>();
 
             services.AddDbContext<Context>(opt =>
                 opt.UseNpgsql(DbConnectionStringBuilder.Build("CoffeeQRSchema"),

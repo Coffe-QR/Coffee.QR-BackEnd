@@ -21,6 +21,9 @@ namespace Coffee.QR.Infrastructure.Database
         public DbSet<Storage> Storages { get; set; }
         public DbSet<StorageItem> StorageItems { get; set; }
         public DbSet<JobApplication> JobApplications { get; set; }
+        public DbSet<Local> Locals { get; set; }
+        public DbSet<Table> Tables { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         public DbSet<LocalUser> LocalUsers { get; set; }    
 
@@ -35,6 +38,24 @@ namespace Coffee.QR.Infrastructure.Database
             .HasOne(e => e.Creator)
             .WithMany()
             .HasForeignKey(e => e.UserId)
+            .IsRequired();
+
+            modelBuilder.Entity<Table>()
+            .HasOne(t => t.Place)
+            .WithMany()
+            .HasForeignKey(t => t.LocalId)
+            .IsRequired();
+
+            modelBuilder.Entity<Notification>()
+            .HasOne(n => n.TableOrigin)
+            .WithMany()
+            .HasForeignKey(n => n.TableId)
+            .IsRequired();
+
+            modelBuilder.Entity<Notification>()
+            .HasOne(n => n.Place)
+            .WithMany()
+            .HasForeignKey(n => n.LocalId)
             .IsRequired();
 
             Configure(modelBuilder);
