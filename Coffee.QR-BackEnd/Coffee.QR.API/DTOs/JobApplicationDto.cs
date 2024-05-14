@@ -7,21 +7,35 @@ using System.Threading.Tasks;
 
 namespace Coffee.QR.API.DTOs
 {
+    public enum JobPositionDto
+    {
+        WAITER,
+        BARTENDER,
+        CHEF,
+        MANAGER
+    }
     public class JobApplicationDto
     {
         public long Id { get; set; }
-        [Required]
+      
         public string FirstName { get; set; }
-        [Required]
+        
         public string LastName { get; set; }
-        [Required]
+        
         public string Email { get; set; }
-        [Required]
+        
         public string Phone { get; set; }
-        [Required]
+        
         public DateOnly DateOfBirth { get; set; }
-        [Required]
+        
         public string Address { get; set; }
         public DateOnly ApplicationDate { get; set; }
+        
+        public long LocalId {get; set; }
+
+        public string ApplicantDescription {  get; set; }
+        
+        public JobPositionDto Position { get; set; }
+
     }
 }
