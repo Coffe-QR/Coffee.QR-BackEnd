@@ -32,6 +32,7 @@ namespace Coffee.QR.Core.Services
 
                 NotificationDto resultDto = new NotificationDto
                 {
+                    Id = notificationt.Id,
                     Message = notificationt.Message,
                     DateTime = notificationt.DateTime,
                     IsActive = notificationt.IsActive,
@@ -92,6 +93,10 @@ namespace Coffee.QR.Core.Services
             }
         }
 
+        public void DeactivateNotification(long notificationId)
+        {
+            _notificationRepository.UpdateNotificationIsActive(notificationId, false);
+        }
 
         public bool DeleteNotification(long notificationId)
         {

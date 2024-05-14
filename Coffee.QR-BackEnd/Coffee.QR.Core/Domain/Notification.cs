@@ -25,5 +25,11 @@ namespace Coffee.QR.Core.Domain
             TableId = tableId;
             LocalId = localId;
         }
+
+        public Notification SetIsActive(Notification notification,bool isActive)
+        {
+            notification.IsActive = isActive;
+            return notification;
+        }
     }
 }

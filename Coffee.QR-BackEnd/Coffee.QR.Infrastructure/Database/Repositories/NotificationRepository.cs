@@ -1,5 +1,6 @@
 ﻿using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,16 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             return _dbContext.Notifications
                       .Where(n => n.LocalId == localId && n.IsActive)
                       .ToList();
+        }
+
+        public void UpdateNotificationIsActive(long notificationId, bool isActive)
+        {
+            var notification = _dbContext.Notifications.FirstOrDefault(n => n.Id == notificationId);
+            if (notification != null)
+            {
+                notification = notification.SetIsActive(notification,isActive);
+                _dbContext.SaveChanges();
+            }
         }
 
         public Notification Delete(long notificationId)

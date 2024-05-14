@@ -70,6 +70,32 @@ namespace Coffee.QR.Core.Services
             }
         }
 
+        public Result<LocalUserDto> GetByUserId(long userId)
+        {
+            try
+            {
+                LocalUser localUser = _localUserRepository.GetByUserId(userId);
+                if (localUser != null)
+                {
+                    LocalUserDto localUserDto = new LocalUserDto
+                    {
+                        Id = localUser.Id,
+                        LocalId = localUser.LocalId,
+                        UserId = localUser.UserId
+                    };
+                    return Result.Ok(localUserDto);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<LocalUserDto>("Failed to retrieve events").WithError(e.Message);
+            }
+        }
+
         public Task<Result<LocalUserDto>> GetLocalUserByIdAsync(long id)
         {
             throw new NotImplementedException();

@@ -31,6 +31,7 @@ namespace Coffee.QR.Core.Services
 
                 TableDto resultDto = new TableDto
                 {
+                    Id = tablet.Id,
                     Name = tablet.Name,
                     Capacity = tablet.Capacity,
                     IsSmokingArea = tablet.IsSmokingArea,

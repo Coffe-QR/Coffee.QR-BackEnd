@@ -11,5 +11,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         LocalUser Create(LocalUser localUser);
         List<LocalUser> GetAll();
         LocalUser Delete(long localUserId);
+        public LocalUser GetByUserId(long userId);
     }
 }

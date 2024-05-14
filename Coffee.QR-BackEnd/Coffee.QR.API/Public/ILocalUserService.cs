@@ -15,5 +15,6 @@ namespace Coffee.QR.API.Public
         bool DeleteLocalUser(long localUserId);
         Task<Result<LocalUserDto>> GetLocalUserByIdAsync(long id);
         Task<Result<LocalUserDto>> UpdateLocalUserAsync(LocalUserDto localUserDto);
+        Result<LocalUserDto> GetByUserId(long userId);
     }
 }

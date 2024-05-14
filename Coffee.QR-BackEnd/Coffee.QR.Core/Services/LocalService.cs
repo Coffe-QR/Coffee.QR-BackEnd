@@ -30,6 +30,7 @@ namespace Coffee.QR.Core.Services
 
                 LocalDto resultDto = new LocalDto
                 {
+                    Id = localt.Id,
                     Name = localt.Name,
                     City = localt.City,
                     DateOfStartingPartnership = localt.DateOfStartingPartnership,

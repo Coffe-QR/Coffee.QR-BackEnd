@@ -52,6 +52,13 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpPut("deactivate/{id}")]
+        public IActionResult DeactivateNotification(long id)
+        {
+            _notificationService.DeactivateNotification(id);
+            return Ok();
+        }
+
         [HttpGet("getAllActive")]
         public IActionResult GetAllActive(int localId)
         {

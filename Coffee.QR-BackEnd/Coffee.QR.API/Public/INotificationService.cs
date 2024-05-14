@@ -14,5 +14,6 @@ namespace Coffee.QR.API.Public
         Result<List<NotificationDto>> GetAllNotifications();
         bool DeleteNotification(long notificationId);
         Result<List<NotificationDto>> GetAllActiveNotifications(long localId);
+        public void DeactivateNotification(long notificationId);
     }
 }

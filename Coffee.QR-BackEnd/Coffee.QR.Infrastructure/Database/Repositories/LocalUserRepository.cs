@@ -23,6 +23,11 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             return localUser;
         }
 
+        public LocalUser GetByUserId(long userId)
+        {
+            return _dbContext.LocalUsers.FirstOrDefault(l => l.UserId == userId);
+        }
+
         public LocalUser Delete(long localUserId)
         {
             var localUserToDelete = _dbContext.LocalUsers.Find(localUserId);
