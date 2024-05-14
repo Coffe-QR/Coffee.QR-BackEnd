@@ -32,11 +32,11 @@ namespace Coffee.QR.Core.Services
 
                 MenuDto resultDto = new MenuDto
                 {
-                    Id = menuDto.Id,
-                    StartDate = menuDto.StartDate,
-                    EndDate = menuDto.EndDate,  
-                    Status = menuDto.Status,   
-                    CafeId = menuDto.CafeId,
+                    Id = menut.Id,
+                    StartDate = menut.StartDate,
+                    EndDate = menut.EndDate,  
+                    Status = (MenuStatusDto)Enum.Parse(typeof(MenuStatusDto), menuDto.Status.ToString(),true),  
+                    CafeId = menut.CafeId,
                 };
 
                 return Result.Ok(resultDto);

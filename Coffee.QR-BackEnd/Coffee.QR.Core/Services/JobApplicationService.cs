@@ -28,18 +28,22 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var menut = _jobApplicationRepository.Create(new JobApplication(jobApplicationDto.FirstName, jobApplicationDto.LastName, jobApplicationDto.Email, jobApplicationDto.Phone, jobApplicationDto.DateOfBirth, jobApplicationDto.Address, jobApplicationDto.ApplicationDate));
+                var jobApplicationt = _jobApplicationRepository.Create(new JobApplication(jobApplicationDto.FirstName, jobApplicationDto.LastName, jobApplicationDto.Email, jobApplicationDto.Phone, jobApplicationDto.DateOfBirth, jobApplicationDto.Address, jobApplicationDto.ApplicationDate, jobApplicationDto.LocalId, jobApplicationDto.ApplicantDescription, (JobPosition)Enum.Parse(typeof(JobPosition), jobApplicationDto.Position.ToString())));
 
                 JobApplicationDto resultDto = new JobApplicationDto
                 {
-                    Id = jobApplicationDto.Id,
-                    FirstName = jobApplicationDto.FirstName,
-                    LastName = jobApplicationDto.LastName,
-                    Email = jobApplicationDto.Email,
-                    Phone = jobApplicationDto.Phone,
-                    DateOfBirth = jobApplicationDto.DateOfBirth,
-                    Address = jobApplicationDto.Address,
-                    ApplicationDate = jobApplicationDto.ApplicationDate,
+                    Id = jobApplicationt.Id,
+                    FirstName = jobApplicationt.FirstName,
+                    LastName = jobApplicationt.LastName,
+                    Email = jobApplicationt.Email,
+                    Phone = jobApplicationt.Phone,
+                    DateOfBirth = jobApplicationt.DateOfBirth,
+                    Address = jobApplicationt.Address,
+                    ApplicationDate = jobApplicationt.ApplicationDate,
+                    LocalId = jobApplicationt.LocalId,
+                    ApplicantDescription = jobApplicationt.ApplicantDescription,
+                    Position = (JobPositionDto)Enum.Parse(typeof(JobPositionDto), jobApplicationDto.Position.ToString(),true),
+
                 };
 
                 return Result.Ok(resultDto);
@@ -64,6 +68,10 @@ namespace Coffee.QR.Core.Services
                     DateOfBirth = j.DateOfBirth,
                     Address = j.Address,
                     ApplicationDate = j.ApplicationDate,
+                    LocalId = j.LocalId,
+                    ApplicantDescription=j.ApplicantDescription,
+                    Position = (JobPositionDto)Enum.Parse(typeof(JobPositionDto), j.Position.ToString(), true),
+
                 }).ToList();
 
                 return Result.Ok(jobApplicationDtos);
