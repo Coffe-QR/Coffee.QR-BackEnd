@@ -72,5 +72,23 @@ namespace Coffee.QR.Core.Services
             var localToDelete = _localRepository.Delete(localId);
             return localToDelete != null;
         }
+
+
+        public async Task<LocalDto> GetByIdAsync(long id)
+        {
+            var local = await _localRepository.GetByIdAsync(id);
+            if (local == null)
+                return null;
+
+            return new LocalDto
+            {
+                Id = local.Id,
+                Name = local.Name,
+                City = local.City,
+                DateOfStartingPartnership = local.DateOfStartingPartnership,
+                IsActive = local.IsActive
+            };
+        }
+
     }
 }

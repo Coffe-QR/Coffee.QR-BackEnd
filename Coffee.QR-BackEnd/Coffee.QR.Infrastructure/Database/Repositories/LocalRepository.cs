@@ -1,5 +1,7 @@
-﻿using Coffee.QR.Core.Domain;
+﻿using Coffee.QR.API.DTOs;
+using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +39,11 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
                 _dbContext.SaveChanges();
             }
             return localToDelete;
+        }
+
+        public async Task<Local> GetByIdAsync(long id)
+        {
+            return await _dbContext.Locals.FindAsync(id);
         }
     }
 }

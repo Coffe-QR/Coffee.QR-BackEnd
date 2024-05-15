@@ -65,5 +65,16 @@ namespace Coffee.QR_BackEnd.Controllers
                 return NotFound(new { message = "Event not found." });
             }
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<LocalDto>> GetById(long id)
+        {
+            var local = await _localService.GetByIdAsync(id);
+            if (local == null)
+            {
+                return NotFound("Local not found");
+            }
+            return Ok(local);
+        }
     }
 }
