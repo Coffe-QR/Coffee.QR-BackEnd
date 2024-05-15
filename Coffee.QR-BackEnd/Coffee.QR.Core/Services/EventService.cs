@@ -23,7 +23,7 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var eventt = _eventRepository.Create(new Event(eventDto.Name, eventDto.DateTime,eventDto.Description,eventDto.Image,eventDto.UserId));
+                var eventt = _eventRepository.Create(new Event(eventDto.Name, eventDto.DateTime,eventDto.Description,eventDto.Image,eventDto.UserId,eventDto.LocalId));
 
                 EventDto resultDto = new EventDto
                 {
@@ -32,6 +32,7 @@ namespace Coffee.QR.Core.Services
                     Description = eventt.Description,
                     Image = eventt.Image,
                     UserId = eventt.UserId,
+                    LocalId = eventt.LocalId
                 };
 
                 return Result.Ok(resultDto);
@@ -54,6 +55,7 @@ namespace Coffee.QR.Core.Services
                     Description = e.Description,
                     Image = e.Image,
                     UserId = e.UserId,
+                    LocalId = e.LocalId,
                 }).ToList();
 
                 return Result.Ok(eventDtos);
@@ -84,6 +86,7 @@ namespace Coffee.QR.Core.Services
                     Description = e.Description,
                     Image = e.Image,
                     UserId = e.UserId,
+                    LocalId = e.LocalId,
                 }).ToList();
 
                 return Result.Ok(eventDtos);

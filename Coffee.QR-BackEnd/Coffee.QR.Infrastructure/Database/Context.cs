@@ -34,10 +34,17 @@ namespace Coffee.QR.Infrastructure.Database
             modelBuilder.HasDefaultSchema("CoffeeQRSchema");
 
             modelBuilder.Entity<User>().HasIndex(u => u.Username).IsUnique();
+
             modelBuilder.Entity<Event>()
             .HasOne(e => e.Creator)
             .WithMany()
             .HasForeignKey(e => e.UserId)
+            .IsRequired();
+
+            modelBuilder.Entity<Event>()
+            .HasOne(l => l.Local)
+            .WithMany()
+            .HasForeignKey(l => l.LocalId)
             .IsRequired();
 
             modelBuilder.Entity<Table>()
