@@ -27,6 +27,7 @@ namespace Coffee.QR.Infrastructure.Database
 
         public DbSet<LocalUser> LocalUsers { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options){}
 
@@ -67,7 +68,7 @@ namespace Coffee.QR.Infrastructure.Database
             .IsRequired();
 
             modelBuilder.Entity<Order>()
-            .HasOne(t => t.Table)
+            .HasOne(t => t.TableOrigin)
             .WithMany()
             .HasForeignKey(t => t.TableId)
             .IsRequired();
@@ -76,6 +77,18 @@ namespace Coffee.QR.Infrastructure.Database
             .HasOne(l => l.Local)
             .WithMany()
             .HasForeignKey(l => l.LocalId)
+            .IsRequired();
+
+            modelBuilder.Entity<OrderItem>()
+            .HasOne(oi => oi.OrderOrigin)
+            .WithMany()
+            .HasForeignKey(oi => oi.OrderId)
+            .IsRequired();
+
+            modelBuilder.Entity<OrderItem>()
+            .HasOne(oi => oi.ItemPicked)
+            .WithMany()
+            .HasForeignKey(oi => oi.ItemId)
             .IsRequired();
 
             Configure(modelBuilder);

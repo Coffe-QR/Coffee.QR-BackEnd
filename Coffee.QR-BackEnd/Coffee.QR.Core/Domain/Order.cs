@@ -12,7 +12,7 @@ namespace Coffee.QR.Core.Domain
         public double Price { get; set; }
         public string Description { get; private set; }
         public long TableId { get; private set; }
-        public User Table { get; private set; }
+        public Table TableOrigin { get; private set; }
         public long LocalId { get; private set; }
         public Local Local { get; private set; }
 

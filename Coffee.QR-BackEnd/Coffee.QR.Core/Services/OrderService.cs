@@ -32,6 +32,7 @@ namespace Coffee.QR.Core.Services
 
                 OrderDto resultDto = new OrderDto
                 {
+                    Id = ordert.Id,
                     Price = ordert.Price,
                     Description = ordert.Description,
                     TableId = ordert.TableId,
@@ -63,7 +64,7 @@ namespace Coffee.QR.Core.Services
             }
             catch (Exception e)
             {
-                return Result.Fail<List<OrderDto>>("Failed to retrieve events").WithError(e.Message);
+                return Result.Fail<List<OrderDto>>("Failed to retrieve orders").WithError(e.Message);
             }
         }
 
