@@ -25,7 +25,8 @@ namespace Coffee.QR.Infrastructure.Database
         public DbSet<Table> Tables { get; set; }
         public DbSet<Notification> Notifications { get; set; }
 
-        public DbSet<LocalUser> LocalUsers { get; set; }    
+        public DbSet<LocalUser> LocalUsers { get; set; }  
+        public DbSet<Card> Cards { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options){}
 
@@ -63,6 +64,12 @@ namespace Coffee.QR.Infrastructure.Database
             .HasOne(n => n.Place)
             .WithMany()
             .HasForeignKey(n => n.LocalId)
+            .IsRequired();
+
+            modelBuilder.Entity<Card>()
+            .HasOne(c => c.@event)
+            .WithMany()
+            .HasForeignKey(c => c.EventId)
             .IsRequired();
 
             Configure(modelBuilder);
