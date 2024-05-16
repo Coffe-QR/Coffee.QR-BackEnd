@@ -44,5 +44,10 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
         {
             return _dbContext.Events.Where(e => e.UserId == userId).ToList();
         }
+
+        public async Task<Event> GetByIdAsync(long id)
+        {
+            return await _dbContext.Events.FindAsync(id);
+        }
     }
 }

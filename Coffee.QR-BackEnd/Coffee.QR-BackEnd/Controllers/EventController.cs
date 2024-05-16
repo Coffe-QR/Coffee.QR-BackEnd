@@ -1,6 +1,7 @@
 ﻿using Coffee.QR.API.Controllers;
 using Coffee.QR.API.DTOs;
 using Coffee.QR.API.Public;
+using Coffee.QR.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coffee.QR_BackEnd.Controllers
@@ -80,16 +81,21 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
-        //IN PROGRESS...
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetEvent(long id)
+        public async Task<ActionResult<EventDto>> GetById(long id)
         {
-            var result = await _eventService.GetEventByIdAsync(id);
-            if (result.IsSuccess)
-                return Ok(result.Value);
-            return NotFound();
+            var @event = await _eventService.GetByIdAsync(id);
+            if (@event == null)
+            {
+                return NotFound("Local not found");
+            }
+            return Ok(@event);
         }
+
+        //IN PROGRESS...
+
+
 
         [HttpPut]
         public async Task<IActionResult> UpdateEvent(EventDto eventDto)

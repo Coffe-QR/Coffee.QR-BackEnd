@@ -97,12 +97,24 @@ namespace Coffee.QR.Core.Services
             }
         }
 
-
-
-        public Task<Result<EventDto>> GetEventByIdAsync(long id)
+        public async Task<EventDto> GetByIdAsync(long id)
         {
-            throw new NotImplementedException();
+            var @event = await _eventRepository.GetByIdAsync(id);
+            if (@event == null)
+                return null;
+
+            return new EventDto
+            {
+                Id = @event.Id,
+                Name = @event.Name,
+                DateTime = @event.DateTime,
+                Description = @event.Description,
+                Image = @event.Image,
+                UserId = @event.UserId,
+                LocalId = @event.LocalId
+            };
         }
+
 
         public Task<Result<EventDto>> UpdateEventAsync(EventDto eventDto)
         {
