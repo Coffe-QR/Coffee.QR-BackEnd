@@ -34,6 +34,7 @@ namespace Coffee.QR.Infrastructure
             services.AddAutoMapper(typeof(LocalProfile).Assembly);
             services.AddAutoMapper(typeof(TableProfile).Assembly);
             services.AddAutoMapper(typeof(NotificationProfile).Assembly);
+            services.AddAutoMapper(typeof(OrderProfile).Assembly);
 
 
             SetupCore(services);
@@ -60,6 +61,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<ILocalService, LocalService>();
             services.AddScoped<ITableService, TableService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<IOrderService, OrderService>();
 
         }
 
@@ -80,6 +82,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped(typeof(ICrudRepository<Local>), typeof(CrudDatabaseRepository<Local, Context>));
             services.AddScoped(typeof(ICrudRepository<Table>), typeof(CrudDatabaseRepository<Table, Context>));
             services.AddScoped(typeof(ICrudRepository<Notification>), typeof(CrudDatabaseRepository<Notification, Context>));
+            services.AddScoped(typeof(ICrudRepository<Order>), typeof(CrudDatabaseRepository<Order, Context>));
 
 
             services.AddScoped<IUserRepository, UserRepository>();
@@ -97,6 +100,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<ILocalRepository, LocalRepository>();
             services.AddScoped<ITableRepository, TableRepository>();
             services.AddScoped<INotificationRepository, NotificationRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
             services.AddDbContext<Context>(opt =>
                 opt.UseNpgsql(DbConnectionStringBuilder.Build("CoffeeQRSchema"),

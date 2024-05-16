@@ -22,7 +22,7 @@ namespace Coffee.QR_BackEnd.Controllers
         {
             if (tableDto == null)
             {
-                return BadRequest("Event data is required");
+                return BadRequest("Table data is required");
             }
 
             var result = _tableService.CreateTable(tableDto);
@@ -74,11 +74,11 @@ namespace Coffee.QR_BackEnd.Controllers
             if (isDeleted)
             {
                 // Return JSON response
-                return Ok(new { message = "Event deleted successfully." });
+                return Ok(new { message = "Table deleted successfully." });
             }
             else
             {
-                return NotFound(new { message = "Event not found." });
+                return NotFound(new { message = "Table not found." });
             }
         }
     }
