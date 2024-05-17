@@ -30,10 +30,10 @@ namespace Coffee.QR.Infrastructure.Repositories
                 .FirstOrDefaultAsync(c => c.CardId == cardUserId);
         }
 
-        public async Task<CardUser> AddAsync(CardUser cardUser)
+        public CardUser Create(CardUser cardUser)
         {
             _context.CardUsers.Add(cardUser);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return cardUser;
         }
 

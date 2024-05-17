@@ -19,10 +19,9 @@ namespace Coffee.QR.Core.Domain
         public decimal Amount { get; private set; }
         public string Currency { get; private set; } = "USD";
         public string PaymentStatus { get; private set; }
-        public string StripePaymentIntentId { get; private set; }
-        public string PaymentMethod { get; private set; }
+        public string PayPalPaymentIntentId { get; private set; }
 
-        public CardUser(long cardId, long userId, long quantity, decimal amount, string currency, string paymentStatus, string stripePaymentIntentId, string paymentMethod)
+        public CardUser(long cardId, long userId, long quantity, decimal amount, string currency, string paymentStatus, string payPalPaymentIntentId)
         {
             CardId = cardId;
             UserId = userId;
@@ -30,8 +29,7 @@ namespace Coffee.QR.Core.Domain
             Amount = amount;
             Currency = currency;
             PaymentStatus = paymentStatus;
-            StripePaymentIntentId = stripePaymentIntentId;
-            PaymentMethod = paymentMethod;
+            PayPalPaymentIntentId = payPalPaymentIntentId;
         }
     }
 }

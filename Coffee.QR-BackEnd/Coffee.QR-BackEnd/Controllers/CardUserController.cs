@@ -2,6 +2,7 @@
 using Coffee.QR.Core.Interfaces;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
+using Stripe.BillingPortal;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -41,14 +42,23 @@ namespace Coffee.QR.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CardUserDto>> CreateCardUser([FromBody] CardUserDto cardUserDto)
+        public IActionResult CreateCardUser([FromBody] CardUserDto cardUserDto)
         {
-            var result = await _cardUserService.CreateCardUserAsync(cardUserDto);
+            if(cardUserDto == null)
+            {
+                return BadRequest("Card user data required");
+            }
+
+            var result = _cardUserService.CreateCardUser(cardUserDto);
+
             if (result.IsSuccess)
             {
-                return CreatedAtAction(nameof(GetCardUserById), new { id = result.Value.CardId }, result.Value);
+                return Ok(result.Value);
             }
-            return BadRequest(result.Errors);
+            else
+            {
+                return BadRequest(result.Errors);
+            }
         }
 
         [HttpPut("{id}")]

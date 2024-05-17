@@ -10,7 +10,7 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
     {
         Task<IEnumerable<CardUser>> GetAllAsync();
         Task<CardUser> GetByIdAsync(long cardUserId);
-        Task<CardUser> AddAsync(CardUser cardUser);
+        CardUser Create(CardUser cardUser);
         Task UpdateAsync(CardUser cardUser);
         Task DeleteAsync(long cardUserId);
     }

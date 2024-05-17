@@ -23,11 +23,11 @@ namespace Coffee.QR.Core.Services
             _cardUserRepository = carduserRepository;
         }
 
-        public async Task<Result<CardUserDto>> CreateCardUserAsync(CardUserDto cardUserDto)
+        public Result<CardUserDto> CreateCardUser(CardUserDto cardUserDto)
         {
             try
             {
-                var carduser = _cardUserRepository.AddAsync(new CardUser(cardUserDto.CardId, cardUserDto.UserId, cardUserDto.Quantity,cardUserDto.Amount,cardUserDto.Currency,cardUserDto.PaymentStatus,cardUserDto.StripePaymentIntentId,cardUserDto.PaymentMethod));
+                var carduser = _cardUserRepository.Create(new CardUser(cardUserDto.CardId, cardUserDto.UserId, cardUserDto.Quantity,cardUserDto.Amount,cardUserDto.Currency,cardUserDto.PaymentStatus,cardUserDto.PayPalPaymentIntentId));
 
                 CardUserDto resultDto = new CardUserDto
                 {
@@ -37,8 +37,8 @@ namespace Coffee.QR.Core.Services
                     Amount = cardUserDto.Amount,
                     Currency = cardUserDto.Currency,
                     PaymentStatus = cardUserDto.PaymentStatus,
-                    StripePaymentIntentId = cardUserDto.StripePaymentIntentId,
-                    PaymentMethod = cardUserDto.PaymentMethod,
+                    PayPalPaymentIntentId = cardUserDto.PayPalPaymentIntentId,
+                    
                 };
 
                 return Result.Ok(resultDto);
@@ -75,8 +75,7 @@ namespace Coffee.QR.Core.Services
                     Amount = c.Amount,
                     Currency = c.Currency,
                     PaymentStatus = c.PaymentStatus,
-                    StripePaymentIntentId = c.StripePaymentIntentId,
-                    PaymentMethod = c.PaymentMethod
+                    PayPalPaymentIntentId = c.PayPalPaymentIntentId
                 }).ToList();
 
                 return Result.Ok(cardUserDtos);
@@ -103,8 +102,7 @@ namespace Coffee.QR.Core.Services
                     Amount = cardUser.Amount,
                     Currency = cardUser.Currency,
                     PaymentStatus = cardUser.PaymentStatus,
-                    StripePaymentIntentId = cardUser.StripePaymentIntentId,
-                    PaymentMethod = cardUser.PaymentMethod
+                    PayPalPaymentIntentId = cardUser.PayPalPaymentIntentId
                 };
 
                 return Result.Ok(cardUserDto);
@@ -127,8 +125,7 @@ namespace Coffee.QR.Core.Services
                     Amount = cardUserDto.Amount,
                     Currency = cardUserDto.Currency,
                     PaymentStatus = cardUserDto.PaymentStatus,
-                    StripePaymentIntentId = cardUserDto.StripePaymentIntentId,
-                    PaymentMethod = cardUserDto.PaymentMethod,
+                    PayPalPaymentIntentId = cardUserDto.PayPalPaymentIntentId,
                 };
 //                await _cardUserRepository.UpdateAsync(resultDto);
             }

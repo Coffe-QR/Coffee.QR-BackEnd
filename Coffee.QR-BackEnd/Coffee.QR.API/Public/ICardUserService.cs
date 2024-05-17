@@ -7,7 +7,7 @@ namespace Coffee.QR.Core.Interfaces
 {
     public interface ICardUserService
     {
-        Task<Result<CardUserDto>> CreateCardUserAsync(CardUserDto cardUserDto);
+        Result<CardUserDto> CreateCardUser(CardUserDto cardUserDto);
         Task<bool> DeleteCardUserAsync(long cardUserId);
         Task<Result<List<CardUserDto>>> GetAllCardUsersAsync();
         Task<Result<CardUserDto>> GetCardUserByIdAsync(long cardUserId);
