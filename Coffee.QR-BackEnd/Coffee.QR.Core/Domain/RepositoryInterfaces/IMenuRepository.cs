@@ -11,5 +11,7 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         Menu Create(Menu menu);
         List<Menu> GetAll();
         Menu Delete(long menuId);
+        List<Menu> GetAllByLocalId(long localId);
+        Menu GetById(long menuId);
     }
 }
