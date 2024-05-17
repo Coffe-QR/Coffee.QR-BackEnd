@@ -18,11 +18,12 @@ namespace Coffee.QR.Core.Services
     public class ItemService : CrudService<ItemDto, Item>, IItemService
     {
         private readonly IItemRepository _itemRepository;
-
-        public ItemService(ICrudRepository<Item> crudRepository, IMapper mapper, IItemRepository itemRepository)
+        private readonly IStorageItemRepository _storageItemRepository;
+        public ItemService(ICrudRepository<Item> crudRepository, IMapper mapper, IItemRepository itemRepository, IStorageItemRepository storageItemRepository)
             : base(crudRepository, mapper)
         {
             _itemRepository = itemRepository;
+            _storageItemRepository = storageItemRepository;
         }
 
         public Result<ItemDto> CreateItem(ItemDto itemDto)
@@ -36,6 +37,7 @@ namespace Coffee.QR.Core.Services
                     Id = item.Id,
                     Name = itemDto.Name,
                     Description = itemDto.Description,
+                    Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), itemDto.Type.ToString(), true),
                     Price = itemDto.Price,
                     Picture = itemDto.Picture,
                 };
@@ -77,14 +79,34 @@ namespace Coffee.QR.Core.Services
             }
         }
 
-        public Task<Result<ItemDto>> GetItemByIdAsync(long id)
-        {
-            throw new NotImplementedException();
-        }
+  
 
-        public Task<Result<ItemDto>> UpdateItemAsync(ItemDto itemDto)
+        public Result<List<ItemDto>> GetAllForStorage(long storageId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<ItemDto> dtos = new();
+                foreach (var si in _storageItemRepository.GetAll().FindAll(s => s.StorageId == storageId))
+                {
+                    Item item = _itemRepository.GetItem(si.Id);
+                    ItemDto dto = new ItemDto()
+                    {
+                        Id = item.Id,
+                        Name = item.Name,
+                        Description = item.Description,
+                        Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), item.Type.ToString(), true),
+                        Price = item.Price,
+                        Picture = item.Picture,
+                        Quantity = si.Quantity,
+                    };
+                    dtos.Add(dto);
+                }
+                return  Result.Ok(dtos);
+            }
+            catch(Exception e)
+            {
+                return Result.Fail<List<ItemDto>>("Failed to retrieve events").WithError(e.Message);
+            }
         }
     }
 }

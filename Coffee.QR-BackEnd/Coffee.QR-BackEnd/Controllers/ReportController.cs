@@ -1,31 +1,30 @@
 ﻿using Coffee.QR.API.Controllers;
 using Coffee.QR.API.DTOs;
 using Coffee.QR.API.Public;
-using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coffee.QR_BackEnd.Controllers
 {
-    [Route("api/items")]
+    [Route("api/reports")]
     [ApiController]
-    public class ItemController : BaseApiController
+    public class ReportController : BaseApiController
     {
-        private readonly IItemService _itemService;
+        private readonly IReportService _reportService;
 
-        public ItemController(IItemService itemService)
+        public ReportController(IReportService reportService)
         {
-            _itemService = itemService;
+            _reportService = reportService;
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] ItemDto itemDto)
+        public IActionResult Create([FromBody] ReportDto reportDto)
         {
-            if (itemDto == null)
+            if (reportDto == null)
             {
                 return BadRequest("Event data is required");
             }
 
-            var result = _itemService.CreateItem(itemDto);
+            var result = _reportService.CreateReport(reportDto);
 
             if (result.IsSuccess)
             {
@@ -40,7 +39,7 @@ namespace Coffee.QR_BackEnd.Controllers
         [HttpGet("getAll")]
         public IActionResult GetAll()
         {
-            var result = _itemService.GetAllItems();
+            var result = _reportService.GetAllReports();
 
             if (result.IsSuccess)
             {
@@ -53,24 +52,18 @@ namespace Coffee.QR_BackEnd.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteItem(long id)
+        public IActionResult DeleteReport(long id)
         {
-            var isDeleted = _itemService.DeleteItem(id);
+            var isDeleted = _reportService.DeleteReport(id);
             if (isDeleted)
             {
-                return Ok("Item deleted successfully.");
+                return Ok("Report deleted successfully.");
             }
             else
             {
-                return NotFound("Item not found.");
+                return NotFound("Report not found.");
             }
         }
 
-        [HttpGet("getAllStorage/{storageId}")]
-        public IActionResult GetAllForStorage(long storageId)
-        {
-            var result = _itemService.GetAllForStorage(storageId);
-            return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Errors);
-        }
     }
 }

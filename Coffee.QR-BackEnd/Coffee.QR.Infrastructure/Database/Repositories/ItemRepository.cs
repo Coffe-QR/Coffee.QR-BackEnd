@@ -39,5 +39,12 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
         {
             return _dbContext.Items.ToList();
         }
+
+        public Item GetItem(long itemId)
+        {
+            Item item = _dbContext.Items.FirstOrDefault(item => item.Id == itemId);
+            if (item == null) throw new KeyNotFoundException("Not found.");
+            return item;
+        }
     }
 }

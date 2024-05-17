@@ -27,6 +27,8 @@ namespace Coffee.QR.Infrastructure.Database
 
         public DbSet<LocalUser> LocalUsers { get; set; }    
 
+        public DbSet<Report> Reports { get; set; }
+
         public Context(DbContextOptions<Context> options) : base(options){}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

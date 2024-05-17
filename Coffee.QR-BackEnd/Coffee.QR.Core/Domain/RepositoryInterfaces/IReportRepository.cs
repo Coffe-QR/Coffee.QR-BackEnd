@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace Coffee.QR.Core.Domain.RepositoryInterfaces
 {
-    public interface IItemRepository
+    public interface IReportRepository
     {
-        Item Create(Item item);
-        List<Item> GetAll();
-        Item Delete(long itemId);
-
-        Item GetItem(long itemId);
+        Report Create(Report report);
+        List<Report> GetAll();
+        Report Delete(long reportId);
     }
 }
