@@ -38,5 +38,15 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             }
             return menuToDelete;
         }
+
+        public List<Menu> GetAllByLocalId(long localId)
+        {
+            return _dbContext.Menus.Where(m => m.CafeId == localId).ToList();
+        }
+
+        public Menu GetById(long menuId)
+        {
+            return _dbContext.Menus.Find(menuId);
+        }
     }
 }

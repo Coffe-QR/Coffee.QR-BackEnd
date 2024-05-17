@@ -15,5 +15,7 @@ namespace Coffee.QR.API.Public
         bool DeleteMenu(long menuId);
         Task<Result<MenuDto>> GetMenuByIdAsync(long id);
         Task<Result<MenuDto>> UpdateMenuAsync(MenuDto menuDto);
+        Result<List<MenuDto>> GetAllByLocalId(long localId);
+        Result<MenuDto> GetById(long menuId);
     }
 }

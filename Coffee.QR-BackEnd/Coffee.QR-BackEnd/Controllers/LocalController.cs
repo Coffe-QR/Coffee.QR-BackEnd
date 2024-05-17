@@ -58,11 +58,11 @@ namespace Coffee.QR_BackEnd.Controllers
             if (isDeleted)
             {
                 // Return JSON response
-                return Ok(new { message = "Event deleted successfully." });
+                return Ok(new { message = "Local deleted successfully." });
             }
             else
             {
-                return NotFound(new { message = "Event not found." });
+                return NotFound(new { message = "Local not found." });
             }
         }
 

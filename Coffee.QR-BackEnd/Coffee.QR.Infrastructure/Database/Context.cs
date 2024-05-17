@@ -24,8 +24,10 @@ namespace Coffee.QR.Infrastructure.Database
         public DbSet<Local> Locals { get; set; }
         public DbSet<Table> Tables { get; set; }
         public DbSet<Notification> Notifications { get; set; }
-
-        public DbSet<LocalUser> LocalUsers { get; set; }    
+        public DbSet<LocalUser> LocalUsers { get; set; }  
+        public DbSet<Card> Cards { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         public DbSet<Report> Reports { get; set; }
 
@@ -65,6 +67,36 @@ namespace Coffee.QR.Infrastructure.Database
             .HasOne(n => n.Place)
             .WithMany()
             .HasForeignKey(n => n.LocalId)
+            .IsRequired();
+
+            modelBuilder.Entity<Card>()
+            .HasOne(c => c.@event)
+            .WithMany()
+            .HasForeignKey(c => c.EventId)
+            .IsRequired();
+            
+            modelBuilder.Entity<Order>()
+            .HasOne(t => t.TableOrigin)
+            .WithMany()
+            .HasForeignKey(t => t.TableId)
+            .IsRequired();
+
+            modelBuilder.Entity<Order>()
+            .HasOne(l => l.Local)
+            .WithMany()
+            .HasForeignKey(l => l.LocalId)
+            .IsRequired();
+
+            modelBuilder.Entity<OrderItem>()
+            .HasOne(oi => oi.OrderOrigin)
+            .WithMany()
+            .HasForeignKey(oi => oi.OrderId)
+            .IsRequired();
+
+            modelBuilder.Entity<OrderItem>()
+            .HasOne(oi => oi.ItemPicked)
+            .WithMany()
+            .HasForeignKey(oi => oi.ItemId)
             .IsRequired();
 
             Configure(modelBuilder);

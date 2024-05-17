@@ -1,6 +1,8 @@
 ﻿using Coffee.QR.API.Controllers;
 using Coffee.QR.API.DTOs;
 using Coffee.QR.API.Public;
+using Coffee.QR.Core.Domain;
+using Coffee.QR.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coffee.QR_BackEnd.Controllers
@@ -51,6 +53,35 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpGet("byLocal/{localId}")]
+        public IActionResult GetAllByLocalId(long localId)
+        {
+            var result = _menuService.GetAllByLocalId(localId);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
+        [HttpGet("getById/{id}")]
+        public IActionResult GetById(int id)
+        {
+            var result = _menuService.GetById(id);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteMenu(int id)
         {
@@ -67,7 +98,7 @@ namespace Coffee.QR_BackEnd.Controllers
         }
 
         //IN PROGRESS...
-
+        /*
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMenu(long id)
         {
@@ -76,6 +107,7 @@ namespace Coffee.QR_BackEnd.Controllers
                 return Ok(result.Value);
             return NotFound();
         }
+        */
 
         [HttpPut]
         public async Task<IActionResult> UpdateMenu(MenuDto menuDto)

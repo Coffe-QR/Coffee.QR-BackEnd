@@ -4,11 +4,12 @@ using Coffee.QR.Core.Domain;
 
 namespace Coffee.QR.Core.Mappers
 {
-    public class EventProfile : Profile
+    public class CardProfile : Profile
     {
-        public EventProfile()
+        public CardProfile()
         {
-            CreateMap<Event, EventDto>().ReverseMap();
+            CreateMap<Card, CardDto>().ReverseMap();
         }
+
     }
 }
