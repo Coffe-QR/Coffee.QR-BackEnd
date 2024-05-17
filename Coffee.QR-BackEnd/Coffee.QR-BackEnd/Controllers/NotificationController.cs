@@ -22,7 +22,7 @@ namespace Coffee.QR_BackEnd.Controllers
         {
             if (notificationDto == null)
             {
-                return BadRequest("Event data is required");
+                return BadRequest("Notification data is required");
             }
 
             var result = _notificationService.CreateNotification(notificationDto);
@@ -81,11 +81,11 @@ namespace Coffee.QR_BackEnd.Controllers
             if (isDeleted)
             {
                 // Return JSON response
-                return Ok(new { message = "Event deleted successfully." });
+                return Ok(new { message = "Notification deleted successfully." });
             }
             else
             {
-                return NotFound(new { message = "Event not found." });
+                return NotFound(new { message = "Notification not found." });
             }
         }
     }

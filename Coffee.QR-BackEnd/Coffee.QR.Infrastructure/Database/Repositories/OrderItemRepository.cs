@@ -1,0 +1,42 @@
+﻿using Coffee.QR.Core.Domain;
+using Coffee.QR.Core.Domain.RepositoryInterfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Coffee.QR.Infrastructure.Database.Repositories
+{
+    public class OrderItemRepository : IOrderItemRepository
+    {
+        private readonly Context _dbContext;
+        public OrderItemRepository(Context dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public OrderItem Create(OrderItem orderItem)
+        {
+            _dbContext.OrderItems.Add(orderItem);
+            _dbContext.SaveChanges();
+            return orderItem;
+        }
+
+        public List<OrderItem> GetAll()
+        {
+            return _dbContext.OrderItems.ToList();
+        }
+
+        public OrderItem Delete(long orderItemId)
+        {
+            var orderItemToDelete = _dbContext.OrderItems.Find(orderItemId);
+            if (orderItemToDelete != null)
+            {
+                _dbContext.OrderItems.Remove(orderItemToDelete);
+                _dbContext.SaveChanges();
+            }
+            return orderItemToDelete;
+        }
+    }
+}
