@@ -37,6 +37,13 @@ app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "Resources", "Images")),
     RequestPath = new PathString("/Resources/Images")
+
+}); ;
+// Serve PDFs from the Resources/PDFs folder
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "Resources", "Pdfs")),
+    RequestPath = new PathString("/Resources/Pdfs")
 });
 
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
