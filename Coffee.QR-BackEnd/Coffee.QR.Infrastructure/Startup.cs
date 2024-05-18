@@ -4,11 +4,13 @@ using Coffee.QR.BuildingBlocks.Core.UseCases;
 using Coffee.QR.BuildingBlocks.Infrastructure.Database;
 using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
+using Coffee.QR.Core.Interfaces;
 using Coffee.QR.Core.Mappers;
 using Coffee.QR.Core.Services;
 using Coffee.QR.Infrastructure.Auth;
 using Coffee.QR.Infrastructure.Database;
 using Coffee.QR.Infrastructure.Database.Repositories;
+using Coffee.QR.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -36,7 +38,8 @@ namespace Coffee.QR.Infrastructure
             services.AddAutoMapper(typeof(NotificationProfile).Assembly);
             services.AddAutoMapper(typeof(OrderProfile).Assembly);
             services.AddAutoMapper(typeof(OrderItemProfile).Assembly);
-
+            services.AddAutoMapper(typeof(CardProfile).Assembly);
+            services.AddAutoMapper(typeof(CardUserProfile).Assembly);
 
             SetupCore(services);
             SetupInfrastructure(services);
@@ -64,6 +67,8 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IOrderItemService, OrderItemService>();
+            services.AddScoped<ICardService,CardService>();
+            services.AddScoped<ICardUserService, CardUserService>();
 
         }
 
@@ -86,7 +91,8 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped(typeof(ICrudRepository<Notification>), typeof(CrudDatabaseRepository<Notification, Context>));
             services.AddScoped(typeof(ICrudRepository<Order>), typeof(CrudDatabaseRepository<Order, Context>));
             services.AddScoped(typeof(ICrudRepository<OrderItem>), typeof(CrudDatabaseRepository<OrderItem, Context>));
-
+            services.AddScoped(typeof(ICrudRepository<Card>),typeof(CrudDatabaseRepository<Card, Context>));
+            services.AddScoped(typeof(ICrudRepository<CardUser>),typeof(CrudDatabaseRepository<CardUser, Context>));
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
@@ -105,6 +111,8 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<INotificationRepository, NotificationRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            services.AddScoped<ICardRepository, CardRepository>();
+            services.AddScoped<ICardUserRepository, CardUserRepository>();
 
             services.AddDbContext<Context>(opt =>
                 opt.UseNpgsql(DbConnectionStringBuilder.Build("CoffeeQRSchema"),
