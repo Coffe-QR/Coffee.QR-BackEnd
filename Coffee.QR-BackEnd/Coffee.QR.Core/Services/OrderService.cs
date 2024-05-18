@@ -29,7 +29,7 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var ordert = _orderRepository.Create(new Domain.Order(orderDto.Price, orderDto.Description, orderDto.TableId, orderDto.LocalId, DateOnly.FromDateTime(DateTime.Now)));
+                var ordert = _orderRepository.Create(new Domain.Order(orderDto.Price, orderDto.Description, orderDto.TableId, orderDto.LocalId, DateOnly.FromDateTime(DateTime.Now), orderDto.IsActive));
 
                 OrderDto resultDto = new OrderDto
                 {
@@ -39,6 +39,7 @@ namespace Coffee.QR.Core.Services
                     TableId = ordert.TableId,
                     Date = ordert.Date,
                     LocalId = ordert.LocalId,
+                    IsActive = ordert.IsActive,
                 };
 
                 return Result.Ok(resultDto);
@@ -61,6 +62,7 @@ namespace Coffee.QR.Core.Services
                     TableId = o.TableId,
                     Date = o.Date,
                     LocalId = o.LocalId,
+                    IsActive = o.IsActive,
                 }).ToList();
 
                 return Result.Ok(orderDtos);
