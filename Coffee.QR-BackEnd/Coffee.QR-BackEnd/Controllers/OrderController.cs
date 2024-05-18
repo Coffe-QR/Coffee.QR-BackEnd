@@ -81,5 +81,12 @@ namespace Coffee.QR_BackEnd.Controllers
                 return BadRequest(result.Errors);
             }
         }
+
+        [HttpPut("deactivate/{id}")]
+        public IActionResult DeactivateOrder(long id)
+        {
+            _orderService.DeactivateOrder(id);
+            return Ok();
+        }
     }
 }
