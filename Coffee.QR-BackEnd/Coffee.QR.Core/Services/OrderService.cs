@@ -5,6 +5,7 @@ using Coffee.QR.BuildingBlocks.Core.UseCases;
 using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
 using FluentResults;
+using Stripe.Climate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +14,12 @@ using System.Threading.Tasks;
 
 namespace Coffee.QR.Core.Services
 {
-    public class OrderService : CrudService<OrderDto, Order>, IOrderService
+    public class OrderService : CrudService<OrderDto, Domain.Order>, IOrderService
     {
         private readonly IOrderRepository _orderRepository;
 
 
-        public OrderService(ICrudRepository<Order> crudRepository, IMapper mapper, IOrderRepository orderRepository)
+        public OrderService(ICrudRepository<Domain.Order> crudRepository, IMapper mapper, IOrderRepository orderRepository)
             : base(crudRepository, mapper)
         {
             _orderRepository = orderRepository;
@@ -28,7 +29,7 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var ordert = _orderRepository.Create(new Order(orderDto.Price, orderDto.Description, orderDto.TableId, orderDto.LocalId));
+                var ordert = _orderRepository.Create(new Domain.Order(orderDto.Price, orderDto.Description, orderDto.TableId, orderDto.LocalId, DateOnly.FromDateTime(DateTime.Now)));
 
                 OrderDto resultDto = new OrderDto
                 {
@@ -36,6 +37,7 @@ namespace Coffee.QR.Core.Services
                     Price = ordert.Price,
                     Description = ordert.Description,
                     TableId = ordert.TableId,
+                    Date = ordert.Date,
                     LocalId = ordert.LocalId,
                 };
 
@@ -57,6 +59,7 @@ namespace Coffee.QR.Core.Services
                     Price = o.Price,
                     Description = o.Description,
                     TableId = o.TableId,
+                    Date = o.Date,
                     LocalId = o.LocalId,
                 }).ToList();
 

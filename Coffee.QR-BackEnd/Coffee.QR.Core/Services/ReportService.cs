@@ -105,36 +105,41 @@ namespace Coffee.QR.Core.Services
             return reportToDelete != null;
         }
 
-        private List<ItemDto> BestItems(ReportDto reportDto)
+        private List<ItemDto> BestItems(ReportDto reportDto, int year)
         {
-            List<ItemDto> items = new List<ItemDto>();
 
-            foreach(var order in _orderRepository.GetAll().FindAll(o => o.LocalId == reportDto.LocalId))
-            {
-                foreach(var orderItem in _orderItemRepository.GetItemsForOrder(order.Id))
+            List<ItemDto> items = new List<ItemDto>();
+            if(reportDto.Type == ReportTypeDto.YEARLY)
+            { 
+                foreach (var order in _orderRepository.GetAll().FindAll(o => o.LocalId == reportDto.LocalId))
                 {
-                    
-                    ItemDto item = items.Find(i => i.Id == orderItem.ItemId);
-                    if (item != null)
+                    foreach (var orderItem in _orderItemRepository.GetItemsForOrder(order.Id))
                     {
-                        item.Quantity += orderItem.Quantity;
-                    } else
-                    {
-                        var domain = _itemRepository.GetItem(orderItem.ItemId);
-                        ItemDto dto = new ItemDto()
+
+                        ItemDto item = items.Find(i => i.Id == orderItem.ItemId);
+                        if (item != null)
                         {
-                            Id = domain.Id,
-                            Name = domain.Name,
-                            Description = domain.Description,
-                            Quantity = orderItem.Quantity,
-                            Price = domain.Price,
-                            Picture = domain.Picture,
-                            Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), domain.Type.ToString(), true),
-                        };
-                        items.Add(dto);
+                            item.Quantity += orderItem.Quantity;
+                        }
+                        else
+                        {
+                            var domain = _itemRepository.GetItem(orderItem.ItemId);
+                            ItemDto dto = new ItemDto()
+                            {
+                                Id = domain.Id,
+                                Name = domain.Name,
+                                Description = domain.Description,
+                                Quantity = orderItem.Quantity,
+                                Price = domain.Price,
+                                Picture = domain.Picture,
+                                Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), domain.Type.ToString(), true),
+                            };
+                            items.Add(dto);
+                        }
                     }
                 }
             }
+            
             return items;
         }
 
@@ -147,7 +152,7 @@ namespace Coffee.QR.Core.Services
             doc.Add(new Paragraph(reportDto.Type.ToString() +  " report!"));
 
 
-            List<ItemDto> dtos = BestItems(reportDto);
+            List<ItemDto> dtos = BestItems(reportDto, 2020);
             // Dodaj naslov dokumenta
             doc.Add(new Paragraph("Items List"));
             doc.Add(new Paragraph("\n"));
@@ -164,7 +169,7 @@ namespace Coffee.QR.Core.Services
             table.AddCell("Quantity");
 
             // Popuni tabelu podacima iz liste
-            foreach (var item in BestItems(reportDto))
+            foreach (var item in dtos)
             {
                 table.AddCell(item.Name);
                 table.AddCell(item.Description);
