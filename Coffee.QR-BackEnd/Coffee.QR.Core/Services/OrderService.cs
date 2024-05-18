@@ -103,5 +103,10 @@ namespace Coffee.QR.Core.Services
                 return Result.Fail<List<OrderDto>>("Failed to retrieve orders for local").WithError(e.Message);
             }
         }
+
+        public void DeactivateOrder(long orderId)
+        {
+            _orderRepository.UpdateOrderIsActive(orderId, false);
+        }
     }
 }
