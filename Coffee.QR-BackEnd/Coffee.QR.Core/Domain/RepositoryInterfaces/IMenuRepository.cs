@@ -13,5 +13,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         Menu Delete(long menuId);
         List<Menu> GetAllByLocalId(long localId);
         Menu GetById(long menuId);
+        bool UpdateMenu(Menu menu);
     }
 }

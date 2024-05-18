@@ -135,5 +135,14 @@ namespace Coffee.QR.Core.Services
         {
             throw new NotImplementedException();
         }
+
+        public bool UpdateMenu(MenuDto newMenu)
+        {
+                Menu oldMenu = _menuRepository.GetById(newMenu.Id);
+                oldMenu.Name = newMenu.Name;
+                oldMenu.Description = newMenu.Description;
+                oldMenu.IsActive = newMenu.IsActive;
+                return _menuRepository.UpdateMenu(oldMenu);
+        }
     }
 }

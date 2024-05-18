@@ -39,5 +39,25 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
         {
             return _dbContext.Items.ToList();
         }
+
+        public Item GetById(long itemId)
+        {
+            return _dbContext.Items.Find(itemId);
+        }
+
+        public bool UpdateItem(Item item)
+        {
+            var existingItem = _dbContext.Items.FirstOrDefault(i => i.Id == item.Id);
+            if (existingItem != null)
+            {
+                existingItem.Name = item.Name;
+                existingItem.Description = item.Description;
+                existingItem.Price = item.Price;
+                existingItem.Picture = item.Picture;
+                _dbContext.SaveChanges();
+                return true;
+            }
+            return false;
+        }
     }
 }

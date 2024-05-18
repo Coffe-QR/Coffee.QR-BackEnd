@@ -15,5 +15,7 @@ namespace Coffee.QR.API.Public
         bool DeleteItem(long itemId);
         Task<Result<ItemDto>> GetItemByIdAsync(long id);
         Task<Result<ItemDto>> UpdateItemAsync(ItemDto itemDto);
+        bool UpdateItem(ItemDto newItem);
+        Result<ItemDto> GetById(long itemId);
     }
 }

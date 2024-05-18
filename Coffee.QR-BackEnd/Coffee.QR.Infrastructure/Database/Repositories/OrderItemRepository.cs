@@ -38,5 +38,11 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             }
             return orderItemToDelete;
         }
+
+        public List<OrderItem> GetAllByOrderId(long orderId)
+        {
+            return _dbContext.OrderItems.Where(oi => oi.OrderId == orderId).ToList();
+        }
+
     }
 }
