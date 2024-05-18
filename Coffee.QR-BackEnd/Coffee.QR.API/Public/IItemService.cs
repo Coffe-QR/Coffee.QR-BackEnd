@@ -13,6 +13,7 @@ namespace Coffee.QR.API.Public
         Result<ItemDto> CreateItem(ItemDto itemDto);
         Result<List<ItemDto>> GetAllItems();
         bool DeleteItem(long itemId);
+        Result<List<ItemDto>> GetAllForStorage(long storageId);
         Task<Result<ItemDto>> GetItemByIdAsync(long id);
         Task<Result<ItemDto>> UpdateItemAsync(ItemDto itemDto);
         bool UpdateItem(ItemDto newItem);

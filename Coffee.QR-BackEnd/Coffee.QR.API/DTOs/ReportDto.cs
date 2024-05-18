@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Coffee.QR.API.DTOs
 {
-    public class OrderDto
+    public enum ReportTypeDto { MONTHLY, YEARLY }
+    public class ReportDto
     {
         public long Id { get; set; }
-        public double Price { get; set; }
-        public string Description { get; set; }
-        public long TableId { get; set; }
-        public long LocalId { get; set; }
+        public string Path { get; set; }
+        public ReportTypeDto Type { get; set; }
         public DateOnly Date { get; set; }
+        public long LocalId { get; set; }
     }
 }

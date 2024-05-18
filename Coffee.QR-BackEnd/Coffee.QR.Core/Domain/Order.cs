@@ -15,13 +15,17 @@ namespace Coffee.QR.Core.Domain
         public Table TableOrigin { get; private set; }
         public long LocalId { get; private set; }
         public Local Local { get; private set; }
+        public DateOnly Date { get; set; }
 
-        public Order(double price,string description, long tableId, long localId)
+        public Order(double price, string description, long tableId, long localId, DateOnly date)
         {
             Price = price;
             Description = description;
             TableId = tableId;
             LocalId = localId;
+            Date = date;
         }
+
+        
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Coffee.QR.API.Controllers;
 using Coffee.QR.API.DTOs;
 using Coffee.QR.API.Public;
+using FluentResults;
 using Coffee.QR.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -66,6 +67,9 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+
+        [HttpGet("getAllStorage/{storageId}")]
+        public IActionResult GetAllForStorage(long storageId)
         //IN PROGRESS...
         /*
         [HttpGet("{id}")]
@@ -82,10 +86,8 @@ namespace Coffee.QR_BackEnd.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateItem(ItemDto itemDto)
         {
-            var result = await _itemService.UpdateItemAsync(itemDto);
-            if (result.IsSuccess)
-                return Ok(result.Value);
-            return BadRequest(result.Errors);
+            var result = _itemService.GetAllForStorage(storageId);
+            return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Errors);
         }
         */
 

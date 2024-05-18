@@ -30,6 +30,8 @@ namespace Coffee.QR.Infrastructure.Database
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<CardUser> CardUsers { get; set; }
 
+        public DbSet<Report> Reports { get; set; }
+
         public Context(DbContextOptions<Context> options) : base(options){}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

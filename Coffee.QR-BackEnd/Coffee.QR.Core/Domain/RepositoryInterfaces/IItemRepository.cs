@@ -11,6 +11,7 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         Item Create(Item item);
         List<Item> GetAll();
         Item Delete(long itemId);
+        Item GetItem(long itemId);
         Item GetById(long itemId);
         bool UpdateItem(Item item);
     }
