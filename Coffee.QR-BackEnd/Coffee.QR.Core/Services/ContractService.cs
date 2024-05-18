@@ -76,5 +76,28 @@ namespace Coffee.QR.Core.Services
             var contractToDelete = _contractRepository.Delete(contractId);
             return contractToDelete != null;
         }
+        public Result<List<ContractDto>> GetAllForLocal(long localId)
+        {
+            try
+            {
+                var contracts = _contractRepository.GetAll().FindAll(c => c.LocalId == localId);
+                var contractDtos = contracts.Select(contractt => new ContractDto
+                {
+                    Id = contractt.Id,
+                    Date = contractt.Date,
+                    Frequency = (FrequencyDto)Enum.Parse(typeof(FrequencyDto), contractt.Frequency.ToString(), true),
+                    CompanyId = contractt.CompanyId,
+                    Description = contractt.Description,
+                    LocalId = contractt.LocalId,
+                    SupplyId = contractt.SupplyId
+                }).ToList();
+
+                return Result.Ok(contractDtos);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<List<ContractDto>>("Failed to retrieve contracts").WithError(e.Message);
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Coffee.QR.API.Controllers;
 using Coffee.QR.API.DTOs;
 using Coffee.QR.API.Public;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coffee.QR_BackEnd.Controllers
@@ -50,7 +51,7 @@ namespace Coffee.QR_BackEnd.Controllers
                 return BadRequest(result.Errors);
             }
         }
-
+        
         [HttpDelete("{id}")]
         public IActionResult DeleteContract(long id)
         {
@@ -64,7 +65,19 @@ namespace Coffee.QR_BackEnd.Controllers
                 return NotFound("Contract not found.");
             }
         }
+        [HttpGet("getAllForLocal/{localId}")]
+        public IActionResult GetAllForLocal(long localId)
+        {
+            var result = _contractService.GetAllForLocal(localId);
 
-       
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
     }
 }

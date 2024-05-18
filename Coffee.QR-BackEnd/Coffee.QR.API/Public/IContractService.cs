@@ -13,5 +13,6 @@ namespace Coffee.QR.API.Public
         Result<ContractDto> CreateContract(ContractDto contractDto);
         Result<List<ContractDto>> GetAllContracts();
         bool DeleteContract(long contractId);
+        Result<List<ContractDto>> GetAllForLocal(long localId);
     }
 }
