@@ -14,10 +14,10 @@ namespace Coffee.QR.API.DTOs
     }
     public class MenuDto
     {
-        public long Id { get; set; }    
-        public DateOnly StartDate { get; set; }
-        public DateOnly EndDate { get; set; }
-        public MenuStatusDto Status { get; set; }
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Boolean IsActive { get; set; }
         public long CafeId { get; set; }
 
     }

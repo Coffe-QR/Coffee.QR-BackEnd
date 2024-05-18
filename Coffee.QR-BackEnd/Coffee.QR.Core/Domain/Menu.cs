@@ -15,16 +15,16 @@ namespace Coffee.QR.Core.Domain
     }
     public class Menu : Entity
     {
-        public DateOnly StartDate {  get; set; }
-        public DateOnly EndDate { get; set; }
-        public MenuStatus Status { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Boolean IsActive { get; set; }
         public long CafeId { get; set; }
 
-        public Menu(DateOnly startDate, DateOnly endDate, MenuStatus status, long cafeId)
+        public Menu(string name, string description, Boolean isActive, long cafeId)
         {
-            StartDate = startDate;
-            EndDate = endDate;
-            Status = status;
+            Name = name;
+            Description = description;
+            IsActive = isActive;
             CafeId = cafeId;
         }
     }

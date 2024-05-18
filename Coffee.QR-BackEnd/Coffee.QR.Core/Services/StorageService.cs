@@ -33,7 +33,7 @@ namespace Coffee.QR.Core.Services
                 StorageDto resultDto = new StorageDto
                 {
                     Id = storaget.Id,
-                    CompanyId = storaget.CompanyId,
+                    CompanyId = storaget.LocalId,
                     
                 };
 
@@ -52,7 +52,7 @@ namespace Coffee.QR.Core.Services
                 var storageDtos = storages.Select(s => new StorageDto
                 {
                     Id = s.Id,
-                    CompanyId = s.CompanyId,
+                    CompanyId = s.LocalId,
                 }).ToList();
 
                 return Result.Ok(storageDtos);

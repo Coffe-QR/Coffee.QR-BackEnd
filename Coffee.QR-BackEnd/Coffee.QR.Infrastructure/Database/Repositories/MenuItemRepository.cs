@@ -28,15 +28,33 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             return _dbContext.MenuItems.ToList();
         }
 
-        public MenuItem Delete(long eventId)
+        public MenuItem Delete(long menuItemId)
         {
-            var eventToDelete = _dbContext.MenuItems.Find(eventId);
-            if (eventToDelete != null)
+            var menuItemToDelete = _dbContext.MenuItems.Find(menuItemId);
+            if (menuItemToDelete != null)
             {
-                _dbContext.MenuItems.Remove(eventToDelete);
+                _dbContext.MenuItems.Remove(menuItemToDelete);
                 _dbContext.SaveChanges();
             }
-            return eventToDelete;
+            return menuItemToDelete;
         }
+
+        public bool DeleteByMenuIdAndItemId(long menuId, long itemId)
+        {
+            var menuItem = _dbContext.MenuItems.FirstOrDefault(mi => mi.MenuId == menuId && mi.ItemId == itemId);
+            if (menuItem != null)
+            {
+                _dbContext.MenuItems.Remove(menuItem);
+                _dbContext.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public List<MenuItem> GetAllByMenuId(long menuId)
+        {
+            return _dbContext.MenuItems.Where(mi => mi.MenuId == menuId).ToList();
+        }
+
     }
 }

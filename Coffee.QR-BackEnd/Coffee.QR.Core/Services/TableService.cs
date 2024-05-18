@@ -63,7 +63,7 @@ namespace Coffee.QR.Core.Services
             }
             catch (Exception e)
             {
-                return Result.Fail<List<TableDto>>("Failed to retrieve events").WithError(e.Message);
+                return Result.Fail<List<TableDto>>("Failed to retrieve tables").WithError(e.Message);
             }
         }
 

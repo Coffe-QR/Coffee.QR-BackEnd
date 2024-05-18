@@ -22,7 +22,7 @@ namespace Coffee.QR_BackEnd.Controllers
         {
             if (localUserDto == null)
             {
-                return BadRequest("Event data is required");
+                return BadRequest("LocalUser data is required");
             }
 
             var result = _localUserService.CreateLocalUser(localUserDto);

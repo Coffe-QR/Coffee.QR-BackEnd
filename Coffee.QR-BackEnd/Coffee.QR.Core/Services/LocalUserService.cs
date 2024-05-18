@@ -66,7 +66,7 @@ namespace Coffee.QR.Core.Services
             }
             catch (Exception e)
             {
-                return Result.Fail<List<LocalUserDto>>("Failed to retrieve events").WithError(e.Message);
+                return Result.Fail<List<LocalUserDto>>("Failed to retrieve localUsers").WithError(e.Message);
             }
         }
 

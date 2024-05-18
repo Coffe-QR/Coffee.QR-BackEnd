@@ -9,12 +9,12 @@ namespace Coffee.QR.Core.Domain
 {
     public class Storage : Entity
     {
-        public long CompanyId { get; set; }
+        public long LocalId { get; set; }
 
 
-        public Storage(long companyId)
+        public Storage(long localId)
         {
-            CompanyId = companyId;
+            LocalId = localId;
         }
     }
 }

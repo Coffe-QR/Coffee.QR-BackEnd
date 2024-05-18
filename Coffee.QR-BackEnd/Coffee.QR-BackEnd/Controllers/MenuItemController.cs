@@ -67,6 +67,81 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpDelete("DeleteByMenuIdAndItemId/{menuId}/{itemId}")]
+        public IActionResult DeleteByMenuIdAndItemId(int menuId,int itemId)
+        {
+            var isDeleted = _menuItemService.DeleteByMenuIdAndItemId(menuId, itemId);
+            if (isDeleted)
+            {
+                // Return JSON response
+                return Ok(new { message = "MenuItem deleted successfully." });
+            }
+            else
+            {
+                return NotFound(new { message = "MenuItem not found." });
+            }
+        }
+
+        [HttpGet("for-menu/{menuId}")]
+        public IActionResult GetAllForMenu(long menuId)
+        {
+            var result = _menuItemService.GetAllForMenu(menuId);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
+        [HttpGet("food-for-menu/{menuId}")]
+        public IActionResult GetAllFoodForMenu(long menuId)
+        {
+            var result = _menuItemService.GetAllFoodForMenu(menuId);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
+        [HttpGet("drinks-for-menu/{menuId}")]
+        public IActionResult GetAllDrinksForMenu(long menuId)
+        {
+            var result = _menuItemService.GetAllDrinksForMenu(menuId);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
+        [HttpGet("not-on-menu/{menuId}")]
+        public IActionResult GetAllNotOnMenu(long menuId)
+        {
+            var result = _menuItemService.GetAllNotOnMenu(menuId);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
         //IN PROGRESS...
 
         [HttpGet("{id}")]

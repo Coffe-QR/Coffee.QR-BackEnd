@@ -66,7 +66,7 @@ namespace Coffee.QR.Core.Services
             }
             catch (Exception e)
             {
-                return Result.Fail<List<NotificationDto>>("Failed to retrieve events").WithError(e.Message);
+                return Result.Fail<List<NotificationDto>>("Failed to retrieve notifications").WithError(e.Message);
             }
         }
 
@@ -89,7 +89,7 @@ namespace Coffee.QR.Core.Services
             }
             catch (Exception e)
             {
-                return Result.Fail<List<NotificationDto>>("Failed to retrieve events").WithError(e.Message);
+                return Result.Fail<List<NotificationDto>>("Failed to retrieve notifications").WithError(e.Message);
             }
         }
 
