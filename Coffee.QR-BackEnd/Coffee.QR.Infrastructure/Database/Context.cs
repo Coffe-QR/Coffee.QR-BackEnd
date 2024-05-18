@@ -24,8 +24,8 @@ namespace Coffee.QR.Infrastructure.Database
         public DbSet<Local> Locals { get; set; }
         public DbSet<Table> Tables { get; set; }
         public DbSet<Notification> Notifications { get; set; }
-
         public DbSet<LocalUser> LocalUsers { get; set; }    
+        public DbSet<Contract> Contracts { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options){}
 
