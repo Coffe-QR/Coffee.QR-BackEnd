@@ -66,5 +66,35 @@ namespace Coffee.QR_BackEnd.Controllers
                 return NotFound(new { message = "OrderItem not found." });
             }
         }
+
+        [HttpGet("for-order/{orderId}")]
+        public IActionResult GetAllForOrder(long orderId)
+        {
+            var result = _orderItemService.GetAllForOrder(orderId);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
+        [HttpGet("getByOrderId/{id}")]
+        public IActionResult GetByOrderId(int id)
+        {
+            var result = _orderItemService.GetByOrderId(id);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
     }
 }

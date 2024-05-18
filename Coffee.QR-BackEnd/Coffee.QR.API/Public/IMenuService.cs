@@ -17,5 +17,6 @@ namespace Coffee.QR.API.Public
         Task<Result<MenuDto>> UpdateMenuAsync(MenuDto menuDto);
         Result<List<MenuDto>> GetAllByLocalId(long localId);
         Result<MenuDto> GetById(long menuId);
+        bool UpdateMenu(MenuDto menu);
     }
 }

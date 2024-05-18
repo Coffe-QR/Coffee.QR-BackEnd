@@ -109,5 +109,45 @@ namespace Coffee.QR.Core.Services
             }
         }
 
+
+        public bool UpdateItem(ItemDto newItem)
+        {
+            Item oldItem = _itemRepository.GetById(newItem.Id);
+            oldItem.Name = newItem.Name;
+            oldItem.Description = newItem.Description;
+            oldItem.Price = newItem.Price;
+            oldItem.Picture = newItem.Picture;
+            return _itemRepository.UpdateItem(oldItem);
+        }
+
+        public Result<ItemDto> GetById(long itemId)
+        {
+            try
+            {
+                Item item = _itemRepository.GetById(itemId);
+                if (item != null)
+                {
+                    ItemDto itemDto = new ItemDto
+                    {
+                        Id = item.Id,
+                        Name = item.Name,
+                        Description = item.Description,
+                        Price = item.Price,
+                        Picture = item.Picture,
+                        Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), item.Type.ToString(), true),
+                    };
+                    return Result.Ok(itemDto);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<ItemDto>("Failed to retrieve items").WithError(e.Message);
+            }
+        }
+
     }
 }

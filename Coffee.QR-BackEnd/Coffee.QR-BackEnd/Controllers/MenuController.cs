@@ -108,7 +108,7 @@ namespace Coffee.QR_BackEnd.Controllers
             return NotFound();
         }
         */
-
+        /*
         [HttpPut]
         public async Task<IActionResult> UpdateMenu(MenuDto menuDto)
         {
@@ -116,6 +116,25 @@ namespace Coffee.QR_BackEnd.Controllers
             if (result.IsSuccess)
                 return Ok(result.Value);
             return BadRequest(result.Errors);
+        }
+        */
+        [HttpPut("UpdateMenu")]
+        public IActionResult UpdateMenu([FromBody] MenuDto menuDto)
+        {
+            if (menuDto == null)
+            {
+                return BadRequest("Invalid menu data.");
+            }
+
+            var updated = _menuService.UpdateMenu(menuDto);
+            if (updated)
+            {
+                return Ok(new { message = "Menu updated successfully." });
+            }
+            else
+            {
+                return NotFound(new { message = "Menu not found." });
+            }
         }
 
     }

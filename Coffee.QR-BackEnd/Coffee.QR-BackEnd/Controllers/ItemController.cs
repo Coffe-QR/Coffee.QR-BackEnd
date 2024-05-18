@@ -2,6 +2,7 @@
 using Coffee.QR.API.DTOs;
 using Coffee.QR.API.Public;
 using FluentResults;
+using Coffee.QR.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coffee.QR_BackEnd.Controllers
@@ -66,11 +67,62 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+
         [HttpGet("getAllStorage/{storageId}")]
         public IActionResult GetAllForStorage(long storageId)
+        //IN PROGRESS...
+        /*
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetItem(long id)
+        {
+            var result = await _itemService.GetItemByIdAsync(id);
+            if (result.IsSuccess)
+                return Ok(result.Value);
+            return NotFound();
+        }
+        */
+
+        /*
+        [HttpPut]
+        public async Task<IActionResult> UpdateItem(ItemDto itemDto)
         {
             var result = _itemService.GetAllForStorage(storageId);
             return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Errors);
+        }
+        */
+
+        [HttpGet("getById/{id}")]
+        public IActionResult GetById(int id)
+        {
+            var result = _itemService.GetById(id);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
+        [HttpPut("UpdateMenu")]
+        public IActionResult UpdateItem([FromBody] ItemDto itemDto)
+        {
+            if (itemDto == null)
+            {
+                return BadRequest("Invalid item data.");
+            }
+
+            var updated = _itemService.UpdateItem(itemDto);
+            if (updated)
+            {
+                return Ok(new { message = "Item updated successfully." });
+            }
+            else
+            {
+                return NotFound(new { message = "Item not found." });
+            }
         }
     }
 }
