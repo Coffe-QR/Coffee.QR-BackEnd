@@ -108,5 +108,6 @@ namespace Coffee.QR.Core.Services
                 return Result.Fail<List<ItemDto>>("Failed to retrieve events").WithError(e.Message);
             }
         }
+
     }
 }

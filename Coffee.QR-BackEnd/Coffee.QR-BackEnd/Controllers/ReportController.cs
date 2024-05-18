@@ -1,6 +1,7 @@
 ﻿using Coffee.QR.API.Controllers;
 using Coffee.QR.API.DTOs;
 using Coffee.QR.API.Public;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coffee.QR_BackEnd.Controllers
@@ -62,6 +63,21 @@ namespace Coffee.QR_BackEnd.Controllers
             else
             {
                 return NotFound("Report not found.");
+            }
+        }
+
+        [HttpGet("getAllForLocal/{localId}")]
+        public IActionResult GetAllForLocal(long localId)
+        {
+            var result = _reportService.GetAllReports();
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
             }
         }
 

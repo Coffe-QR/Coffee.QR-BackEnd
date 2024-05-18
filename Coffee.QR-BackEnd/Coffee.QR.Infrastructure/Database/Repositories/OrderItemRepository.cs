@@ -1,10 +1,5 @@
 ﻿using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Coffee.QR.Infrastructure.Database.Repositories
 {
@@ -37,6 +32,11 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
                 _dbContext.SaveChanges();
             }
             return orderItemToDelete;
+        }
+
+        public List<OrderItem> GetItemsForOrder(long orderId)
+        {
+            return _dbContext.OrderItems.Where(oi => oi.OrderId == orderId).ToList();
         }
     }
 }

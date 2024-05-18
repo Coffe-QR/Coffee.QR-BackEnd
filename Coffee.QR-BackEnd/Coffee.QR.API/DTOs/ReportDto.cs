@@ -13,5 +13,6 @@ namespace Coffee.QR.API.DTOs
         public string Path { get; set; }
         public ReportTypeDto Type { get; set; }
         public DateOnly Date { get; set; }
+        public long LocalId { get; set; }
     }
 }
