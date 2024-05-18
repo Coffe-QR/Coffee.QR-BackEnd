@@ -70,26 +70,19 @@ namespace Coffee.QR_BackEnd.Controllers
 
         [HttpGet("getAllStorage/{storageId}")]
         public IActionResult GetAllForStorage(long storageId)
-        //IN PROGRESS...
-        /*
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetItem(long id)
-        {
-            var result = await _itemService.GetItemByIdAsync(id);
-            if (result.IsSuccess)
-                return Ok(result.Value);
-            return NotFound();
-        }
-        */
-
-        /*
-        [HttpPut]
-        public async Task<IActionResult> UpdateItem(ItemDto itemDto)
         {
             var result = _itemService.GetAllForStorage(storageId);
-            return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Errors);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
         }
-        */
+        
 
         [HttpGet("getById/{id}")]
         public IActionResult GetById(int id)
