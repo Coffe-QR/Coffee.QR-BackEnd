@@ -29,7 +29,7 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var ordert = _orderRepository.Create(new Domain.Order(orderDto.Price, orderDto.Description, orderDto.TableId, orderDto.LocalId, DateOnly.FromDateTime(DateTime.Now)));
+                var ordert = _orderRepository.Create(new Domain.Order(orderDto.Price, orderDto.Description, orderDto.TableId, orderDto.LocalId, DateOnly.FromDateTime(DateTime.Now), orderDto.IsActive));
 
                 OrderDto resultDto = new OrderDto
                 {
@@ -39,6 +39,7 @@ namespace Coffee.QR.Core.Services
                     TableId = ordert.TableId,
                     Date = ordert.Date,
                     LocalId = ordert.LocalId,
+                    IsActive = ordert.IsActive,
                 };
 
                 return Result.Ok(resultDto);
@@ -61,6 +62,7 @@ namespace Coffee.QR.Core.Services
                     TableId = o.TableId,
                     Date = o.Date,
                     LocalId = o.LocalId,
+                    IsActive = o.IsActive,
                 }).ToList();
 
                 return Result.Ok(orderDtos);
@@ -76,6 +78,30 @@ namespace Coffee.QR.Core.Services
         {
             var orderToDelete = _orderRepository.Delete(orderId);
             return orderToDelete != null;
+        }
+
+        public Result<List<OrderDto>> getByLocalIdAndIsActive(long localId)
+        {
+            try
+            {
+                var orders = _orderRepository.GetActiveOrdersByLocalId(localId);
+                var orderDtos = orders.Select(o => new OrderDto
+                {
+                    Id = o.Id,
+                    Price = o.Price,
+                    Description = o.Description,
+                    TableId = o.TableId,
+                    Date = o.Date,
+                    LocalId = o.LocalId,
+                    IsActive = o.IsActive,
+                }).ToList();
+
+                return Result.Ok(orderDtos);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<List<OrderDto>>("Failed to retrieve orders for local").WithError(e.Message);
+            }
         }
     }
 }

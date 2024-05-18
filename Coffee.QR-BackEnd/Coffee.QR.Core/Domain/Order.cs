@@ -16,14 +16,17 @@ namespace Coffee.QR.Core.Domain
         public long LocalId { get; private set; }
         public Local Local { get; private set; }
         public DateOnly Date { get; set; }
+        public Boolean IsActive { get; set; }
 
-        public Order(double price, string description, long tableId, long localId, DateOnly date)
+
+        public Order(double price, string description, long tableId, long localId, DateOnly date, Boolean isActive)
         {
             Price = price;
             Description = description;
             TableId = tableId;
             LocalId = localId;
             Date = date;
+            IsActive = isActive;
         }
 
         

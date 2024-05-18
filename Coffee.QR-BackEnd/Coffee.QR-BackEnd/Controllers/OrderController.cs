@@ -66,5 +66,20 @@ namespace Coffee.QR_BackEnd.Controllers
                 return NotFound(new { message = "Order not found." });
             }
         }
+
+        [HttpGet("getByLocalIdAndIsActive/{localId}")]
+        public IActionResult getByLocalIdAndIsActive(long localId)
+        {
+            var result = _orderService.getByLocalIdAndIsActive(localId);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
     }
 }
