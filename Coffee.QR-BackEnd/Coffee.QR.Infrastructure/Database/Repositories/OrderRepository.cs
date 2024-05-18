@@ -38,5 +38,10 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             }
             return orderToDelete;
         }
+
+        public List<Order> GetActiveOrdersByLocalId(long localId) 
+        {
+            return _dbContext.Orders.Where(o=>o.LocalId== localId && o.IsActive).ToList();
+        }
     }
 }

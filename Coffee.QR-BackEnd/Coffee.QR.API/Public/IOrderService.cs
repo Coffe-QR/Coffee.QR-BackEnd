@@ -13,5 +13,6 @@ namespace Coffee.QR.API.Public
         Result<OrderDto> CreateOrder(OrderDto orderDto);
         Result<List<OrderDto>> GetAllOrders();
         bool DeleteOrder(long orderId);
+        Result<List<OrderDto>> getByLocalIdAndIsActive(long localId);
     }
 }

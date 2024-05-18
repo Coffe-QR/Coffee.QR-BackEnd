@@ -79,5 +79,29 @@ namespace Coffee.QR.Core.Services
             var orderToDelete = _orderRepository.Delete(orderId);
             return orderToDelete != null;
         }
+
+        public Result<List<OrderDto>> getByLocalIdAndIsActive(long localId)
+        {
+            try
+            {
+                var orders = _orderRepository.GetActiveOrdersByLocalId(localId);
+                var orderDtos = orders.Select(o => new OrderDto
+                {
+                    Id = o.Id,
+                    Price = o.Price,
+                    Description = o.Description,
+                    TableId = o.TableId,
+                    Date = o.Date,
+                    LocalId = o.LocalId,
+                    IsActive = o.IsActive,
+                }).ToList();
+
+                return Result.Ok(orderDtos);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<List<OrderDto>>("Failed to retrieve orders for local").WithError(e.Message);
+            }
+        }
     }
 }
