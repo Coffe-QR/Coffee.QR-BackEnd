@@ -99,5 +99,34 @@ namespace Coffee.QR.Core.Services
         {
             throw new NotImplementedException();
         }
+
+        public Result<List<JobApplicationDto>> GetAllByLocalId(long localId)
+        {
+            try
+            {
+                var jobs = _jobApplicationRepository.GetAllByLocalId(localId);
+                var jobsDtos = jobs.Select(j => new JobApplicationDto
+                {
+                    Id = j.Id,
+                    FirstName = j.FirstName,
+                    LastName = j.LastName,
+                    Email = j.Email,
+                    Phone = j.Phone,
+                    DateOfBirth = j.DateOfBirth,
+                    Address = j.Address,
+                    ApplicationDate = j.ApplicationDate,
+                    LocalId = j.LocalId,
+                    ApplicantDescription = j.ApplicantDescription,
+                    Position = (JobPositionDto)Enum.Parse(typeof(JobPositionDto), j.Position.ToString(), true),
+
+                }).ToList();
+
+                return Result.Ok(jobsDtos);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<List<JobApplicationDto>>("Failed to retrieve job applications for local").WithError(e.Message);
+            }
+        }
     }
 }

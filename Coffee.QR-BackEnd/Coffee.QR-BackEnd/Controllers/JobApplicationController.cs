@@ -1,6 +1,7 @@
 ﻿using Coffee.QR.API.Controllers;
 using Coffee.QR.API.DTOs;
 using Coffee.QR.API.Public;
+using Coffee.QR.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coffee.QR_BackEnd.Controllers
@@ -63,6 +64,20 @@ namespace Coffee.QR_BackEnd.Controllers
             else
             {
                 return NotFound(new { message = "JobApplication not found." });
+            }
+        }
+
+        [HttpGet("jobsByLocal/{localId}")]
+        public IActionResult GetAllByLocalId(long localId)
+        {
+            var result = _jobApplicationService.GetAllByLocalId(localId);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
             }
         }
 

@@ -17,5 +17,6 @@ public enum UserRoleDto
     Waiter,
     Manager,
     Client,
-    ITsupport
+    ITsupport,
+    HRmanager
 }

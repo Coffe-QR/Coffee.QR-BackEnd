@@ -15,5 +15,6 @@ namespace Coffee.QR.API.Public
         bool DeleteJobApplication(long jobApplicationId);
         Task<Result<JobApplicationDto>> GetJobApplicationByIdAsync(long id);
         Task<Result<JobApplicationDto>> UpdateJobApplicationAsync(JobApplicationDto jobApplicationDto);
+        Result<List<JobApplicationDto>> GetAllByLocalId (long localId);
     }
 }

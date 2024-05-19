@@ -38,5 +38,10 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             }
             return jobApplicationToDelete;
         }
+
+        public List<JobApplication> GetAllByLocalId(long localId)
+        {
+            return _dbContext.JobApplications.Where(m => m.LocalId == localId).ToList();
+        }
     }
 }
