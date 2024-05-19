@@ -187,7 +187,7 @@ namespace Coffee.QR.Core.Services
                     int flag = 0;
                     foreach (var menuItem in menuItems) 
                     {
-                        if (menuItem.ItemId == item.Id) 
+                        if (menuItem.ItemId == item.Id || item.Type== ItemType.INGREDIENT) 
                         {
                             flag = 1;
                         }
