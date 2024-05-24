@@ -96,5 +96,20 @@ namespace Coffee.QR_BackEnd.Controllers
                 return BadRequest(result.Errors);
             }
         }
+
+        [HttpGet("getQuantityByOrderIdAndItemId/{orderId}/{itemId}")]
+        public IActionResult getQuantityByOrderIdAndItemId(long orderId,long itemId)
+        {
+            var result = _orderItemService.getQuantityByOrderIdAndItemId(orderId,itemId);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
     }
 }

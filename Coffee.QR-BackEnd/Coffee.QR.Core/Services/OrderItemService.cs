@@ -123,5 +123,25 @@ namespace Coffee.QR.Core.Services
                 return Result.Fail<List<OrderItemDto>>("Failed to retrieve orderItems").WithError(e.Message);
             }
         }
+
+        public Result<long> getQuantityByOrderIdAndItemId(long orderId, long itemId)
+        {
+            try
+            {
+                OrderItem orderItem = _orderItemRepository.getQuantityByOrderIdAndItemId(orderId,itemId);
+                if (orderItem != null)
+                {
+                    return Result.Ok(orderItem.Quantity);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<long>("Failed to retrieve quantity").WithError(e.Message);
+            }
+        }
     }
 }

@@ -45,6 +45,11 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             return _dbContext.OrderItems.Where(oi => oi.OrderId == orderId).ToList();
         }
 
+        public OrderItem getQuantityByOrderIdAndItemId(long orderId, long itemId) 
+        {
+            return _dbContext.OrderItems.FirstOrDefault(oi => oi.OrderId == orderId && oi.ItemId == itemId);
+        }
+
 
     }
 }

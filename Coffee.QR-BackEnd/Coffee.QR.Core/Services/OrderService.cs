@@ -108,5 +108,35 @@ namespace Coffee.QR.Core.Services
         {
             _orderRepository.UpdateOrderIsActive(orderId, false);
         }
+
+        public Result<OrderDto> GetById(long orderId)
+        {
+            try
+            {
+                Domain.Order order = _orderRepository.GetById(orderId);
+                if (order != null)
+                {
+                    OrderDto orderDto = new OrderDto
+                    {
+                        Id = order.Id,
+                        Price = order.Price,
+                        Description = order.Description,
+                        TableId = order.TableId,
+                        LocalId = order.LocalId,
+                        Date = order.Date,
+                        IsActive = order.IsActive
+                    };
+                    return Result.Ok(orderDto);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<OrderDto>("Failed to retrieve order").WithError(e.Message);
+            }
+        }
     }
 }

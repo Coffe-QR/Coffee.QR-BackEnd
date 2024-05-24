@@ -13,5 +13,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         OrderItem Delete(long orderItemId);
         List<OrderItem> GetItemsForOrder(long orderId);
         List<OrderItem> GetAllByOrderId(long orderId);
+        OrderItem getQuantityByOrderIdAndItemId(long orderId, long itemId);
     }
 }

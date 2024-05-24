@@ -88,5 +88,20 @@ namespace Coffee.QR_BackEnd.Controllers
             _orderService.DeactivateOrder(id);
             return Ok();
         }
+
+        [HttpGet("getById/{id}")]
+        public IActionResult GetById(int id)
+        {
+            var result = _orderService.GetById(id);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
     }
 }

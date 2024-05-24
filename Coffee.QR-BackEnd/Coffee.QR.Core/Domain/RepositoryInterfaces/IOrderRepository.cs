@@ -13,5 +13,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         Order Delete(long orderId);
         List<Order> GetActiveOrdersByLocalId(long localId);
         void UpdateOrderIsActive(long orderId, bool isActive);
+        Order GetById(long orderId);
     }
 }

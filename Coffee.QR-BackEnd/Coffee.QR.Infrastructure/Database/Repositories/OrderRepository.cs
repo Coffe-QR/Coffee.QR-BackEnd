@@ -53,5 +53,10 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
                 _dbContext.SaveChanges();
             }
         }
+
+        public Order GetById(long orderId)
+        {
+            return _dbContext.Orders.Find(orderId);
+        }
     }
 }
