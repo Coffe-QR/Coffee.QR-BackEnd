@@ -89,6 +89,34 @@ namespace Coffee.QR.Core.Services
             return jobApplciationToDelete != null;
         }
 
+        public Result<List<JobApplicationDto>> GetJobApplicationsByLocal(long localId)
+        {
+            try
+            {
+                var jobApplications = _jobApplicationRepository.GetJobApplicationsByLocal(localId);
+                var jobApplicationDtos = jobApplications.Select(job => new JobApplicationDto
+                {
+                    Id = job.Id,
+                    FirstName = job.FirstName,
+                    LastName = job.LastName,
+                    Email = job.Email,
+                    Phone = job.Phone,
+                    DateOfBirth = job.DateOfBirth,
+                    Address = job.Address,
+                    ApplicationDate = job.ApplicationDate,
+                    LocalId = job.LocalId,
+                    ApplicantDescription = job.ApplicantDescription,
+                    Position = (JobPositionDto)Enum.Parse(typeof(JobPositionDto), job.Position.ToString(), true)
+                }).ToList();
+
+                return Result.Ok(jobApplicationDtos);
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail<List<JobApplicationDto>>("Failure to load job apllications for this local").WithError(ex.Message);
+            }
+        }
+
 
         public Task<Result<JobApplicationDto>> GetJobApplicationByIdAsync(long id)
         {
