@@ -66,6 +66,23 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpGet("jobsByLocal/{localId}")]
+        public IActionResult GetJobApplicationsByLocal(long localId)
+        {
+            var result = _jobApplicationService.GetJobApplicationsByLocal(localId);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
+
+
         //IN PROGRESS...
 
         [HttpGet("{id}")]
