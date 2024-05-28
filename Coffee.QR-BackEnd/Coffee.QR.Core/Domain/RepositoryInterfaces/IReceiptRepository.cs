@@ -11,5 +11,7 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         Receipt Create(Receipt receipt);
         List<Receipt> GetAll();
         Receipt Delete(long receiptId);
+        Receipt GetById(long receiptId);
+        Receipt GetByOrderId(long orderId);
     }
 }

@@ -28,6 +28,16 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             return _dbContext.Receipts.ToList();
         }
 
+        public Receipt GetById(long receiptId)
+        {
+            return _dbContext.Receipts.Find(receiptId);
+        }
+
+        public Receipt GetByOrderId(long orderId)
+        {
+            return _dbContext.Receipts.FirstOrDefault(receipt => receipt.OrderId == orderId);
+        }
+
         public Receipt Delete(long receiptId)
         {
             var receiptToDelete = _dbContext.Receipts.Find(receiptId);

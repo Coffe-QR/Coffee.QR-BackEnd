@@ -35,21 +35,28 @@ namespace Coffee.QR.Core.Services
             _itemRepository = itemRepository;
         }
 
-        public Result<ReceiptDto> CreateReceipt(ReceiptDto receiptDto,double datoPara)
+        public Result<ReceiptDto> CreateReceipt(ReceiptDto receiptDto,double moneyReceived)
         {
             try
             {
-                var receipt = _receiptRepository.Create(new Receipt(CreateReceiptPdf(receiptDto,datoPara), DateOnly.FromDateTime(DateTime.Now), receiptDto.OrderId, receiptDto.WaiterId));
-
-                ReceiptDto resultDto = new ReceiptDto
+                Receipt receipt;
+                if (_receiptRepository.GetByOrderId(receiptDto.OrderId) == null)
                 {
-                    Id = receipt.Id,
-                    Path = receipt.Path,
-                    Date = receipt.Date,
-                    OrderId = receipt.OrderId,
-                    WaiterId = receipt.WaiterId,
-                };
-                return Result.Ok(resultDto);
+                    receipt = _receiptRepository.Create(new Receipt(CreateReceiptPdf(receiptDto, moneyReceived), DateOnly.FromDateTime(DateTime.Now), receiptDto.OrderId, receiptDto.WaiterId));
+                }else 
+                {
+                    CreateReceiptPdf(receiptDto, moneyReceived);
+                    receipt = _receiptRepository.GetByOrderId(receiptDto.OrderId);
+                }
+                ReceiptDto resultDto = new ReceiptDto
+                    {
+                        Id = receipt.Id,
+                        Path = receipt.Path,
+                        Date = receipt.Date,
+                        OrderId = receipt.OrderId,
+                        WaiterId = receipt.WaiterId,
+                    };
+                    return Result.Ok(resultDto);
             }
             catch (ArgumentException e)
             {
