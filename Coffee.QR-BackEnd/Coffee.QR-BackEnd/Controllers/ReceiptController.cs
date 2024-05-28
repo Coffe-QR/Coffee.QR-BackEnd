@@ -17,15 +17,15 @@ namespace Coffee.QR_BackEnd.Controllers
             _receiptService = receiptService;
         }
 
-        [HttpPost]
-        public IActionResult Create([FromBody] ReceiptDto receiptDto)
+        [HttpPost("{moneyReceived}")]
+        public IActionResult Create(double moneyReceived, [FromBody] ReceiptDto receiptDto)
         {
             if (receiptDto == null)
             {
                 return BadRequest("Receipt data is required");
             }
 
-            var result = _receiptService.CreateReceipt(receiptDto);
+            var result = _receiptService.CreateReceipt(receiptDto, moneyReceived);
 
             if (result.IsSuccess)
             {

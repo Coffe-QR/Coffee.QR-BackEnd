@@ -10,7 +10,7 @@ namespace Coffee.QR.API.Public
 {
     public interface IReceiptService
     {
-        Result<ReceiptDto> CreateReceipt(ReceiptDto receiptDto);
+        Result<ReceiptDto> CreateReceipt(ReceiptDto receiptDto, double datoPara);
         Result<List<ReceiptDto>> GetAllForLocal(long localId);
         bool DeleteReceipt(long receiptId);
     }
