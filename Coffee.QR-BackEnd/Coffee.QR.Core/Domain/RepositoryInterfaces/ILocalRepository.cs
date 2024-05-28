@@ -13,5 +13,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         List<Local> GetAll();
         Local Delete(long localId);
         Task<Local> GetByIdAsync(long id);
+        Local GetById(long localId);
     }
 }

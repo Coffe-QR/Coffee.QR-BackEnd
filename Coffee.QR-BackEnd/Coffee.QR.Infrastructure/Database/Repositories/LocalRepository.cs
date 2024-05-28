@@ -45,5 +45,10 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
         {
             return await _dbContext.Locals.FindAsync(id);
         }
+
+        public Local GetById(long localId)
+        {
+            return _dbContext.Locals.Find(localId);
+        }
     }
 }
