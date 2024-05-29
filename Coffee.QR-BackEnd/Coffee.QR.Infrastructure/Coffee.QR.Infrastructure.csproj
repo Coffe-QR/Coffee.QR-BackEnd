@@ -30,4 +30,8 @@
     <ProjectReference Include="..\Coffee.QR.Core\Coffee.QR.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

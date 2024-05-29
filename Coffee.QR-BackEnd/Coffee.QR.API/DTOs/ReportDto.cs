@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Coffee.QR.API.DTOs
 {
-    //public enum ReportTypeDto { MONTHLY, YEARLY }
+    public enum ReportTypeDto { MONTHLY, YEARLY }
     public class ReportDto
     {
         public long Id { get; set; }

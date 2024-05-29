@@ -12,17 +12,15 @@ namespace Coffee.QR.Core.Domain
     public class CardSaleReport : Entity
     {
         public string Path { get; set; }
-        public ReportType Type { get; set; }
         public DateOnly Date { get; set; }
+        public long UserId { get; set; }
+        public User User { get; set; } 
 
-        public long LocalId { get; set; }
-
-        public CardSaleReport(string path, ReportType type, DateOnly date, long localId)
+        public CardSaleReport(string path, DateOnly date, long userId)
         {
             Path = path;
-            Type = type;
             Date = date;
-            LocalId = localId;
+            UserId = userId;
         }
     }
 }

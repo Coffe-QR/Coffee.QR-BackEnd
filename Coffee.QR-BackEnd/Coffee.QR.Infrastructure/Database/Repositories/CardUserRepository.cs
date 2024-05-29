@@ -24,6 +24,12 @@ namespace Coffee.QR.Infrastructure.Repositories
             return await _context.CardUsers.ToListAsync();
         }
 
+        public List<CardUser> GetAll()
+        {
+            return _context.CardUsers.ToList();
+        }
+
+
         public async Task<CardUser> GetByIdAsync(long cardUserId)
         {
             return await _context.CardUsers

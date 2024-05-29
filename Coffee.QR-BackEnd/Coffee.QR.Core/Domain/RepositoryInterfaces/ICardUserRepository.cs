@@ -13,5 +13,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         CardUser Create(CardUser cardUser);
         Task UpdateAsync(CardUser cardUser);
         Task DeleteAsync(long cardUserId);
+        List<CardUser> GetAll();
     }
 }
