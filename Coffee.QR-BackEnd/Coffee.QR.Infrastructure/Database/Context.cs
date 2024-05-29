@@ -32,6 +32,7 @@ namespace Coffee.QR.Infrastructure.Database
 
         public DbSet<Report> Reports { get; set; }
         public DbSet<Receipt> Receipts { get; set; }
+        public DbSet<CardSaleReport> CardSaleReports { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options){}
 

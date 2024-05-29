@@ -2,7 +2,6 @@
 using Coffee.QR.Core.Interfaces;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
-using Stripe.BillingPortal;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

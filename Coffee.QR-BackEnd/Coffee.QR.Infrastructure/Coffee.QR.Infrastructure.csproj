@@ -22,7 +22,6 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
-    <PackageReference Include="Stripe.net" Version="44.8.0" />
   </ItemGroup>
 
   <ItemGroup>

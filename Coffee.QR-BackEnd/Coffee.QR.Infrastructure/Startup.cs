@@ -42,6 +42,7 @@ namespace Coffee.QR.Infrastructure
             services.AddAutoMapper(typeof(CardUserProfile).Assembly);
             services.AddAutoMapper(typeof(ReportProfile).Assembly);
             services.AddAutoMapper(typeof(ReceiptProfile).Assembly);
+            services.AddAutoMapper(typeof(CardSaleReportsProfile).Assembly);
 
             SetupCore(services);
             SetupInfrastructure(services);
@@ -73,6 +74,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<ICardUserService, CardUserService>();
             services.AddScoped<IReportService, ReportService>();
             services.AddScoped<IReceiptService, ReceiptService>();
+            services.AddScoped<ICardSaleReportService,CardSaleReportService>();
         }
 
         private static void SetupInfrastructure(IServiceCollection services)
@@ -98,6 +100,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped(typeof(ICrudRepository<CardUser>),typeof(CrudDatabaseRepository<CardUser, Context>));
             services.AddScoped(typeof(ICrudRepository<Report>), typeof(CrudDatabaseRepository<Report, Context>));
             services.AddScoped(typeof(ICrudRepository<Receipt>), typeof(CrudDatabaseRepository<Receipt, Context>));
+            services.AddScoped(typeof(ICrudRepository<CardSaleReport>), typeof(CrudDatabaseRepository<CardSaleReport, Context>));
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
@@ -120,6 +123,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<ICardUserRepository, CardUserRepository>();
             services.AddScoped<IReportRepository, ReportRepository>();
             services.AddScoped<IReceiptRepository, ReceiptRepository>();
+            services.AddScoped<ICardSaleRepository, CardSaleReportRepository>();
 
             services.AddDbContext<Context>(opt =>
                 opt.UseNpgsql(DbConnectionStringBuilder.Build("CoffeeQRSchema"),
