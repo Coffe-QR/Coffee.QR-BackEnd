@@ -12,17 +12,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using iTextSharp.text.pdf.draw;
 
 namespace Coffee.QR.Core.Services
 {
-    public class EventCardSaleData
-    {
-        public string EventName { get; set; }
-        public string CardName { get; set; }
-        public double CardPrice { get; set; }
-        public int PurchasedCount { get; set; }
-        public double TotalMoney { get; set; }
-    }
 
     public class CardSaleReportService : CrudService<CardSaleReportDto, CardSaleReport>, ICardSaleReportService
     {
@@ -89,10 +82,10 @@ namespace Coffee.QR.Core.Services
         }
 
 
-        private async Task<List<EventCardSaleData>> GetEventCardSaleData(long authorId)
+        private async Task<List<EventCardSaleDto>> GetEventCardSaleData(long authorId)
         {
             var events = _eventRepository.GetAllByUserId(authorId);
-            var result = new List<EventCardSaleData>();
+            var result = new List<EventCardSaleDto>();
 
             foreach (var eventItem in events)
             {
@@ -106,7 +99,7 @@ namespace Coffee.QR.Core.Services
                     var purchasedCount = purchases.Sum(p => p.Quantity);
                     var totalMoney = purchases.Sum(p => p.Amount);
 
-                    result.Add(new EventCardSaleData
+                    result.Add(new EventCardSaleDto
                     {
                         EventName = eventItem.Name,
                         CardName = card.Type,
@@ -119,66 +112,102 @@ namespace Coffee.QR.Core.Services
 
             return result;
         }
-
         private string CreateReportPdf(CardSaleReportDto reportDto)
         {
             string path = "..\\Coffee.QR-BackEnd\\Resources\\Pdfs\\CardSaleReport" + reportDto.UserId + "_" + reportDto.Id + ".pdf";
-            Document doc = new Document();
+            Document doc = new Document(PageSize.A4, 36, 36, 54, 54);
             PdfWriter.GetInstance(doc, new FileStream(path, FileMode.Create));
             doc.Open();
 
-            // Retrieve detailed card sale data for the author
-            var detailedData = GetEventCardSaleData(reportDto.UserId).Result;
+            // Set fonts
+            var titleFont = FontFactory.GetFont("Arial", 18, Font.BOLD, BaseColor.DARK_GRAY);
+            var subtitleFont = FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.GRAY);
+            var headerFont = FontFactory.GetFont("Arial", 12, Font.BOLD, BaseColor.WHITE);
+            var cellFont = FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK);
+            var totalFont = FontFactory.GetFont("Arial", 12, Font.BOLD, BaseColor.BLACK);
 
             // Add date and time to the top right
             PdfPTable dateTable = new PdfPTable(2);
             dateTable.WidthPercentage = 100;
             dateTable.SetWidths(new float[] { 8f, 2f });
-            dateTable.AddCell(new PdfPCell(new Phrase("")) { Border = Rectangle.NO_BORDER });
-            dateTable.AddCell(new PdfPCell(new Phrase(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))) { Border = Rectangle.NO_BORDER, HorizontalAlignment = Element.ALIGN_RIGHT });
+            dateTable.AddCell(new PdfPCell(new Phrase("Card Sales Report", titleFont)) { Border = Rectangle.NO_BORDER });
+            dateTable.AddCell(new PdfPCell(new Phrase(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), subtitleFont)) { Border = Rectangle.NO_BORDER, HorizontalAlignment = Element.ALIGN_RIGHT });
             doc.Add(dateTable);
 
-            doc.Add(new Paragraph("Card Sales Report"));
+            // Add a horizontal line
+            doc.Add(new Chunk(new LineSeparator()));
+
+            // Add half of new row bottom margin (adjust the height as needed)
             doc.Add(new Paragraph("\n"));
+
+            // Retrieve detailed card sale data for the author
+            var detailedData = GetEventCardSaleData(reportDto.UserId).Result;
 
             PdfPTable table = new PdfPTable(5); // 5 columns for Event Name, Card Name, Card Price, Purchased Count, Total Money
             table.WidthPercentage = 100;
+            table.SpacingBefore = 20f;
+            table.SpacingAfter = 30f;
             table.SetWidths(new float[] { 3f, 3f, 2f, 2f, 2f });
 
             // Add column headers
-            table.AddCell("Event Name");
-            table.AddCell("Card Name");
-            table.AddCell("Card Price");
-            table.AddCell("Purchased Count");
-            table.AddCell("Total Money");
+            PdfPCell cell;
+            cell = new PdfPCell(new Phrase("Event Name", headerFont)) { BackgroundColor = BaseColor.DARK_GRAY, HorizontalAlignment = Element.ALIGN_CENTER, Padding = 5 };
+            table.AddCell(cell);
+            cell = new PdfPCell(new Phrase("Card Name", headerFont)) { BackgroundColor = BaseColor.DARK_GRAY, HorizontalAlignment = Element.ALIGN_CENTER, Padding = 5 };
+            table.AddCell(cell);
+            cell = new PdfPCell(new Phrase("Card Price", headerFont)) { BackgroundColor = BaseColor.DARK_GRAY, HorizontalAlignment = Element.ALIGN_CENTER, Padding = 5 };
+            table.AddCell(cell);
+            cell = new PdfPCell(new Phrase("Quantity", headerFont)) { BackgroundColor = BaseColor.DARK_GRAY, HorizontalAlignment = Element.ALIGN_CENTER, Padding = 5 };
+            table.AddCell(cell);
+            cell = new PdfPCell(new Phrase("Total Money", headerFont)) { BackgroundColor = BaseColor.DARK_GRAY, HorizontalAlignment = Element.ALIGN_CENTER, Padding = 5 };
+            table.AddCell(cell);
 
             // Fill the table with data and calculate total money
             double totalMoneySum = 0;
+            string lastEventName = null;
+            bool alternateRow = false;
+
             foreach (var data in detailedData)
             {
-                table.AddCell(data.EventName);
-                table.AddCell(data.CardName);
-                table.AddCell(data.CardPrice.ToString("C"));
-                table.AddCell(data.PurchasedCount.ToString());
-                table.AddCell(data.TotalMoney.ToString("C"));
+                if (data.EventName != lastEventName)
+                {
+                    alternateRow = !alternateRow;
+                    lastEventName = data.EventName;
+                }
+
+                BaseColor rowColor = alternateRow ? new BaseColor(230, 230, 230) : BaseColor.WHITE;
+
+                cell = new PdfPCell(new Phrase(data.EventName, cellFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Padding = 5, BackgroundColor = rowColor };
+                table.AddCell(cell);
+                cell = new PdfPCell(new Phrase(data.CardName, cellFont)) { HorizontalAlignment = Element.ALIGN_LEFT, Padding = 5, BackgroundColor = rowColor };
+                table.AddCell(cell);
+                cell = new PdfPCell(new Phrase(data.CardPrice.ToString("$0.00"), cellFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Padding = 5, BackgroundColor = rowColor };
+                table.AddCell(cell);
+                cell = new PdfPCell(new Phrase(data.PurchasedCount.ToString(), cellFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Padding = 5, BackgroundColor = rowColor };
+                table.AddCell(cell);
+                cell = new PdfPCell(new Phrase(data.TotalMoney.ToString("$0.00"), cellFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Padding = 5, BackgroundColor = rowColor };
+                table.AddCell(cell);
+
                 totalMoneySum += data.TotalMoney;
             }
 
-            // Add total row
-            table.AddCell(new PdfPCell(new Phrase("Total")) { Colspan = 4, HorizontalAlignment = Element.ALIGN_RIGHT });
-            table.AddCell(totalMoneySum.ToString("C"));
+            // Add total row without border
+            cell = new PdfPCell(new Phrase("Total", totalFont)) { Colspan = 4, HorizontalAlignment = Element.ALIGN_RIGHT, BackgroundColor = BaseColor.LIGHT_GRAY, Padding = 5, Border = Rectangle.NO_BORDER };
+            table.AddCell(cell);
+            cell = new PdfPCell(new Phrase(totalMoneySum.ToString("$0.00"), totalFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, BackgroundColor = BaseColor.LIGHT_GRAY, Padding = 5, Border = Rectangle.NO_BORDER };
+            table.AddCell(cell);
 
             // Add the table to the document
             doc.Add(table);
+
+            // Add a horizontal line
+            doc.Add(new Chunk(new LineSeparator()));
 
             // Close the document
             doc.Close();
 
             return path;
         }
-
-
-
 
 
 
