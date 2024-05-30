@@ -126,6 +126,12 @@ namespace Coffee.QR.Infrastructure.Database
             .HasForeignKey(r => r.WaiterId)
             .IsRequired();
 
+            modelBuilder.Entity<CardSaleReport>()
+            .HasOne(cu => cu.User)
+            .WithMany()
+            .HasForeignKey(cu => cu.UserId)
+            .IsRequired();
+
             Configure(modelBuilder);
         }
 
