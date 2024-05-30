@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using iTextSharp.text.pdf.draw;
+using System.Diagnostics;
 
 namespace Coffee.QR.Core.Services
 {
@@ -114,7 +115,9 @@ namespace Coffee.QR.Core.Services
         }
         private string CreateReportPdf(CardSaleReportDto reportDto)
         {
-            string path = "..\\Coffee.QR-BackEnd\\Resources\\Pdfs\\CardSaleReport" + reportDto.UserId + "_" + reportDto.Id + ".pdf";
+            string vr = DateTime.Now.ToString("dd_MM_yy_HH_mm_ss");
+
+            string path = "..\\Coffee.QR-BackEnd\\Resources\\Pdfs\\CardSaleReport_" + reportDto.UserId + "_" + vr + ".pdf";
             Document doc = new Document(PageSize.A4, 36, 36, 54, 54);
             PdfWriter.GetInstance(doc, new FileStream(path, FileMode.Create));
             doc.Open();
@@ -206,7 +209,18 @@ namespace Coffee.QR.Core.Services
             // Close the document
             doc.Close();
 
-            return path;
+            try
+            {
+                Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Could not open the PDF file.");
+                Console.WriteLine(ex.Message);
+            }
+
+            return "/pdfs/CardSaleReport" + reportDto.UserId + '_' + vr + ".pdf";
+            //return path;
         }
 
 
