@@ -13,5 +13,7 @@ namespace Coffee.QR.API.Public
         Result<JobApplicationsCountReportDto> CreateReport(JobApplicationsCountReportDto jobApplicationsCountReportDto);
         Result<List<JobApplicationsCountReportDto>> GetAllReports();
         bool DeleteReport(long jobApplicationsReportId);
+
+        Result<List<ReportDto>> GetAllForLocal(long localId);
     }
 }

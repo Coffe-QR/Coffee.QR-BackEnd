@@ -12,5 +12,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         List<JobApplication> GetAll();
         JobApplication Delete(long jobApplicationId);
         List<JobApplication> GetJobApplicationsByLocal(long localId);
+        int GetNumberOfApplicationForRole(long localId, JobPosition jobPosition);
     }
 }

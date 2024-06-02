@@ -44,5 +44,10 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
         {
             return _dbContext.JobApplications.Where(ja => ja.LocalId == localId).ToList();
         }
+
+        public int GetNumberOfApplicationForRole(long localId, JobPosition jobPosition)
+        {
+            return _dbContext.JobApplications.Where(ja => ja.LocalId == localId && ja.Position == jobPosition).Count();
+        }
     }
 }
