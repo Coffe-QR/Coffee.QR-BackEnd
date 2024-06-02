@@ -38,5 +38,7 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             }
             return contractToDelete;
         }
+
+        
     }
 }

@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.IO;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Coffee.QR.Core.Services
 {
@@ -22,21 +23,28 @@ namespace Coffee.QR.Core.Services
         private readonly IItemRepository _itemRepository;
         private readonly IOrderRepository _orderRepository;
         private readonly IOrderItemRepository _orderItemRepository;
+        private readonly IContractRepository _contractRepository;
+        private readonly IContractItemRepository _contractItemRepository;
+        private readonly ISupplyRepository _supplyRepository;
 
-        public ReportService(ICrudRepository<Report> crudRepository, IMapper mapper, IReportRepository reportRepository, IItemRepository itemRepository, IOrderRepository orderRepository, IOrderItemRepository orderItemRepository)
+        public ReportService(ICrudRepository<Report> crudRepository, IMapper mapper, IReportRepository reportRepository, IItemRepository itemRepository, IOrderRepository orderRepository, IOrderItemRepository orderItemRepository, IContractRepository contractRepository, IContractItemRepository contractItemRepository, ISupplyRepository supplyRepository)
             : base(crudRepository, mapper)
         {
             _reportRepository = reportRepository;
             _itemRepository = itemRepository;
             _orderRepository = orderRepository;
             _orderItemRepository = orderItemRepository;
+            _contractRepository = contractRepository;
+            _contractItemRepository = contractItemRepository;
+            _supplyRepository = supplyRepository;   
         }
 
         public Result<ReportDto> CreateReport(ReportDto reportDto)
         {
             try
             {
-                var report = _reportRepository.Create(new Report(CreateReportPdf(reportDto), (ReportType)Enum.Parse(typeof(ReportType), reportDto.Type.ToString(), true), reportDto.Date, reportDto.LocalId));
+                var report = _reportRepository.Create(new Report(CreateReportPdfProfit(reportDto), (ReportType)Enum.Parse(typeof(ReportType), reportDto.Type.ToString(), true), reportDto.Date, reportDto.LocalId));
+                report.Kind = ReportKind.PROFIT;
 
                 ReportDto resultDto = new ReportDto
                 {
@@ -75,11 +83,11 @@ namespace Coffee.QR.Core.Services
             }
         }
 
-        public Result<List<ReportDto>> GetAllForLocal(long localId)
+        public Result<List<ReportDto>> GetAllForLocalProfit(long localId)
         {
             try
             {
-                var reports = _reportRepository.GetAll().FindAll(r => r.LocalId == localId);
+                var reports = _reportRepository.GetAll().FindAll(r => r.LocalId == localId && r.Kind == ReportKind.PROFIT);
                 var reportDtos = reports.Select(r => new ReportDto
                 {
                     Id = r.Id,
@@ -143,7 +151,7 @@ namespace Coffee.QR.Core.Services
             return items;
         }
 
-        private string CreateReportPdf(ReportDto reportDto)
+        private string CreateReportPdfProfit(ReportDto reportDto)
         {
             string path = "..\\Coffee.QR-BackEnd\\Resources\\Pdfs\\Test" + reportDto.Type + reportDto.LocalId + "_" + reportDto.Id + ".pdf";
             Document doc = new Document();
@@ -153,42 +161,124 @@ namespace Coffee.QR.Core.Services
 
 
             List<ItemDto> dtos = BestItems(reportDto, 2020);
-            // Dodaj naslov dokumenta
             doc.Add(new Paragraph("Items List"));
             doc.Add(new Paragraph("\n"));
 
-            // Kreiraj tabelu sa četiri kolone
             PdfPTable table = new PdfPTable(4);
             table.WidthPercentage = 100;
             table.SetWidths(new float[] { 3f, 5f, 2f, 2f });
 
-            // Dodaj zaglavlja kolona
             table.AddCell("Name");
             table.AddCell("Description");
             table.AddCell("Price");
             table.AddCell("Quantity");
 
-            // Popuni tabelu podacima iz liste
             foreach (var item in dtos)
             {
                 table.AddCell(item.Name);
                 table.AddCell(item.Description);
-                table.AddCell(item.Price.ToString("C")); // Formatiraj kao valuta
-                table.AddCell(item.Quantity.ToString()); //item.Quantity.ToString());
+                table.AddCell(item.Price.ToString("C")); 
+                table.AddCell(item.Quantity.ToString()); 
             }
 
-            // Dodaj tabelu u dokument
             doc.Add(table);
 
-            // Zatvori dokument
             doc.Close();
 
 
             doc.Close();
-            return path;
+            return "/Pdfs/Test" + reportDto.Type + reportDto.LocalId + "_" + reportDto.Id + ".pdf";
         }
 
+        public Result<List<ReportDto>> GetAllForLocalCost(long localId)
+        {
+            try
+            {
+                var reports = _reportRepository.GetAll().FindAll(r => r.LocalId == localId && r.Kind == ReportKind.COST);
+                var reportDtos = reports.Select(r => new ReportDto
+                {
+                    Id = r.Id,
+                    Path = r.Path,
+                    Date = r.Date,
+                    Type = (ReportTypeDto)Enum.Parse(typeof(ReportTypeDto), r.Type.ToString(), true),
+                    LocalId = r.LocalId,
+                }).ToList();
 
-        
+                return Result.Ok(reportDtos);
+
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<List<ReportDto>>("Failed to retrieve reports").WithError(e.Message);
+            }
+        }
+
+        public Result<ReportDto> CreateCostReport(ReportDto reportDto)
+        {
+            try
+            {
+                var report = _reportRepository.Create(new Report(CreateReportPdfCost(reportDto), (ReportType)Enum.Parse(typeof(ReportType), reportDto.Type.ToString(), true), reportDto.Date, reportDto.LocalId));
+                report.Kind = ReportKind.COST;
+
+                ReportDto resultDto = new ReportDto
+                {
+                    Id = report.Id,
+                    Path = report.Path,
+                    Date = report.Date,
+                    Type = (ReportTypeDto)Enum.Parse(typeof(ReportTypeDto), report.Type.ToString(), true),
+                    LocalId = report.LocalId,   
+                };
+                return Result.Ok(resultDto);
+            }
+            catch (ArgumentException e)
+            {
+                return Result.Fail<ReportDto>(FailureCode.InvalidArgument).WithError(e.Message);
+            }
+        }
+
+        private string CreateReportPdfCost(ReportDto reportDto)
+        {
+            string path = "..\\Coffee.QR-BackEnd\\Resources\\Pdfs\\Cost" + reportDto.Type + "_" + reportDto.LocalId + "_" + reportDto.Id + ".pdf";
+            Document doc = new Document();
+            PdfWriter.GetInstance(doc, new FileStream(path, FileMode.Create));
+            doc.Open();
+            doc.Add(new Paragraph(reportDto.Type.ToString() + " report!"));
+
+
+            doc.Add(new Paragraph("Contracts"));
+            doc.Add(new Paragraph("\n"));
+
+            PdfPTable table = new PdfPTable(4);
+            table.WidthPercentage = 100;
+            table.SetWidths(new float[] { 3f, 5f, 2f, 2f });
+
+            table.AddCell("Contract");
+            table.AddCell("Description");
+            table.AddCell("Frequency");
+            table.AddCell("Price");
+
+            double fullPrice = 0;
+
+            foreach (var item in _contractRepository.GetAll().FindAll(c => c.LocalId == reportDto.LocalId))
+            {
+                double price = _contractItemRepository.GetPriceForContract(item.Id);
+                table.AddCell(item.Id.ToString());
+                table.AddCell(item.Description);
+                table.AddCell(item.Frequency.ToString());
+                if (item.Frequency == Frequency.WEAKLY) price *= 4;
+                table.AddCell(price.ToString("C"));
+                fullPrice += price;
+            }
+
+            doc.Add(new Paragraph("\n"));
+            doc.Add(new Paragraph("Full price: " + fullPrice));
+            doc.Add(new Paragraph("\n"));
+
+            doc.Add(table);
+
+            doc.Close();
+            return "/Pdfs/Cost" + reportDto.Type + reportDto.LocalId + "_" + reportDto.Id + ".pdf";
+        }
+
     }
 }

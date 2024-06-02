@@ -8,15 +8,17 @@ using System.Threading.Tasks;
 namespace Coffee.QR.Core.Domain
 {
 
-    public enum ReportType { MONTHLY, YEARLY }
+    public enum ReportType { WEAKLY ,MONTHLY, YEARLY }
+    public enum ReportKind { COST, PROFIT }
 
     public class Report : Entity
     {
         public string Path { get; set; }
         public ReportType Type { get; set; } 
         public DateOnly Date { get; set; }
-
         public long LocalId { get; set; }
+        
+        public ReportKind Kind { get; set; }
 
         public Report(string path, ReportType type, DateOnly date, long localId)
         {

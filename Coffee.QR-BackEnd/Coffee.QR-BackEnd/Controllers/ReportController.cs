@@ -69,7 +69,7 @@ namespace Coffee.QR_BackEnd.Controllers
         [HttpGet("getAllForLocal/{localId}")]
         public IActionResult GetAllForLocal(long localId)
         {
-            var result = _reportService.GetAllReports();
+            var result = _reportService.GetAllForLocalProfit(localId);
 
             if (result.IsSuccess)
             {
@@ -81,5 +81,39 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpGet("getAllCoastForLocal/{localId}")]
+        public IActionResult GetAllForLocalCost(long localId)
+        {
+            var result = _reportService.GetAllForLocalCost(localId);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
+        [HttpPost("cost-report")]
+        public IActionResult CreateCostReport([FromBody] ReportDto reportDto)
+        {
+            if (reportDto == null)
+            {
+                return BadRequest("Event data is required");
+            }
+
+            var result = _reportService.CreateCostReport(reportDto);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
     }
 }

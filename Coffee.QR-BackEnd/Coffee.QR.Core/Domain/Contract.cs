@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Coffee.QR.Core.Domain
 {
-    public enum Frequency { MONTHLY, YEARLY }
+    public enum Frequency { MONTHLY, YEARLY, WEAKLY }
     public class Contract : Entity
     {
         public long LocalId { get; set; }   

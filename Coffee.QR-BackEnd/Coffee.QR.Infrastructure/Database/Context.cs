@@ -30,8 +30,8 @@ namespace Coffee.QR.Infrastructure.Database
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<CardUser> CardUsers { get; set; }
         public DbSet<Contract> Contracts { get; set; }
-
         public DbSet<Report> Reports { get; set; }
+        public DbSet<ContractItem> ContractItems{ get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options){}
 
@@ -112,6 +112,19 @@ namespace Coffee.QR.Infrastructure.Database
             .WithMany()
             .HasForeignKey(cu => cu.UserId)
             .IsRequired();
+
+            modelBuilder.Entity<ContractItem>()
+            .HasOne(ci => ci.Contract)
+            .WithMany()
+            .HasForeignKey(cu => cu.ContractId)
+            .IsRequired();
+
+            modelBuilder.Entity<ContractItem>()
+           .HasOne(ci => ci.Item)
+           .WithMany()
+           .HasForeignKey(cu => cu.ItemId)
+           .IsRequired();
+
 
             Configure(modelBuilder);
         }

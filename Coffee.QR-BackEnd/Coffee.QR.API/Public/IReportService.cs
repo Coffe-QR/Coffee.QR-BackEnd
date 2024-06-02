@@ -13,6 +13,8 @@ namespace Coffee.QR.API.Public
         Result<ReportDto> CreateReport(ReportDto eventDto);
         Result<List<ReportDto>> GetAllReports();
         bool DeleteReport(long eventId);
-        Result<List<ReportDto>> GetAllForLocal(long localId);
+        Result<List<ReportDto>> GetAllForLocalProfit(long localId);
+        Result<List<ReportDto>> GetAllForLocalCost(long localId);
+        Result<ReportDto> CreateCostReport(ReportDto reportDto);
     }
 }
