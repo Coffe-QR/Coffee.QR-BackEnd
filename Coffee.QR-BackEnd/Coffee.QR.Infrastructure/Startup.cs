@@ -43,6 +43,7 @@ namespace Coffee.QR.Infrastructure
             services.AddAutoMapper(typeof(ReportProfile).Assembly);
             services.AddAutoMapper(typeof(ReceiptProfile).Assembly);
             services.AddAutoMapper(typeof(CardSaleReportsProfile).Assembly);
+            services.AddAutoMapper(typeof(JobApplicationsCountReportProfile).Assembly);
 
             SetupCore(services);
             SetupInfrastructure(services);
@@ -75,6 +76,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<IReportService, ReportService>();
             services.AddScoped<IReceiptService, ReceiptService>();
             services.AddScoped<ICardSaleReportService,CardSaleReportService>();
+            services.AddScoped<IJobApplicationsCountReportService, JobApplicationsCountReportService>();
         }
 
         private static void SetupInfrastructure(IServiceCollection services)
@@ -101,6 +103,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped(typeof(ICrudRepository<Report>), typeof(CrudDatabaseRepository<Report, Context>));
             services.AddScoped(typeof(ICrudRepository<Receipt>), typeof(CrudDatabaseRepository<Receipt, Context>));
             services.AddScoped(typeof(ICrudRepository<CardSaleReport>), typeof(CrudDatabaseRepository<CardSaleReport, Context>));
+            services.AddScoped(typeof(ICrudRepository<JobApplicationsCountReport>), typeof(CrudDatabaseRepository<JobApplicationsCountReport, Context>));
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
@@ -124,6 +127,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<IReportRepository, ReportRepository>();
             services.AddScoped<IReceiptRepository, ReceiptRepository>();
             services.AddScoped<ICardSaleRepository, CardSaleReportRepository>();
+            services.AddScoped<IJobApplicationsCountReportRepository, JobApplicationsCountReportRepository>();
 
             services.AddDbContext<Context>(opt =>
                 opt.UseNpgsql(DbConnectionStringBuilder.Build("CoffeeQRSchema"),
