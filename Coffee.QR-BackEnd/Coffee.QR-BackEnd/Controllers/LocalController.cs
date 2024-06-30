@@ -76,5 +76,24 @@ namespace Coffee.QR_BackEnd.Controllers
             }
             return Ok(local);
         }
+
+
+        [HttpPut("UpdateLocal")]
+        public IActionResult UpdateLocal([FromBody] LocalDto localDto)
+        {
+            if(localDto == null)
+            {
+                return BadRequest("Invalid local data.");
+            }
+            var updated = _localService.UpdateLocal(localDto);
+            if(updated)
+            {
+                return Ok(new { message = "Local updated successfully." });
+            }
+            else
+            {
+                return NotFound(new { message = "Local not found." });
+            }
+        }
     }
 }

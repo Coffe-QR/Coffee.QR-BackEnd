@@ -26,7 +26,7 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var localt = _localRepository.Create(new Local(localDto.Name, localDto.City, localDto.DateOfStartingPartnership, localDto.IsActive));
+                var localt = _localRepository.Create(new Local(localDto.Name, localDto.City, localDto.DateOfStartingPartnership, localDto.IsActive,localDto.ChartKey));
 
                 LocalDto resultDto = new LocalDto
                 {
@@ -35,6 +35,7 @@ namespace Coffee.QR.Core.Services
                     City = localt.City,
                     DateOfStartingPartnership = localt.DateOfStartingPartnership,
                     IsActive = localt.IsActive,
+                    ChartKey = localt.ChartKey,
                 };
 
                 return Result.Ok(resultDto);
@@ -57,6 +58,7 @@ namespace Coffee.QR.Core.Services
                     City = l.City,
                     DateOfStartingPartnership = l.DateOfStartingPartnership,
                     IsActive = l.IsActive,
+                    ChartKey = l.ChartKey,
                 }).ToList();
 
                 return Result.Ok(localDtos);
@@ -86,8 +88,22 @@ namespace Coffee.QR.Core.Services
                 Name = local.Name,
                 City = local.City,
                 DateOfStartingPartnership = local.DateOfStartingPartnership,
-                IsActive = local.IsActive
+                IsActive = local.IsActive,
+                ChartKey = local.ChartKey,
             };
+        }
+
+        public bool UpdateLocal(LocalDto newLocal)
+        {
+            Local oldLocal = _localRepository.GetById(newLocal.Id);
+
+            oldLocal.Name = newLocal.Name;
+            oldLocal.City = newLocal.City;
+            oldLocal.DateOfStartingPartnership = newLocal.DateOfStartingPartnership;
+            oldLocal.IsActive = newLocal.IsActive;
+            oldLocal.ChartKey = newLocal.ChartKey;
+
+            return _localRepository.UpdateLocal(oldLocal);
         }
 
     }

@@ -50,5 +50,23 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
         {
             return _dbContext.Locals.Find(localId);
         }
+
+        public bool UpdateLocal(Local local)
+        {
+            var existingLocal = _dbContext.Locals.FirstOrDefault(l => l.Id == local.Id);
+            if(existingLocal != null)
+            {
+                existingLocal.Name = local.Name;
+                existingLocal.City = local.City;
+                existingLocal.DateOfStartingPartnership = local.DateOfStartingPartnership;
+                existingLocal.IsActive = local.IsActive;
+                existingLocal.ChartKey = local.ChartKey;
+                _dbContext.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
     }
 }

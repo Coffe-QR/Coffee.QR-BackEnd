@@ -14,5 +14,6 @@ namespace Coffee.QR.API.Public
         Result<List<LocalDto>> GetAllLocals();
         bool DeleteLocal(long localId);
         Task<LocalDto> GetByIdAsync(long id);
+        bool UpdateLocal(LocalDto newLocal);
     }
 }

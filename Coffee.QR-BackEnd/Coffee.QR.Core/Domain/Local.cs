@@ -13,13 +13,15 @@ namespace Coffee.QR.Core.Domain
         public string City { get; set; }
         public DateOnly DateOfStartingPartnership { get; set; }
         public Boolean IsActive { get; set; }
+        public string? ChartKey {  get; set; }
 
-        public Local(string name, string city, DateOnly dateOfStartingPartnership, bool isActive)
+        public Local(string name, string city, DateOnly dateOfStartingPartnership, bool isActive, string? chartKey)
         {
             Name = name;
             City = city;
             DateOfStartingPartnership = dateOfStartingPartnership;
             IsActive = isActive;
+            ChartKey = chartKey;
         }
     }
 }
