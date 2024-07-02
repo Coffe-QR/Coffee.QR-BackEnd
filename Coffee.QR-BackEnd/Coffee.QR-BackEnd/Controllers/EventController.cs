@@ -17,15 +17,35 @@ namespace Coffee.QR_BackEnd.Controllers
             _eventService = eventService;
         }
 
+        /*        [HttpPost]
+                public IActionResult Create([FromBody] EventDto eventDto)
+                {
+                    if (eventDto == null)
+                    {
+                        return BadRequest("Event data is required");
+                    }
+
+                    var result = _eventService.CreateEvent(eventDto);
+
+                    if (result.IsSuccess)
+                    {
+                        return Ok(result.Value);
+                    }
+                    else
+                    {
+                        return BadRequest(result.Errors);
+                    }
+                }*/
+
         [HttpPost]
-        public IActionResult Create([FromBody] EventDto eventDto)
+        public async Task<IActionResult> Create([FromBody] EventDto eventDto)
         {
             if (eventDto == null)
             {
                 return BadRequest("Event data is required");
             }
 
-            var result = _eventService.CreateEvent(eventDto);
+            var result = await _eventService.CreateEvent(eventDto); // Await the async method
 
             if (result.IsSuccess)
             {

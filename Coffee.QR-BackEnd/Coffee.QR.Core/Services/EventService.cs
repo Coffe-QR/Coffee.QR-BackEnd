@@ -5,25 +5,57 @@ using Coffee.QR.BuildingBlocks.Core.UseCases;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
 using Coffee.QR.Core.Domain;
 using FluentResults;
+using SeatsioDotNet;
+using SeatsioDotNet.Charts;
+using SeatsioDotNet.Events;
+using System.Text.RegularExpressions;
+
 
 namespace Coffee.QR.Core.Services
 {
-    public class EventService : CrudService<EventDto, Event>, IEventService
+    public class EventService : CrudService<EventDto, Domain.Event>, IEventService
     {
         private readonly IEventRepository _eventRepository;
-        
+        private readonly ILocalRepository _localRepository;
 
-        public EventService(ICrudRepository<Event> crudRepository, IMapper mapper, IEventRepository eventRepository)
+        private readonly string _seatsioSecretKey = "709f52bc-9892-4334-b511-99fe2a56646a";
+
+        public EventService(ICrudRepository<Domain.Event> crudRepository, IMapper mapper, IEventRepository eventRepository, ILocalRepository localRepository)
             : base(crudRepository, mapper)
         {
             _eventRepository = eventRepository;
+            _localRepository = localRepository;
         }
 
-        public Result<EventDto> CreateEvent(EventDto eventDto)
+        private string SanitizeEventKey(string key)
+        {
+            return Regex.Replace(key, "[^a-zA-Z0-9-]", "-");
+        }
+        public async Task<Result<EventDto>> CreateEvent(EventDto eventDto)
         {
             try
             {
-                var eventt = _eventRepository.Create(new Event(eventDto.Name, eventDto.DateTime,eventDto.Description,eventDto.Image,eventDto.UserId,eventDto.LocalId));
+                var eventt = _eventRepository.Create(new Domain.Event(eventDto.Name, eventDto.DateTime, eventDto.Description, eventDto.Image, eventDto.UserId, eventDto.LocalId));
+
+                var local = _localRepository.GetById(eventDto.LocalId);
+
+                string chartKey = "";
+
+                if (local != null && local.ChartKey != null) { 
+                    chartKey = local.ChartKey;
+                    string sanitizedKey = SanitizeEventKey(eventt.Name);
+
+                    var client = new SeatsioClient(Region.EU(), _seatsioSecretKey);
+                                
+                    var createEventParams = new CreateEventParams()
+                    {
+                        Key = sanitizedKey, 
+                        Name = eventt.Name,                    
+                    };
+
+                    var evnt = await client.Events.CreateAsync(chartKey, createEventParams);
+                }
+                               
 
                 EventDto resultDto = new EventDto
                 {
@@ -37,11 +69,17 @@ namespace Coffee.QR.Core.Services
 
                 return Result.Ok(resultDto);
             }
+            catch (SeatsioException e)
+            {
+                Console.WriteLine($"Seats.io API error: {e.Message}");
+                return Result.Fail<EventDto>(FailureCode.NotFound).WithError(e.Message);
+            }
             catch (ArgumentException e)
             {
                 return Result.Fail<EventDto>(FailureCode.InvalidArgument).WithError(e.Message);
             }
         }
+
         public Result<List<EventDto>> GetAllEvents()
         {
             try

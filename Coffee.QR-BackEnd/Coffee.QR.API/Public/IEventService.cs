@@ -11,7 +11,7 @@ namespace Coffee.QR.API.Public
 {
     public interface IEventService
     {
-        Result<EventDto> CreateEvent(EventDto eventDto);
+        Task <Result<EventDto>> CreateEvent(EventDto eventDto);
         Result<List<EventDto>> GetAllEvents();
         bool DeleteEvent(long eventId);
         Task<EventDto> GetByIdAsync(long id);
