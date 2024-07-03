@@ -13,5 +13,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         User? GetActiveByName(string username);
         bool Exists(string username);
         User Create(User user);
+        IEnumerable<User> GetAllManagers();
     }
 }

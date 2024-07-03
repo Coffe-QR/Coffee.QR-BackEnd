@@ -34,5 +34,11 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             _dbContext.SaveChanges();
             return user;
         }
+
+        public IEnumerable<User> GetAllManagers()
+        {
+            return _dbContext.Users.Where(user => user.Role == UserRole.Manager).ToList();
+        }
+
     }
 }

@@ -23,5 +23,19 @@ namespace Coffee.QR_BackEnd.Controllers
             var result = _userService.GetById(userId);
             return CreateResponse(result);
         }
+
+        [HttpGet("GetAllManagers")]
+        public ActionResult<List<UserDto>> GetAllManagers()
+        {
+            var result = _userService.GetAllManagers();
+            return CreateResponse(result);
+        }
+
+        [HttpGet("GetAllManagersNotInLocalUser")]
+        public ActionResult<List<UserDto>> GetAllManagersNotInLocalUser()
+        {
+            var result = _userService.GetAllManagersNotInLocalUser();
+            return CreateResponse(result);
+        }
     }
 }

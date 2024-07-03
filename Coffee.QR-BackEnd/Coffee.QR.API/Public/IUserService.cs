@@ -11,5 +11,7 @@ namespace Coffee.QR.API.Public
     public interface IUserService
     {
         Result<UserDto> GetById(long userId);
+        Result<List<UserDto>> GetAllManagers();
+        Result<List<UserDto>> GetAllManagersNotInLocalUser();
     }
 }
