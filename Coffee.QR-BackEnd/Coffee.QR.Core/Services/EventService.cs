@@ -50,7 +50,7 @@ namespace Coffee.QR.Core.Services
                     var createEventParams = new CreateEventParams()
                     {
                         Key = sanitizedKey, 
-                        Name = eventt.Name,                    
+                        Name = eventt.Name
                     };
 
                     var evnt = await client.Events.CreateAsync(chartKey, createEventParams);

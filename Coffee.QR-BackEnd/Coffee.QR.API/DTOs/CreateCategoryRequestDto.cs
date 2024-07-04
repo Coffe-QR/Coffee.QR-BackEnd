@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Coffee.QR.API.DTOs
 {
-    public class HoldSeatsRequestDto
+    public class CreateCategoryRequestDto
     {
-        public string EventName { get; set; }
-        public List<string> SeatsToHold { get; set; }
+        public string ChartKey { get; set; }
+        public string CategoryKeyName { get; set; }
     }
 }

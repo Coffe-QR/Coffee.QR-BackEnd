@@ -5,10 +5,13 @@ using Coffee.QR.Core.Services;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using SeatsioDotNet;
+using SeatsioDotNet.Charts;
+using System.Diagnostics;
 
 
 namespace Coffee.QR_BackEnd.Controllers
 {
+    
     [Route("api/seatsio")]
     [ApiController]
     public class SeatsIoController : BaseApiController
@@ -44,27 +47,27 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
-        [HttpPost("hold")]
-        public async Task<IActionResult> HoldSeats([FromBody] HoldSeatsRequestDto request)
+        [HttpPost("createCategory")]
+        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequestDto request)
         {
             try
             {
                 var client = new SeatsioClient(Region.EU(), _seatsioSecretKey);
 
-                // Assuming that we use a unique identifier per session to hold the seats
-                string holdToken = Guid.NewGuid().ToString();  // Create a unique hold token for each hold request
+                var categoryKeyName = request.CategoryKeyName;
 
-                // Example: Assuming EventName and SeatsToHold are passed in the request
-                var result = await client.Events.HoldAsync(request.EventName, request.SeatsToHold, holdToken);
+                if (string.IsNullOrEmpty(categoryKeyName))
+                {
+                    return BadRequest("Category key or name is missing.");
+                }
 
-                if (result != null && result.Objects != null && result.Objects.Count > 0)
-                {
-                    return Ok(new { holdToken = holdToken, heldSeats = result.Objects }); // Return hold token and held seats info
-                }
-                else
-                {
-                    return StatusCode(500, "Failed to hold seats");
-                }
+                var randomColor = GenerateRandomColor();
+
+                await client.Charts.AddCategoryAsync(request.ChartKey, new Category(categoryKeyName, categoryKeyName, randomColor, true));
+
+                await client.Charts.PublishDraftVersionAsync(request.ChartKey);             
+
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -72,7 +75,12 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
-
-
+        private string GenerateRandomColor()
+        {
+            Random random = new Random();
+            return String.Format("#{0:X6}", random.Next(0x1000000));
+        }
     }
+
+
 }
