@@ -6,6 +6,7 @@ using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using SeatsioDotNet;
 using SeatsioDotNet.Charts;
+using SeatsioDotNet.Events;
 using System.Diagnostics;
 
 
@@ -63,9 +64,9 @@ namespace Coffee.QR_BackEnd.Controllers
 
                 var randomColor = GenerateRandomColor();
 
-                await client.Charts.AddCategoryAsync(request.ChartKey, new Category(categoryKeyName, categoryKeyName, randomColor, true));
+                await client.Charts.AddCategoryAsync(request.ChartKey, new Category(categoryKeyName, categoryKeyName, randomColor, false));
 
-                await client.Charts.PublishDraftVersionAsync(request.ChartKey);             
+                await client.Charts.PublishDraftVersionAsync(request.ChartKey);
 
                 return Ok();
             }
