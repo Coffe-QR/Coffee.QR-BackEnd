@@ -9,18 +9,16 @@ namespace Coffee.QR.Core.Domain
 {
     public class Card : Entity
     {
-        public double Price { get; private set; }
         public string Type { get; private set; }
         public string? Note { get; private set; }
-        public Event @event { get; private set; }
-        public long EventId { get; private set; }
+        public Local local { get; private set; }
+        public long LocalId { get; private set; }
 
-        public Card(double price, string type, string note, long eventId)
+        public Card(string type, string note, long localId)
         {
-            Price = price;
             Type = type;
             Note = note;
-            EventId = eventId;
+            LocalId = localId;
         }
     }
 }

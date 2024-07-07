@@ -29,10 +29,10 @@ namespace Coffee.QR.Infrastructure.Database
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<CardUser> CardUsers { get; set; }
-
         public DbSet<Report> Reports { get; set; }
         public DbSet<Receipt> Receipts { get; set; }
         public DbSet<CardSaleReport> CardSaleReports { get; set; }
+        public DbSet<CardEvent> CardEvents { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options){}
 
@@ -73,9 +73,9 @@ namespace Coffee.QR.Infrastructure.Database
             .IsRequired();
 
             modelBuilder.Entity<Card>()
-            .HasOne(c => c.@event)
+            .HasOne(c => c.local)
             .WithMany()
-            .HasForeignKey(c => c.EventId)
+            .HasForeignKey(c => c.LocalId)
             .IsRequired();
             
             modelBuilder.Entity<Order>()
@@ -130,6 +130,18 @@ namespace Coffee.QR.Infrastructure.Database
             .HasOne(cu => cu.User)
             .WithMany()
             .HasForeignKey(cu => cu.UserId)
+            .IsRequired();
+
+            modelBuilder.Entity<CardEvent>()
+            .HasOne(ce => ce.Card)
+            .WithMany()
+            .HasForeignKey(ce => ce.CardId)
+            .IsRequired();
+
+            modelBuilder.Entity<CardEvent>()
+            .HasOne(ce => ce.@event)
+            .WithMany()
+            .HasForeignKey(ce => ce.EventId)
             .IsRequired();
 
             Configure(modelBuilder);

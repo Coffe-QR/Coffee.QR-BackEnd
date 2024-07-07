@@ -10,10 +10,9 @@ namespace Coffee.QR.API.DTOs
     public class CardDto
     {
         public long Id { get; set; }
-        public double Price { get; set; }
-        public string Type { get; set; }
+        public string Type { get; set; } // Name of card
         public string? Note { get; set; }
-        public long EventId { get; set; }
+        public long LocalId { get; set; }
     }
-   
+
 }

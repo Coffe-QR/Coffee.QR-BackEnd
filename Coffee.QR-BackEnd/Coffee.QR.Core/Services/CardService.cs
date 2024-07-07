@@ -25,14 +25,13 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var card = _cardRepository.Create(new Card(cardDto.Price, cardDto.Type, cardDto.Note, cardDto.EventId));
+                var card = _cardRepository.Create(new Card( cardDto.Type, cardDto.Note, cardDto.LocalId));
 
                 CardDto resultDto = new CardDto
                 {
-                    Price = cardDto.Price,
                     Type = cardDto.Type,
                     Note = cardDto.Note,
-                    EventId = cardDto.EventId
+                    LocalId = cardDto.LocalId
                 };
 
                 return Result.Ok(resultDto);
@@ -57,10 +56,9 @@ namespace Coffee.QR.Core.Services
                 var cardDtos = cards.Select(c => new CardDto
                 {
                     Id = c.Id,
-                    Price = c.Price,
                     Type = c.Type,
                     Note = c.Note,
-                    EventId = c.EventId
+                    LocalId = c.LocalId
                 }).ToList();
 
                 return Result.Ok(cardDtos);
@@ -79,10 +77,9 @@ namespace Coffee.QR.Core.Services
                 var cardDtos = cards.Select(c => new CardDto
                 {
                     Id = c.Id,
-                    Price = c.Price,
                     Type = c.Type,
                     Note = c.Note,
-                    EventId = c.EventId
+                    LocalId = c.LocalId
                 }).ToList();
 
                 return Result.Ok(cardDtos);
@@ -102,10 +99,9 @@ namespace Coffee.QR.Core.Services
             return new CardDto
             {
                 Id = card.Id,
-                Price = card.Price,
                 Type = card.Type,
                 Note = card.Note,
-                EventId = card.EventId
+                LocalId = card.LocalId
             };
         }
     }

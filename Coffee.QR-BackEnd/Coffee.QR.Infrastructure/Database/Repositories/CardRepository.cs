@@ -1,5 +1,6 @@
 ﻿using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,8 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
         
         public List<Card> GetAllByEventId(long eventId)
         {
-            return _dbContext.Cards.Where(c => c.EventId == eventId).ToList();
+            return new List<Card>();
+            //return _dbContext.Cards.Where(c => c.EventId == eventId).ToList();
         }
 
         public async Task<Card> GetByIdAsync(long id)

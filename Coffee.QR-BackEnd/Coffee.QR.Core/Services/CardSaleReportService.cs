@@ -104,7 +104,7 @@ namespace Coffee.QR.Core.Services
                     {
                         EventName = eventItem.Name,
                         CardName = card.Type,
-                        CardPrice = card.Price,
+                        //CardPrice = card.Price,
                         PurchasedCount = (int)purchasedCount,
                         TotalMoney = (double)totalMoney
                     });
