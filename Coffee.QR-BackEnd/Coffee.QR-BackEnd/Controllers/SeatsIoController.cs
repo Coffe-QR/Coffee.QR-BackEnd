@@ -8,6 +8,11 @@ using SeatsioDotNet;
 using SeatsioDotNet.Charts;
 using SeatsioDotNet.Events;
 using System.Diagnostics;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 
 namespace Coffee.QR_BackEnd.Controllers
@@ -19,6 +24,7 @@ namespace Coffee.QR_BackEnd.Controllers
     {
 
         private readonly string _seatsioSecretKey = "709f52bc-9892-4334-b511-99fe2a56646a";
+        private const string RegionNew = "eu";
         public SeatsIoController()
         {
         }
@@ -81,7 +87,56 @@ namespace Coffee.QR_BackEnd.Controllers
             Random random = new Random();
             return String.Format("#{0:X6}", random.Next(0x1000000));
         }
+
+        [HttpGet("getChartDetails/{chartKey}")]
+        public async Task<IActionResult> GetChartDetails(string chartKey)
+        {
+            try
+            {
+                var client = new SeatsioClient(Region.EU(), _seatsioSecretKey);
+                var report = await client.ChartReports.ByLabelAsync(chartKey); // This method needs to be supported by the SDK
+
+                if (report != null)
+                {
+                    return Ok(report);
+                }
+                else
+                {
+                    return NotFound("No details found for the chart.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred: " + ex.Message);
+            }
+        }
+
+
+
+        [HttpGet("getChartCategories/{chartKey}")]
+        public async Task<IActionResult> GetChartCategories(string chartKey)
+        {
+            try
+            {
+                var client = new SeatsioClient(Region.EU(), _seatsioSecretKey);
+                var report = await client.ChartReports.SummaryByCategoryLabelAsync(chartKey); 
+
+                if (report != null)
+                {
+                    report.Remove("NO_CATEGORY");
+
+                    return Ok(report);
+                }
+                else
+                {
+                    return NotFound("No details found for the chart.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred: " + ex.Message);
+            }
+        }
+
     }
-
-
 }
