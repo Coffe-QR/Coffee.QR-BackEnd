@@ -29,6 +29,7 @@ namespace Coffee.QR.Core.Services
 
                 CardDto resultDto = new CardDto
                 {
+                    Id = card.Id,
                     Type = cardDto.Type,
                     Note = cardDto.Note,
                     LocalId = cardDto.LocalId
