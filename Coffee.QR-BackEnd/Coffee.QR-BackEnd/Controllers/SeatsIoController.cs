@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 
+
 namespace Coffee.QR_BackEnd.Controllers
 {
     
@@ -81,6 +82,50 @@ namespace Coffee.QR_BackEnd.Controllers
                 return StatusCode(500, "An error occurred: " + ex.Message);
             }
         }
+
+        [HttpPost("updateCategory")]
+        public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryRequestDto request)
+        {
+            try
+            {
+                var client = new SeatsioClient(Region.EU(), _seatsioSecretKey);
+                var eventKey = request.EventKey;
+                var objectIds = request.ObjectIds;
+                var newCategory = request.NewCategory;
+
+                var eventDetail = await client.Events.RetrieveAsync(eventKey);
+                var currentObjectCategories = new Dictionary<string, string>();
+
+                foreach (var objectId in eventDetail.ObjectCategories.Keys)
+                {
+                    var category = eventDetail.ObjectCategories[objectId];
+                    currentObjectCategories[objectId] = category.ToString();
+                }
+
+                
+                foreach (var objectId in objectIds)
+                {
+                    currentObjectCategories[objectId] = newCategory;
+                }
+
+                var updateParams = new UpdateEventParams
+                {
+                    ObjectCategories = currentObjectCategories.ToDictionary(
+                        kvp => kvp.Key,
+                        kvp => (object)kvp.Value
+                    )
+                };
+
+                await client.Events.UpdateAsync(eventKey, updateParams);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred: " + ex.Message);
+            }
+        }
+
 
         private string GenerateRandomColor()
         {
