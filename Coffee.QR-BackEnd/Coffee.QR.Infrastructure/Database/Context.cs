@@ -144,6 +144,18 @@ namespace Coffee.QR.Infrastructure.Database
             .HasForeignKey(ce => ce.EventId)
             .IsRequired();
 
+            modelBuilder.Entity<LocalUser>()
+            .HasOne(l => l.local)
+            .WithMany()
+            .HasForeignKey(l => l.LocalId)
+            .IsRequired();
+
+            modelBuilder.Entity<LocalUser>()
+            .HasOne(u => u.user)
+            .WithMany()
+            .HasForeignKey(u => u.UserId)
+            .IsRequired();
+
             Configure(modelBuilder);
         }
 

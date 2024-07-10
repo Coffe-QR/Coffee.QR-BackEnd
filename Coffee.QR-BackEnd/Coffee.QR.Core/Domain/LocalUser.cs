@@ -9,7 +9,9 @@ namespace Coffee.QR.Core.Domain
 {
     public class LocalUser : Entity
     {
+        public Local local { get; private set; }
         public long LocalId {get; set;}
+        public User user { get; set;}
         public long UserId { get; set;}
 
         public LocalUser(long localId, long userId)
