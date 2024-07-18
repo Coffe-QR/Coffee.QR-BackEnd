@@ -46,11 +46,30 @@ namespace Coffee.QR.Core.Services
                     string sanitizedKey = SanitizeEventKey(eventt.Name);
 
                     var client = new SeatsioClient(Region.EU(), _seatsioSecretKey);
-                                
+                    
+                    var objects = await client.ChartReports.ByLabelAsync(chartKey); 
+
+                    var categories = await client.ChartReports.SummaryByCategoryLabelAsync(chartKey);
+
+                    var objectCategories = new Dictionary<string, Object>();
+
+                    foreach (var obj in objects)
+                    {
+                        string objectLabel = obj.Key;
+                        string categoryLabel = obj.Value.First().CategoryLabel.ToString();
+
+                        if (categories.ContainsKey(categoryLabel))
+                        {
+                            objectCategories[objectLabel] = categoryLabel;
+                        }
+                    }
+
+
                     var createEventParams = new CreateEventParams()
                     {
                         Key = sanitizedKey, 
-                        Name = eventt.Name
+                        Name = eventt.Name,
+                        ObjectCategories = objectCategories,
                     };
 
                     var evnt = await client.Events.CreateAsync(chartKey, createEventParams);

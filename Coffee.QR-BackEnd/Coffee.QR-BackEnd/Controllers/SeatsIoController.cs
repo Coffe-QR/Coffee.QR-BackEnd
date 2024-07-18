@@ -183,5 +183,28 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpGet("getEvent/{eventName}")]
+        public async Task<IActionResult> GetEvent(string eventName)
+        {
+            try
+            {
+                var client = new SeatsioClient(Region.EU(), _seatsioSecretKey);
+                var report = await client.Events.RetrieveAsync(eventName);
+
+                if (report != null)
+                {
+                    return Ok(report);
+                }
+                else
+                {
+                    return NotFound("No details found for the chart.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred: " + ex.Message);
+            }
+        }
+
     }
 }
