@@ -78,7 +78,7 @@ namespace Coffee.QR.Core.Services
 
                 EventDto resultDto = new EventDto
                 {
-                    Id = eventDto.Id,
+                    Id = eventt.Id,
                     Name = eventt.Name,
                     DateTime = eventt.DateTime,
                     Description = eventt.Description,
