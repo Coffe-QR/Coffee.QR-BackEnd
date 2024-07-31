@@ -16,5 +16,6 @@ namespace Coffee.QR.API.Public
         bool DeleteCard(long cardId);
         Result<List<CardDto>> GetAllByEventId(long userId);
         Task<CardDto> GetByIdAsync(long id);
+        Task<Result> UpdateCardDetails(long cardId, string newType, string newNote, double newPrice);
     }
 }

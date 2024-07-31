@@ -13,5 +13,7 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         CardEvent Delete(long cardEventId);
         List<CardEvent> GetAllByEventId(long eventId);
         Task<CardEvent> GetByIdAsync(long id);
+        void UpdateCardEvent(CardEvent cardEvent);
+        Task<CardEvent> GetCardEventByCardIdAsync(long cardId);
     }
 }

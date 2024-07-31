@@ -53,5 +53,11 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
         {
             return await _dbContext.Cards.FindAsync(id);
         }
+
+        public void UpdateCard(Card card)
+        {
+            _dbContext.Update(card);
+            _dbContext.SaveChanges();
+        }
     }
 }

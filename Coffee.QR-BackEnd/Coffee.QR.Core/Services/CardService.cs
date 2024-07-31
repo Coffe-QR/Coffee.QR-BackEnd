@@ -5,6 +5,7 @@ using Coffee.QR.BuildingBlocks.Core.UseCases;
 using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
 using FluentResults;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,11 @@ namespace Coffee.QR.Core.Services
     public class CardService : CrudService<CardDto, Card>, ICardService
     {
         private readonly ICardRepository _cardRepository;
-        public CardService(ICrudRepository<Card> crudRepository, IMapper mapper, ICardRepository cardRepository) : base(crudRepository, mapper)
+        private readonly ICardEventRepository _cardEventRepository;
+        public CardService(ICrudRepository<Card> crudRepository, IMapper mapper, ICardRepository cardRepository, ICardEventRepository cardEventRepository) : base(crudRepository, mapper)
         {
             _cardRepository = cardRepository;
+            _cardEventRepository = cardEventRepository;
         }
 
         public Result<CardDto> CreateCard(CardDto cardDto)
@@ -105,5 +108,33 @@ namespace Coffee.QR.Core.Services
                 LocalId = card.LocalId
             };
         }
+
+        public async Task<Result> UpdateCardDetails(long cardId, string newType, string newNote, double newPrice)
+        {
+            try
+            {
+                var card = await _cardRepository.GetByIdAsync(cardId);
+                if (card != null)
+                {
+                    card.UpdateType(newType);
+                    card.UpdateNote(newNote);
+                    _cardRepository.UpdateCard(card);
+                }
+
+                var cardEvent = await _cardEventRepository.GetCardEventByCardIdAsync(cardId);
+                if (cardEvent != null)
+                {
+                    cardEvent.UpdatePrice(newPrice);
+                    _cardEventRepository.UpdateCardEvent(cardEvent);
+                }
+
+                return Result.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(new Error(ex.Message));
+            }
+        }
+
     }
 }

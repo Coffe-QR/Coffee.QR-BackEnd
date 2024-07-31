@@ -14,6 +14,8 @@ namespace Coffee.QR.Core.Domain
         public Local local { get; private set; }
         public long LocalId { get; private set; }
 
+        public void UpdateType(string newType) => Type = newType;
+        public void UpdateNote(string newNote) => Note = newNote;
         public Card(string type, string note, long localId)
         {
             Type = type;

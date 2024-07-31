@@ -15,6 +15,7 @@ namespace Coffee.QR.Core.Domain
         public Event @event { get; private set; }
         public long EventId { get; private set; }
 
+        public void UpdatePrice(double newPrice) => Price = newPrice;
         public CardEvent(long cardId, double price, long eventId)
         {
             CardId = cardId;

@@ -1,5 +1,6 @@
 ﻿using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,16 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
         public async Task<CardEvent> GetByIdAsync(long id)
         {
             return await _dbContext.CardEvents.FindAsync(id);
+        }
+
+        public async Task<CardEvent> GetCardEventByCardIdAsync(long cardId)
+        {
+            return await _dbContext.Set<CardEvent>().Include(ce => ce.Card).FirstOrDefaultAsync(ce => ce.CardId == cardId);
+        }
+        public void UpdateCardEvent(CardEvent cardEvent)
+        {
+            _dbContext.Update(cardEvent);
+            _dbContext.SaveChanges();
         }
 
     }

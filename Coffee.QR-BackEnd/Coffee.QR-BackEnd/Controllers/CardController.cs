@@ -73,6 +73,13 @@ namespace Coffee.QR.API.Controllers
             }
         }
 
+        [HttpPut("{cardId}")]
+        public async Task<IActionResult> UpdateCard(long cardId, [FromBody] CardUpdateDto updateDto)
+        {
+            await _cardService.UpdateCardDetails(cardId, updateDto.Type, updateDto.Note, updateDto.Price);
+            return Ok();
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(long id)
         {
@@ -86,5 +93,7 @@ namespace Coffee.QR.API.Controllers
                 return NotFound();
             }
         }
+
+
     }
 }
