@@ -1,5 +1,6 @@
 ﻿using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,13 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
                 _dbContext.SaveChanges();
             }
             return tableToDelete;
+        }
+
+        public async Task DeleteAllByLocalIdAsync(long localId)
+        {
+            var tables = _dbContext.Tables.Where(t => t.LocalId == localId);
+            _dbContext.Tables.RemoveRange(tables);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

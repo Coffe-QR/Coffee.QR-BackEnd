@@ -81,5 +81,12 @@ namespace Coffee.QR_BackEnd.Controllers
                 return NotFound(new { message = "Table not found." });
             }
         }
+
+        [HttpDelete("DeleteByLocalId/{localId}")]
+        public async Task<IActionResult> DeleteByLocalId(long localId)
+        {
+            await _tableService.DeleteAllTablesByLocalIdAsync(localId);
+            return Ok();
+        }
     }
 }

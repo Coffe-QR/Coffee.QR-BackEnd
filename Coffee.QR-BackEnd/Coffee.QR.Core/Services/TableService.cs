@@ -101,5 +101,10 @@ namespace Coffee.QR.Core.Services
             var tableToDelete = _tableRepository.Delete(tableId);
             return tableToDelete != null;
         }
+
+        public async Task DeleteAllTablesByLocalIdAsync(long localId)
+        {
+            await _tableRepository.DeleteAllByLocalIdAsync(localId);
+        }
     }
 }
