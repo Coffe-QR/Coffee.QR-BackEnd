@@ -13,6 +13,7 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         Event Delete(long eventId);
         List<Event> GetAllByUserId(long userId);
         Task<Event> GetByIdAsync(long id);
-
+        Task<IEnumerable<DateTime>> GetEventDatesByLocalId(long localId);
+        Task<IEnumerable<Event>> GetEventsByLocalId(long localId);
     }
 }

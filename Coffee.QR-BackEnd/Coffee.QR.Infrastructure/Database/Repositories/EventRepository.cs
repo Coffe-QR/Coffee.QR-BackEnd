@@ -49,5 +49,23 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
         {
             return await _dbContext.Events.FindAsync(id);
         }
+
+        public async Task<IEnumerable<DateTime>> GetEventDatesByLocalId(long localId)
+        {
+            return await _dbContext.Events
+                .Where(e => e.LocalId == localId)
+                .Select(e => e.DateTime.Date) // Ensuring we only get the Date part
+                .Distinct()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Event>> GetEventsByLocalId(long localId)
+        {
+            return await _dbContext.Events
+                .Where(e => e.LocalId == localId)
+                .ToListAsync();
+        }
+
+
     }
 }

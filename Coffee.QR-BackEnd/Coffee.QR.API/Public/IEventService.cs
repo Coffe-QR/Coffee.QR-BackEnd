@@ -17,5 +17,7 @@ namespace Coffee.QR.API.Public
         Task<EventDto> GetByIdAsync(long id);
         Task<Result<EventDto>> UpdateEventAsync(EventDto eventDto);
         Result<List<EventDto>> GetAllByUserId(long userId);
+        Task<IEnumerable<DateTime>> GetEventDatesByLocalId(long localId);
+        Task<IEnumerable<EventDto>> GetEventsByLocalId(long localId);
     }
 }

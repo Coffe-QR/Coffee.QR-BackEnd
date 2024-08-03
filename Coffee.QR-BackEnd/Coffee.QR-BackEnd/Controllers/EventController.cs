@@ -17,26 +17,6 @@ namespace Coffee.QR_BackEnd.Controllers
             _eventService = eventService;
         }
 
-        /*        [HttpPost]
-                public IActionResult Create([FromBody] EventDto eventDto)
-                {
-                    if (eventDto == null)
-                    {
-                        return BadRequest("Event data is required");
-                    }
-
-                    var result = _eventService.CreateEvent(eventDto);
-
-                    if (result.IsSuccess)
-                    {
-                        return Ok(result.Value);
-                    }
-                    else
-                    {
-                        return BadRequest(result.Errors);
-                    }
-                }*/
-
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] EventDto eventDto)
         {
@@ -125,6 +105,35 @@ namespace Coffee.QR_BackEnd.Controllers
                 return Ok(result.Value);
             return BadRequest(result.Errors);
         }
+
+        [HttpGet("dates/{localId}")]
+        public async Task<IActionResult> GetEventDatesByLocalId(long localId)
+        {
+            try
+            {
+                var dates = await _eventService.GetEventDatesByLocalId(localId);
+                return Ok(dates);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+        [HttpGet("local/{localId}/events")]
+        public async Task<IActionResult> GetEventsByLocalId(long localId)
+        {
+            try
+            {
+                var events = await _eventService.GetEventsByLocalId(localId);
+                return Ok(events);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
 
     }
 }

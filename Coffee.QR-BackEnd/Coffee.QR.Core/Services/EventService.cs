@@ -179,5 +179,24 @@ namespace Coffee.QR.Core.Services
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<DateTime>> GetEventDatesByLocalId(long localId)
+        {
+            return _eventRepository.GetEventDatesByLocalId(localId);
+        }
+
+        public async Task<IEnumerable<EventDto>> GetEventsByLocalId(long localId)
+        {
+            var events = await _eventRepository.GetEventsByLocalId(localId);
+            return events.Select(e => new EventDto
+            {
+                Id = e.Id,
+                Name = e.Name,
+                DateTime = e.DateTime,
+                Description = e.Description,
+                Image = e.Image,
+                UserId = e.UserId,
+                LocalId = e.LocalId
+            });
+        }
     }
 }
