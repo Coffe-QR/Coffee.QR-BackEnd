@@ -1,9 +1,30 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Coffee.QR.API.Public;
+using Microsoft.AspNetCore.Mvc;
+
+
+public class EmailRequest
+{
+    public string Destination { get; set; }
+    public string Subject { get; set; }
+    public string Body { get; set; }
+}
+
+public class EmailWithAttachmentRequest : EmailRequest
+{
+    public IFormFile Attachment { get; set; }
+}
 
 [ApiController]
 [Route("api/upload")]
 public class UploadController : ControllerBase
 {
+    private readonly IEmailSender _emailSender;
+
+    public UploadController(IEmailSender emailSender)
+    {
+        _emailSender = emailSender;
+    }
+
     /*[HttpPost("upload")]
     public async Task<IActionResult> UploadImage([FromForm] IFormFile file)
     {
@@ -43,4 +64,27 @@ public class UploadController : ControllerBase
 
         return Ok(new { path = "/images/" + file.FileName });
     }
+
+    [HttpPost("send-email")]
+    public IActionResult SendBasicEmail([FromBody] EmailRequest emailRequest)
+    {
+        var result = _emailSender.SendEmail(emailRequest.Destination, emailRequest.Subject, emailRequest.Body);
+        return Ok("Email sent successfully.");
+    }
+
+
+    [HttpPost("send-email-with-attachment")]
+    public IActionResult SendEmailWithAttachment([FromForm] EmailWithAttachmentRequest request)
+    {
+        var result =  _emailSender.SendEmailWithAttachment(request.Destination, request.Subject, request.Body, request.Attachment.FileName);
+        if (result.IsSuccess)
+        {
+            return Ok("Email with attachment sent successfully.");
+        }
+        else
+        {
+            return BadRequest("Failed to send email with attachment.");
+        }
+    }
+
 }

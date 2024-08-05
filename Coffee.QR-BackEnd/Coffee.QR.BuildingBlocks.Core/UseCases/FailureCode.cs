@@ -18,4 +18,7 @@ public static class FailureCode
         .WithMetadata("code", 409);
     public static readonly IError Internal = new Error("Internal server error.")
         .WithMetadata("code", 500);
+    public static readonly IError EmailError = new Error("Error sending email.")
+        .WithMetadata("code", 500);  
+
 }

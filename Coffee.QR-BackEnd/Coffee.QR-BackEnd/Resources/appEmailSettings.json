@@ -1,0 +1,7 @@
+{
+  "SmtpServer": "smtp.gmail.com",
+  "Port": 587,
+  "SenderEmail": "coffeeqrapp@gmail.com",
+  "SenderPassword": "xdvg akbi gybc memr",
+  "BaseFilePath": "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/"
+}
