@@ -6,8 +6,12 @@ using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
 using Coffee.QR.Core.Interfaces;
 using FluentResults;
+using iTextSharp.text.pdf.draw;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,10 +21,12 @@ namespace Coffee.QR.Core.Services
     public class CardUserService : CrudService<CardDto,Card>, ICardUserService 
     {
         private readonly ICardUserRepository _cardUserRepository;
+        private readonly IEmailSender _emailSender;
 
-        public CardUserService(ICrudRepository<Card> crudRepository, IMapper mapper, ICardUserRepository carduserRepository) : base(crudRepository, mapper)
+        public CardUserService(ICrudRepository<Card> crudRepository, IMapper mapper, ICardUserRepository carduserRepository, IEmailSender emailSender) : base(crudRepository, mapper)
         {
             _cardUserRepository = carduserRepository;
+            _emailSender = emailSender;
         }
 
         public Result<CardUserDto> CreateCardUser(CardUserDto cardUserDto)
@@ -40,6 +46,12 @@ namespace Coffee.QR.Core.Services
                     PayPalPaymentIntentId = cardUserDto.PayPalPaymentIntentId,
                     
                 };
+                //OVDE STAVI IF cardUserDto.PaymentStatus=="COMPLETED" -> POSALJI MEJL I KARTE
+                if(cardUserDto.PaymentStatus == "COMPLETED")
+                {
+                    
+                    _emailSender.SendEmail(cardUserDto.receiverEmail, "Coffee.QR - Bought Ticket", "You successfully bought your tickets on Coffee.QR");
+                }
 
                 return Result.Ok(resultDto);
             }
@@ -48,6 +60,43 @@ namespace Coffee.QR.Core.Services
                 return Result.Fail<CardUserDto>("Invalid argument: " + e.Message);
             }
         }
+
+        private string CreateCardPdf(CardSaleReportDto reportDto)
+        {
+            string vr = DateTime.Now.ToString("dd_MM_yy_HH_mm_ss");
+
+            string path = "..\\Coffee.QR-BackEnd\\Resources\\Tickets\\Ticket_" + reportDto.UserId + "_" + vr + ".pdf";
+            Document doc = new Document(PageSize.A4, 36, 36, 54, 54);
+            PdfWriter.GetInstance(doc, new FileStream(path, FileMode.Create));
+            doc.Open();
+
+            // Set fonts
+            var titleFont = FontFactory.GetFont("Arial", 18, Font.BOLD, BaseColor.DARK_GRAY);
+            var subtitleFont = FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.GRAY);
+            var headerFont = FontFactory.GetFont("Arial", 12, Font.BOLD, BaseColor.WHITE);
+            var cellFont = FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK);
+            var totalFont = FontFactory.GetFont("Arial", 12, Font.BOLD, BaseColor.BLACK);
+
+
+            // Close the document
+            doc.Close();
+
+            try
+            {
+                Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Could not open the PDF file.");
+                Console.WriteLine(ex.Message);
+            }
+
+            return "/pdfs/CardSaleReport" + reportDto.UserId + '_' + vr + ".pdf";
+            //return path;
+        }
+
+
+
 
         public async Task<bool> DeleteCardUserAsync(long cardUserId)
         {
