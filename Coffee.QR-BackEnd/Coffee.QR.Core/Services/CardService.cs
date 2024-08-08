@@ -136,5 +136,29 @@ namespace Coffee.QR.Core.Services
             }
         }
 
+        public IEnumerable<CardDto> GetByType(string type)
+        {
+            var cards = _cardRepository.GetByType(type);
+            return cards.Select(c => new CardDto
+            {
+                Id = c.Id,
+                Type = c.Type,
+                Note = c.Note,
+                LocalId = c.LocalId
+            }).ToList();
+        }
+
+        public IEnumerable<CardDto> GetByTypeAndEventId(string type, long eventId)
+        {
+            var cards = _cardRepository.GetByTypeAndEventId(type, eventId);
+            return cards.Select(c => new CardDto
+            {
+                Id = c.Id,
+                Type = c.Type,
+                Note = c.Note,
+                LocalId = c.LocalId
+            }).ToList();
+        }
+
     }
 }

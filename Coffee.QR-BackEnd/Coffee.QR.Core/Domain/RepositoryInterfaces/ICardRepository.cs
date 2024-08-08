@@ -14,5 +14,7 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         List<Card> GetAllByEventId(long userId);
         Task<Card> GetByIdAsync(long id);
         void UpdateCard(Card card);
+        IEnumerable<Card> GetByType(string type);
+        IEnumerable<Card> GetByTypeAndEventId(string type, long eventId);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Coffee.QR.API.DTOs;
 using Coffee.QR.API.Public;
+using Coffee.QR.Core.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -92,6 +93,20 @@ namespace Coffee.QR.API.Controllers
             {
                 return NotFound();
             }
+        }
+
+        [HttpGet("type/{type}")]
+        public ActionResult<IEnumerable<CardDto>> GetByType(string type)
+        {
+            var cards = _cardService.GetByType(type);
+            return Ok(cards);
+        }
+
+        [HttpGet("type/{type}/event/{eventId}")]
+        public ActionResult<IEnumerable<CardDto>> GetByTypeAndEventId(string type, long eventId)
+        {
+            var cards = _cardService.GetByTypeAndEventId(type, eventId);
+            return Ok(cards);
         }
 
 

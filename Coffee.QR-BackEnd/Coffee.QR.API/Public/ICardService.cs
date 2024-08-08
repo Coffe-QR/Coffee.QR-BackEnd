@@ -17,5 +17,7 @@ namespace Coffee.QR.API.Public
         Result<List<CardDto>> GetAllByEventId(long userId);
         Task<CardDto> GetByIdAsync(long id);
         Task<Result> UpdateCardDetails(long cardId, string newType, string newNote, double newPrice);
+        IEnumerable<CardDto> GetByType(string type);
+        IEnumerable<CardDto> GetByTypeAndEventId(string type, long eventId);
     }
 }

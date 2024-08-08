@@ -59,5 +59,18 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             _dbContext.Update(card);
             _dbContext.SaveChanges();
         }
+
+        public IEnumerable<Card> GetByType(string type)
+        {
+            return _dbContext.Cards.Where(c => c.Type == type).ToList();
+        }
+
+        public IEnumerable<Card> GetByTypeAndEventId(string type, long eventId)
+        {
+            return _dbContext.Cards
+                           .Where(c => c.Type == type && _dbContext.CardEvents.Any(ce => ce.CardId == c.Id && ce.EventId == eventId))
+                           .ToList();
+        }
+
     }
 }
