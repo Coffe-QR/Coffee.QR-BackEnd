@@ -106,5 +106,21 @@ namespace Coffee.QR.Core.Services
             };
         }
 
+        public async Task<CardEventDto> GetCardEventByCardIdAsync(long cardId)
+        {
+            var cardEvent = await _cardEventRepository.GetCardEventByCardIdAsync(cardId);
+            if (cardEvent == null)
+            {
+                return null;
+            }
+            return new CardEventDto
+            {
+                Id = cardEvent.Id,
+                CardId = cardEvent.CardId,
+                Price = cardEvent.Price,
+                EventId = cardEvent.EventId,
+            };
+        }
+
     }
 }

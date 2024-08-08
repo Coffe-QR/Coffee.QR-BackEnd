@@ -15,5 +15,6 @@ namespace Coffee.QR.API.Public
         Result<List<CardEventDto>> GetAllByEventId(long eventId);
         Result<List<CardEventDto>> GetAllCardEvents();
         Task<CardEventDto> GetByIdAsync(long id);
+        Task<CardEventDto> GetCardEventByCardIdAsync(long cardId);
     }
 }

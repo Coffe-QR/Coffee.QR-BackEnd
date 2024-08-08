@@ -103,5 +103,52 @@ namespace Coffee.QR.Core.Services
             }
         }
 
+        public Result SendEmailWithAttachments(string emailDestination, string emailSubject, string emailBody, List<string> attachmentNames)
+        {
+            string filePath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/appEmailSettings.json";
+            string jsonString = File.ReadAllText(filePath);
+            EmailCredentialsDto credentials = JsonSerializer.Deserialize<EmailCredentialsDto>(jsonString);
+
+            SmtpClient smtpClient = new SmtpClient(credentials.SmtpServer)
+            {
+                Port = credentials.Port,
+                Credentials = new NetworkCredential(credentials.SenderEmail, credentials.SenderPassword),
+                EnableSsl = true,
+            };
+
+            MailMessage MailMessage = new MailMessage
+            {
+                From = new MailAddress(credentials.SenderEmail),
+                To = { emailDestination },
+                Subject = emailSubject,
+                Body = emailBody,
+                IsBodyHtml = true,
+            };
+
+            try
+            {
+                foreach (var attachmentName in attachmentNames)
+                {
+                    if (!string.IsNullOrEmpty(attachmentName) && File.Exists(attachmentName))
+                    {
+                        Attachment attachment = new Attachment(attachmentName);
+                        MailMessage.Attachments.Add(attachment);
+                    }
+                }
+
+                smtpClient.Send(MailMessage);
+                return null;
+            }
+            catch (Exception e)
+            {
+                return Result.Fail(FailureCode.EmailError);
+            }
+            finally
+            {
+                MailMessage.Dispose();
+                smtpClient.Dispose();
+            }
+        }
+
     }
 }

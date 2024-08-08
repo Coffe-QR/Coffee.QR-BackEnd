@@ -87,5 +87,16 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpGet("card/{cardId}")]
+        public async Task<ActionResult<CardEventDto>> GetCardEventByCardIdAsync(long cardId)
+        {
+            var cardEvent = await _cardEventService.GetCardEventByCardIdAsync(cardId);
+            if (cardEvent == null)
+            {
+                return NotFound();
+            }
+            return Ok(cardEvent);
+        }
+
     }
 }

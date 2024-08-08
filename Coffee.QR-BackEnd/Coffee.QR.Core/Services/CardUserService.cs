@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Mail;
 
 namespace Coffee.QR.Core.Services
 {
@@ -33,7 +34,15 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var carduser = _cardUserRepository.Create(new CardUser(cardUserDto.CardId, cardUserDto.UserId, cardUserDto.Quantity,cardUserDto.Amount,cardUserDto.Currency,cardUserDto.PaymentStatus,cardUserDto.PayPalPaymentIntentId));
+                var carduser = _cardUserRepository.Create(new CardUser(
+                    cardUserDto.CardId,
+                    cardUserDto.UserId,
+                    cardUserDto.Quantity,
+                    cardUserDto.Amount,
+                    cardUserDto.Currency,
+                    cardUserDto.PaymentStatus,
+                    cardUserDto.PayPalPaymentIntentId
+                ));
 
                 CardUserDto resultDto = new CardUserDto
                 {
@@ -44,13 +53,28 @@ namespace Coffee.QR.Core.Services
                     Currency = cardUserDto.Currency,
                     PaymentStatus = cardUserDto.PaymentStatus,
                     PayPalPaymentIntentId = cardUserDto.PayPalPaymentIntentId,
-                    
+                    ReceiverEmail = cardUserDto.ReceiverEmail,
+
+                    PrintCard = cardUserDto.PrintCard
                 };
-                //OVDE STAVI IF cardUserDto.PaymentStatus=="COMPLETED" -> POSALJI MEJL I KARTE
-                if(cardUserDto.PaymentStatus == "COMPLETED")
+
+                if (cardUserDto.PaymentStatus == "COMPLETED")
                 {
-                    
-                    _emailSender.SendEmail(cardUserDto.receiverEmail, "Coffee.QR - Bought Ticket", "You successfully bought your tickets on Coffee.QR");
+                    List<string> attachments = new List<string>();
+
+                    for (int i = 0; i < cardUserDto.Quantity; i++)
+                    {
+                        string pdfPath = CreateCardPdf(cardUserDto.PrintCard); 
+                        string attachmentFilePath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/Tickets/" + pdfPath;
+                        attachments.Add(attachmentFilePath);
+                    }
+
+                    _emailSender.SendEmailWithAttachments(
+                        cardUserDto.ReceiverEmail,
+                        "Coffee.QR - Bought Ticket",
+                        "You successfully bought your tickets on Coffee.QR",
+                        attachments
+                    );
                 }
 
                 return Result.Ok(resultDto);
@@ -61,22 +85,120 @@ namespace Coffee.QR.Core.Services
             }
         }
 
-        private string CreateCardPdf(CardSaleReportDto reportDto)
-        {
-            string vr = DateTime.Now.ToString("dd_MM_yy_HH_mm_ss");
 
-            string path = "..\\Coffee.QR-BackEnd\\Resources\\Tickets\\Ticket_" + reportDto.UserId + "_" + vr + ".pdf";
-            Document doc = new Document(PageSize.A4, 36, 36, 54, 54);
+        /*        public Result<CardUserDto> CreateCardUser(CardUserDto cardUserDto)
+                {
+                    try
+                    {
+                        var carduser = _cardUserRepository.Create(new CardUser(cardUserDto.CardId, cardUserDto.UserId, cardUserDto.Quantity,cardUserDto.Amount,cardUserDto.Currency,cardUserDto.PaymentStatus,cardUserDto.PayPalPaymentIntentId));
+
+                        CardUserDto resultDto = new CardUserDto
+                        {
+                            CardId = cardUserDto.CardId,
+                            UserId = cardUserDto.UserId,
+                            Quantity = cardUserDto.Quantity,
+                            Amount = cardUserDto.Amount,
+                            Currency = cardUserDto.Currency,
+                            PaymentStatus = cardUserDto.PaymentStatus,
+                            PayPalPaymentIntentId = cardUserDto.PayPalPaymentIntentId,
+                        };
+
+                        PrintCardDto printDto = new PrintCardDto
+                        {
+                            EventImage = $"..\\Coffee.QR-BackEnd\\Resources\\Images\\BarbaraSax.jpg",
+                            EventName = "PROBA",
+                            EventDateTime = "01.01.2024. 23:00h",
+                            Position = "D3",
+                            TicketPrice = 15
+                        };
+
+                        //OVDE STAVI IF cardUserDto.PaymentStatus=="COMPLETED" -> POSALJI MEJL I KARTE
+                        if(cardUserDto.PaymentStatus == "COMPLETED")
+                        {
+                            //CreateCardPdf(printDto);
+                            _emailSender.SendEmailWithAttachment(cardUserDto.receiverEmail, "Coffee.QR - Bought Ticket", "You successfully bought your tickets on Coffee.QR",CreateCardPdf(printDto));
+                            //_emailSender.SendEmail(cardUserDto.receiverEmail, "Coffee.QR - Bought Ticket", "You successfully bought your tickets on Coffee.QR");
+                        }
+
+                        return Result.Ok(resultDto);
+                    }
+                    catch (ArgumentException e)
+                    {
+                        return Result.Fail<CardUserDto>("Invalid argument: " + e.Message);
+                    }
+                }*/
+        private string GenerateRandomAlphanumericString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = new Random();
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+        private string CreateCardPdf(PrintCardDto reportDto)
+        {
+            string base36Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString("x"); // Convert to hex for shorter output
+
+            string randomSuffix = GenerateRandomAlphanumericString(2);
+
+            string uniqueId = $"{base36Timestamp}{randomSuffix}";
+
+            string attachmentName = $"Ticket_{reportDto.EventName}_{reportDto.Position}_{uniqueId}.pdf";
+
+            string path = $"..\\Coffee.QR-BackEnd\\Resources\\Tickets\\{attachmentName}";
+
+            Document doc = new Document(PageSize.A4, 0, 0, 0, 0);
             PdfWriter.GetInstance(doc, new FileStream(path, FileMode.Create));
             doc.Open();
 
-            // Set fonts
-            var titleFont = FontFactory.GetFont("Arial", 18, Font.BOLD, BaseColor.DARK_GRAY);
-            var subtitleFont = FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.GRAY);
-            var headerFont = FontFactory.GetFont("Arial", 12, Font.BOLD, BaseColor.WHITE);
-            var cellFont = FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.BLACK);
-            var totalFont = FontFactory.GetFont("Arial", 12, Font.BOLD, BaseColor.BLACK);
+            if (reportDto.EventImage != "")
+            {
+                               
+                string imagePath = $"..\\Coffee.QR-BackEnd\\Resources{reportDto.EventImage.Replace("/", "\\")}";
+                iTextSharp.text.Image eventImage = iTextSharp.text.Image.GetInstance(imagePath);
+                eventImage.ScaleToFit(doc.PageSize.Width, doc.PageSize.Height / 3); // Scale to fit full width
+                eventImage.Alignment = Element.ALIGN_CENTER;
+                doc.Add(eventImage);
+            }
 
+            // Add event name
+            Paragraph eventName = new Paragraph(reportDto.EventName, new Font(Font.FontFamily.HELVETICA, 36, Font.BOLD))
+            {
+                Alignment = Element.ALIGN_CENTER,
+                SpacingBefore = 20,
+                SpacingAfter = 20
+            };
+            doc.Add(eventName);
+
+            // Add event date and time
+            Paragraph eventDateTime = new Paragraph(reportDto.EventDateTime, new Font(Font.FontFamily.HELVETICA, 24, Font.NORMAL))
+            {
+                Alignment = Element.ALIGN_CENTER,
+                SpacingAfter = 10
+            };
+            doc.Add(eventDateTime);
+
+            // Add position
+            Paragraph position = new Paragraph($"POSITION: {reportDto.Position}", new Font(Font.FontFamily.HELVETICA, 24, Font.NORMAL))
+            {
+                Alignment = Element.ALIGN_CENTER,
+                SpacingAfter = 10
+            };
+            doc.Add(position);
+
+            // Add price
+            Paragraph price = new Paragraph($"PRICE: {reportDto.TicketPrice}$", new Font(Font.FontFamily.HELVETICA, 24, Font.NORMAL))
+            {
+                Alignment = Element.ALIGN_CENTER,
+                SpacingAfter = 20
+            };
+            doc.Add(price);
+
+            // Add QR code
+            string uniqueQrCodeText = $"{reportDto.EventName} {reportDto.EventDateTime} {reportDto.Position} ${reportDto.TicketPrice} {uniqueId}";
+            BarcodeQRCode qrCode = new BarcodeQRCode(uniqueQrCodeText, 150, 150, null);
+            iTextSharp.text.Image qrCodeImage = qrCode.GetImage();
+            qrCodeImage.Alignment = Element.ALIGN_CENTER;
+            doc.Add(qrCodeImage);
 
             // Close the document
             doc.Close();
@@ -91,9 +213,38 @@ namespace Coffee.QR.Core.Services
                 Console.WriteLine(ex.Message);
             }
 
-            return "/pdfs/CardSaleReport" + reportDto.UserId + '_' + vr + ".pdf";
-            //return path;
+            return attachmentName;
         }
+
+        /*        private string CreateCardPdf(PrintCardDto reportDto)
+                {
+                    string vr = DateTime.Now.ToString("dd_MM_yy_HH_mm_ss");
+
+                    string path = "..\\Coffee.QR-BackEnd\\Resources\\Tickets\\Ticket_" + reportDto.eventName + "_" + reportDto.position + vr + ".pdf";
+                    Document doc = new Document(PageSize.A4, 36, 36, 54, 54);
+                    PdfWriter.GetInstance(doc, new FileStream(path, FileMode.Create));
+                    doc.Open();
+
+
+
+                    // Close the document
+                    doc.Close();
+
+                    try
+                    {
+                        Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Could not open the PDF file.");
+                        Console.WriteLine(ex.Message);
+                    }
+
+
+                    return path;
+                    //return "/pdfs/CardSaleReport" + reportDto.UserId + '_' + vr + ".pdf";
+                }
+        */
 
 
 

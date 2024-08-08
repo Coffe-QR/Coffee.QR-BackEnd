@@ -11,5 +11,6 @@ namespace Coffee.QR.API.Public
     {
         Result SendEmail(string emailDestination, string emailSubject, string emailBody);
         Result SendEmailWithAttachment(string emailDestination, string emailSubject, string emailBody, string attachmentName);
+        Result SendEmailWithAttachments(string emailDestination, string emailSubject, string emailBody, List<string> attachmentPaths);
     }
 }

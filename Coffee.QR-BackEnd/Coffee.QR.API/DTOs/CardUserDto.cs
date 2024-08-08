@@ -16,6 +16,8 @@ namespace Coffee.QR.API.DTOs
         public string Currency { get; set; }
         public string PaymentStatus { get; set; }
         public string PayPalPaymentIntentId { get; set; }
-        public string receiverEmail { get; set; }
+        public string ReceiverEmail { get; set; }
+
+        public PrintCardDto PrintCard { get; set; }
     }
 }
