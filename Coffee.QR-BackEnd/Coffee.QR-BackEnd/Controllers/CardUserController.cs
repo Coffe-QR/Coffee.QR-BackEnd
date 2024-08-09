@@ -88,5 +88,11 @@ namespace Coffee.QR.API.Controllers
             }
             return NotFound();
         }
+
+        [HttpGet("userId/{userId}")]
+        public ActionResult<IEnumerable<CardDto>> GetByUserId(long userId) {
+            var cardUsers = _cardUserService.GetByUserId(userId);
+            return Ok(cardUsers);
+        }
     }
 }

@@ -58,5 +58,11 @@ namespace Coffee.QR.Infrastructure.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public IEnumerable<CardUser> GetByUserId(long userId) 
+        {
+        return _context.CardUsers.Where(cu=>cu.UserId == userId).ToList();
+        }
+
     }
 }

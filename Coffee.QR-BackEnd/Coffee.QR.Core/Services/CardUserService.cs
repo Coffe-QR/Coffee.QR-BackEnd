@@ -85,48 +85,6 @@ namespace Coffee.QR.Core.Services
             }
         }
 
-
-        /*        public Result<CardUserDto> CreateCardUser(CardUserDto cardUserDto)
-                {
-                    try
-                    {
-                        var carduser = _cardUserRepository.Create(new CardUser(cardUserDto.CardId, cardUserDto.UserId, cardUserDto.Quantity,cardUserDto.Amount,cardUserDto.Currency,cardUserDto.PaymentStatus,cardUserDto.PayPalPaymentIntentId));
-
-                        CardUserDto resultDto = new CardUserDto
-                        {
-                            CardId = cardUserDto.CardId,
-                            UserId = cardUserDto.UserId,
-                            Quantity = cardUserDto.Quantity,
-                            Amount = cardUserDto.Amount,
-                            Currency = cardUserDto.Currency,
-                            PaymentStatus = cardUserDto.PaymentStatus,
-                            PayPalPaymentIntentId = cardUserDto.PayPalPaymentIntentId,
-                        };
-
-                        PrintCardDto printDto = new PrintCardDto
-                        {
-                            EventImage = $"..\\Coffee.QR-BackEnd\\Resources\\Images\\BarbaraSax.jpg",
-                            EventName = "PROBA",
-                            EventDateTime = "01.01.2024. 23:00h",
-                            Position = "D3",
-                            TicketPrice = 15
-                        };
-
-                        //OVDE STAVI IF cardUserDto.PaymentStatus=="COMPLETED" -> POSALJI MEJL I KARTE
-                        if(cardUserDto.PaymentStatus == "COMPLETED")
-                        {
-                            //CreateCardPdf(printDto);
-                            _emailSender.SendEmailWithAttachment(cardUserDto.receiverEmail, "Coffee.QR - Bought Ticket", "You successfully bought your tickets on Coffee.QR",CreateCardPdf(printDto));
-                            //_emailSender.SendEmail(cardUserDto.receiverEmail, "Coffee.QR - Bought Ticket", "You successfully bought your tickets on Coffee.QR");
-                        }
-
-                        return Result.Ok(resultDto);
-                    }
-                    catch (ArgumentException e)
-                    {
-                        return Result.Fail<CardUserDto>("Invalid argument: " + e.Message);
-                    }
-                }*/
         private string GenerateRandomAlphanumericString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -216,39 +174,6 @@ namespace Coffee.QR.Core.Services
             return attachmentName;
         }
 
-        /*        private string CreateCardPdf(PrintCardDto reportDto)
-                {
-                    string vr = DateTime.Now.ToString("dd_MM_yy_HH_mm_ss");
-
-                    string path = "..\\Coffee.QR-BackEnd\\Resources\\Tickets\\Ticket_" + reportDto.eventName + "_" + reportDto.position + vr + ".pdf";
-                    Document doc = new Document(PageSize.A4, 36, 36, 54, 54);
-                    PdfWriter.GetInstance(doc, new FileStream(path, FileMode.Create));
-                    doc.Open();
-
-
-
-                    // Close the document
-                    doc.Close();
-
-                    try
-                    {
-                        Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Could not open the PDF file.");
-                        Console.WriteLine(ex.Message);
-                    }
-
-
-                    return path;
-                    //return "/pdfs/CardSaleReport" + reportDto.UserId + '_' + vr + ".pdf";
-                }
-        */
-
-
-
-
         public async Task<bool> DeleteCardUserAsync(long cardUserId)
         {
             try
@@ -269,6 +194,7 @@ namespace Coffee.QR.Core.Services
                 var cardUsers = await _cardUserRepository.GetAllAsync();
                 var cardUserDtos = cardUsers.Select(c => new CardUserDto
                 {
+                    Id = c.Id,
                     CardId = c.CardId,
                     UserId = c.UserId,
                     Quantity = c.Quantity,
@@ -334,6 +260,24 @@ namespace Coffee.QR.Core.Services
                 // Consider more specific error handling or logging
             }
         }
+
+        public IEnumerable<CardUserDto> GetByUserId(long userId) 
+        {
+        var cardUsers = _cardUserRepository.GetByUserId(userId);
+            return cardUsers.Select(cu => new CardUserDto
+            {
+                Id = cu.Id,
+                CardId = cu.CardId,
+                UserId = cu.UserId,
+                Quantity = cu.Quantity,
+                Amount = cu.Amount,
+                Currency = cu.Currency,
+                PaymentStatus = cu.PaymentStatus,
+                PayPalPaymentIntentId = cu.PayPalPaymentIntentId,
+                }).ToList();
+
+        }
+
 
     }
 }

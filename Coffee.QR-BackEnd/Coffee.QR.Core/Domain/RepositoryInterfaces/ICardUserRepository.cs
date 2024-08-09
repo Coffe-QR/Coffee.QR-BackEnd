@@ -14,5 +14,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         Task UpdateAsync(CardUser cardUser);
         Task DeleteAsync(long cardUserId);
         List<CardUser> GetAll();
+        IEnumerable<CardUser> GetByUserId(long userId);
     }
 }

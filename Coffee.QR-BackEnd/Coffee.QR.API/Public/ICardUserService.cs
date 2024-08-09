@@ -12,6 +12,7 @@ namespace Coffee.QR.Core.Interfaces
         Task<Result<List<CardUserDto>>> GetAllCardUsersAsync();
         Task<Result<CardUserDto>> GetCardUserByIdAsync(long cardUserId);
         Task UpdateCardUserAsync(CardUserDto cardUserDto);
+        IEnumerable<CardUserDto> GetByUserId(long userId);
 
     }
 }
