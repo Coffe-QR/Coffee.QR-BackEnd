@@ -135,5 +135,6 @@ namespace Coffee.QR.Core.Services
             }
         }
 
+
     }
 }

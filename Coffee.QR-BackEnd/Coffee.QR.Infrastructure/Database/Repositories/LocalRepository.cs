@@ -74,22 +74,17 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             return _dbContext.Locals
                 .Where(local => _dbContext.LocalRentPriceLists
                     .Any(priceList => priceList.LocalId == local.Id && priceList.IsActive))
-                .Select(local => new Local(
-                    local.Name,
-                    local.City,
-                    local.DateOfStartingPartnership,
-                    local.IsActive,
-                    local.ChartKey,
-                    local.Logo)
+                .ToList()
+                .Select(local =>
                 {
-                    ActiveRentPrice = _dbContext.LocalRentPriceLists
+                    local.ActiveRentPrice = _dbContext.LocalRentPriceLists
                         .Where(priceList => priceList.LocalId == local.Id && priceList.IsActive)
                         .Select(priceList => priceList.Price)
-                        .FirstOrDefault()
+                        .FirstOrDefault();
+                    return local;
                 })
                 .ToList();
         }
-
 
 
     }
