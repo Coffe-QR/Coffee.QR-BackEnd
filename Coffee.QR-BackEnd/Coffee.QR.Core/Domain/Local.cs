@@ -1,6 +1,7 @@
 ﻿using Coffee.QR.BuildingBlocks.Core.Domain;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,9 @@ namespace Coffee.QR.Core.Domain
         public Boolean IsActive { get; set; }
         public string? ChartKey {  get; set; }
         public string Logo {  get; set; }
+
+        [NotMapped]
+        public double? ActiveRentPrice { get; set; }
 
         public Local(string name, string city, DateOnly dateOfStartingPartnership, bool isActive, string? chartKey, string logo)
         {

@@ -110,5 +110,30 @@ namespace Coffee.QR.Core.Services
             return _localRepository.UpdateLocal(oldLocal);
         }
 
+        public Result<List<LocalDto>> GetAllLocalsWithActiveRentPriceList()
+        {
+            try
+            {
+                var locals = _localRepository.GetAllWithActiveRentPriceList();
+                var localDtos = locals.Select(local => new LocalDto
+                {
+                    Id = local.Id,
+                    Name = local.Name,
+                    City = local.City,
+                    DateOfStartingPartnership = local.DateOfStartingPartnership,
+                    IsActive = local.IsActive,
+                    ChartKey = local.ChartKey,
+                    Logo = local.Logo,
+                    ActiveRentPrice = local.ActiveRentPrice
+                }).ToList();
+
+                return Result.Ok(localDtos);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<List<LocalDto>>("Failed to retrieve locals with active rent price list").WithError(e.Message);
+            }
+        }
+
     }
 }

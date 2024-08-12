@@ -52,5 +52,21 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpPut("deactivate-by-local/{localId}")]
+        public IActionResult DeactivateAllByLocalId(long localId)
+        {
+            var result = _localRentPriceListService.DeactivateAllLocalRentPriceLists(localId);
+
+            if (result.IsSuccess)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
+
     }
 }

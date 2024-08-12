@@ -11,5 +11,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         LocalRentPriceList Create(LocalRentPriceList localRentPriceList);
         LocalRentPriceList CreateAndDeactivateExisting(LocalRentPriceList newLocalRentPriceList);
         LocalRentPriceList? GetActiveByLocalId(long localId);
+        bool DeactivateAllByLocalId(long localId);
     }
 }

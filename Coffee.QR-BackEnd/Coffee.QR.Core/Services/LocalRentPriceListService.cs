@@ -73,6 +73,21 @@ namespace Coffee.QR.Core.Services
             return Result.Ok(resultDto);
         }
 
+        public Result DeactivateAllLocalRentPriceLists(long localId)
+        {
+            var success = _localRentPriceListRepository.DeactivateAllByLocalId(localId);
+
+            if (success)
+            {
+                return Result.Ok();
+            }
+            else
+            {
+                return Result.Fail("No active Local Rent Price Lists found for the given LocalId, or deactivation failed.");
+            }
+        }
+
+
 
 
     }

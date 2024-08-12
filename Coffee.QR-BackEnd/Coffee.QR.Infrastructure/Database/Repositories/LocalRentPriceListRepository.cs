@@ -48,6 +48,29 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
                 .FirstOrDefault(l => l.LocalId == localId && l.IsActive);
         }
 
+        public bool DeactivateAllByLocalId(long localId)
+        {
+            var activePriceLists = _dbContext.LocalRentPriceLists
+                .Where(l => l.LocalId == localId && l.IsActive)
+                .ToList();
+
+            if (activePriceLists.Any())
+            {
+                foreach (var priceList in activePriceLists)
+                {
+                    priceList.IsActive = false;
+                    _dbContext.LocalRentPriceLists.Update(priceList);
+                }
+
+                _dbContext.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+
+
 
     }
 }

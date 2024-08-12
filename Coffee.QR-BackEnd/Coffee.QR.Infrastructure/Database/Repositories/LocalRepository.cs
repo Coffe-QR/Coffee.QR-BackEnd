@@ -69,5 +69,28 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             return false;
         }
 
+        public List<Local> GetAllWithActiveRentPriceList()
+        {
+            return _dbContext.Locals
+                .Where(local => _dbContext.LocalRentPriceLists
+                    .Any(priceList => priceList.LocalId == local.Id && priceList.IsActive))
+                .Select(local => new Local(
+                    local.Name,
+                    local.City,
+                    local.DateOfStartingPartnership,
+                    local.IsActive,
+                    local.ChartKey,
+                    local.Logo)
+                {
+                    ActiveRentPrice = _dbContext.LocalRentPriceLists
+                        .Where(priceList => priceList.LocalId == local.Id && priceList.IsActive)
+                        .Select(priceList => priceList.Price)
+                        .FirstOrDefault()
+                })
+                .ToList();
+        }
+
+
+
     }
 }

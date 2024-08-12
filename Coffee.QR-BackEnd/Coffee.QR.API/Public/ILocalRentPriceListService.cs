@@ -12,5 +12,6 @@ namespace Coffee.QR.API.Public
     {
         Result<LocalRentPriceListDto> CreateLocalRentPriceList(LocalRentPriceListDto localRentPriceListDto);
         Result<LocalRentPriceListDto> GetActiveLocalRentPriceList(long localId);
+        Result DeactivateAllLocalRentPriceLists(long localId);
     }
 }

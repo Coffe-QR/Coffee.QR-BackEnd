@@ -15,5 +15,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         Task<Local> GetByIdAsync(long id);
         Local GetById(long localId);
         bool UpdateLocal(Local local);
+        List<Local> GetAllWithActiveRentPriceList();
     }
 }
