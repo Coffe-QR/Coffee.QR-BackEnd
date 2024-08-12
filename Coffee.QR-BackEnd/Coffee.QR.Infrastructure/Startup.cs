@@ -79,6 +79,8 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<ICardEventService, CardEventService>();
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<ILocalRentPriceListService, LocalRentPriceListService>();
+            services.AddScoped<IRentOfferService, RentOfferService>();
+
         }
 
         private static void SetupInfrastructure(IServiceCollection services)
@@ -107,6 +109,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped(typeof(ICrudRepository<CardSaleReport>), typeof(CrudDatabaseRepository<CardSaleReport, Context>));
             services.AddScoped(typeof(ICrudRepository<CardEvent>), typeof(CrudDatabaseRepository<CardEvent, Context>));
             services.AddScoped(typeof(ICrudRepository<LocalRentPriceList>), typeof(CrudDatabaseRepository<LocalRentPriceList, Context>));
+            services.AddScoped(typeof(ICrudRepository<RentOffer>), typeof(CrudDatabaseRepository<RentOffer, Context>));
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
@@ -132,6 +135,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<ICardSaleRepository, CardSaleReportRepository>();
             services.AddScoped<ICardEventRepository, CardEventRepository>();
             services.AddScoped<ILocalRentPriceListRepository, LocalRentPriceListRepository>();
+            services.AddScoped<IRentOfferRepository, RentOfferRepository>();
 
             services.AddDbContext<Context>(opt =>
                 opt.UseNpgsql(DbConnectionStringBuilder.Build("CoffeeQRSchema"),

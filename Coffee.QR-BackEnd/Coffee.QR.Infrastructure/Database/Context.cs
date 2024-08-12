@@ -34,6 +34,8 @@ namespace Coffee.QR.Infrastructure.Database
         public DbSet<CardSaleReport> CardSaleReports { get; set; }
         public DbSet<CardEvent> CardEvents { get; set; }
         public DbSet<LocalRentPriceList> LocalRentPriceLists { get; set; }
+        public DbSet<RentOffer> RentOffers { get; set; }
+        
 
         public Context(DbContextOptions<Context> options) : base(options){}
 
