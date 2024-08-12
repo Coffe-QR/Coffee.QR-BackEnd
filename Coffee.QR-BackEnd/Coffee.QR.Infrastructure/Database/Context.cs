@@ -33,6 +33,7 @@ namespace Coffee.QR.Infrastructure.Database
         public DbSet<Receipt> Receipts { get; set; }
         public DbSet<CardSaleReport> CardSaleReports { get; set; }
         public DbSet<CardEvent> CardEvents { get; set; }
+        public DbSet<LocalRentPriceList> LocalRentPriceLists { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options){}
 
@@ -154,6 +155,12 @@ namespace Coffee.QR.Infrastructure.Database
             .HasOne(u => u.user)
             .WithMany()
             .HasForeignKey(u => u.UserId)
+            .IsRequired();
+
+            modelBuilder.Entity<LocalRentPriceList>()
+            .HasOne(l => l.local)
+            .WithMany()
+            .HasForeignKey(l => l.LocalId)
             .IsRequired();
 
             Configure(modelBuilder);

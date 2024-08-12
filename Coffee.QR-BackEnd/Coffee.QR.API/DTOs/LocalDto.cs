@@ -14,5 +14,6 @@ namespace Coffee.QR.API.DTOs
         public DateOnly DateOfStartingPartnership { get; set; }
         public Boolean IsActive { get; set; }
         public string? ChartKey { get; set; }
+        public string Logo { get; set; }
     }
 }

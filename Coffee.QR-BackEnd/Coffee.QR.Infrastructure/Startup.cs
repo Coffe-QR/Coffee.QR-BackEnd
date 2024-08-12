@@ -44,7 +44,7 @@ namespace Coffee.QR.Infrastructure
             services.AddAutoMapper(typeof(ReceiptProfile).Assembly);
             services.AddAutoMapper(typeof(CardSaleReportsProfile).Assembly);
             services.AddAutoMapper(typeof(CardEvent).Assembly);
-
+            
             SetupCore(services);
             SetupInfrastructure(services);
             return services;
@@ -78,6 +78,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<ICardSaleReportService,CardSaleReportService>();
             services.AddScoped<ICardEventService, CardEventService>();
             services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<ILocalRentPriceListService, LocalRentPriceListService>();
         }
 
         private static void SetupInfrastructure(IServiceCollection services)
@@ -105,6 +106,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped(typeof(ICrudRepository<Receipt>), typeof(CrudDatabaseRepository<Receipt, Context>));
             services.AddScoped(typeof(ICrudRepository<CardSaleReport>), typeof(CrudDatabaseRepository<CardSaleReport, Context>));
             services.AddScoped(typeof(ICrudRepository<CardEvent>), typeof(CrudDatabaseRepository<CardEvent, Context>));
+            services.AddScoped(typeof(ICrudRepository<LocalRentPriceList>), typeof(CrudDatabaseRepository<LocalRentPriceList, Context>));
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
@@ -129,6 +131,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<IReceiptRepository, ReceiptRepository>();
             services.AddScoped<ICardSaleRepository, CardSaleReportRepository>();
             services.AddScoped<ICardEventRepository, CardEventRepository>();
+            services.AddScoped<ILocalRentPriceListRepository, LocalRentPriceListRepository>();
 
             services.AddDbContext<Context>(opt =>
                 opt.UseNpgsql(DbConnectionStringBuilder.Build("CoffeeQRSchema"),

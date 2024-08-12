@@ -61,6 +61,7 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
                 existingLocal.DateOfStartingPartnership = local.DateOfStartingPartnership;
                 existingLocal.IsActive = local.IsActive;
                 existingLocal.ChartKey = local.ChartKey;
+                existingLocal.Logo = local.Logo;
                 _dbContext.SaveChanges();
                 return true;
             }
