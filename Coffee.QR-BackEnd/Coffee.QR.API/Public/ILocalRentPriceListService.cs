@@ -11,5 +11,6 @@ namespace Coffee.QR.API.Public
     public interface ILocalRentPriceListService
     {
         Result<LocalRentPriceListDto> CreateLocalRentPriceList(LocalRentPriceListDto localRentPriceListDto);
+        Result<LocalRentPriceListDto> GetActiveLocalRentPriceList(long localId);
     }
 }

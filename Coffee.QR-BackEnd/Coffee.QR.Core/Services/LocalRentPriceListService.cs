@@ -52,6 +52,28 @@ namespace Coffee.QR.Core.Services
             }
         }
 
+        public Result<LocalRentPriceListDto> GetActiveLocalRentPriceList(long localId)
+        {
+            var activePriceList = _localRentPriceListRepository.GetActiveByLocalId(localId);
+
+            if (activePriceList == null)
+            {
+                return Result.Fail<LocalRentPriceListDto>(FailureCode.NotFound).WithError("Active LocalRentPriceList not found.");
+            }
+
+            var resultDto = new LocalRentPriceListDto
+            {
+                Id = activePriceList.Id,
+                LocalId = activePriceList.LocalId,
+                Price = activePriceList.Price,
+                PricingDate = activePriceList.PricingDate,
+                IsActive = activePriceList.IsActive
+            };
+
+            return Result.Ok(resultDto);
+        }
+
+
 
     }
 }

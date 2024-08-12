@@ -37,5 +37,20 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpGet("active/{localId}")]
+        public IActionResult GetActiveByLocalId(long localId)
+        {
+            var result = _localRentPriceListService.GetActiveLocalRentPriceList(localId);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return NotFound(result.Errors);
+            }
+        }
+
     }
 }

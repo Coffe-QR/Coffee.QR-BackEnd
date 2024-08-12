@@ -42,10 +42,12 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             return newLocalRentPriceList;
         }
 
-        public LocalRentPriceList GetByLocalId (long localId)
+        public LocalRentPriceList? GetActiveByLocalId(long localId)
         {
-            return _dbContext.LocalRentPriceLists.FirstOrDefault(l => l.LocalId == localId);
+            return _dbContext.LocalRentPriceLists
+                .FirstOrDefault(l => l.LocalId == localId && l.IsActive);
         }
+
 
     }
 }
