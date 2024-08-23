@@ -66,6 +66,22 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
                 .ToListAsync();
         }
 
+        public List<Event> GetFutureEvents()
+        {
+            return _dbContext.Events
+                .Where(e => e.DateTime > DateTime.UtcNow && !e.Name.StartsWith("RENT"))
+                .OrderBy(e => e.DateTime) 
+                .ToList();
+        }
+
+        public List<Event> GetFutureEventsByUserId(long userId)
+        {
+            return _dbContext.Events
+                .Where(e => e.UserId == userId && e.DateTime > DateTime.UtcNow && !e.Name.StartsWith("RENT"))
+                .OrderBy(e => e.DateTime)
+                .ToList();
+        }
+
 
     }
 }

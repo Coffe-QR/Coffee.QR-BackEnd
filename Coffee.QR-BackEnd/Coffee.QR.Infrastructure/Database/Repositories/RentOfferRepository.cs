@@ -58,6 +58,13 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             return true;
         }
 
+        public IEnumerable<RentOffer> GetByLocalId(long localId)
+        {
+            return _dbContext.RentOffers
+                .Where(ro => ro.LocalId == localId)
+                .ToList();
+        }
+
 
     }
 }

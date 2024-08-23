@@ -169,5 +169,19 @@ namespace Coffee.QR.Core.Services
                 return Result.Fail<RentOfferDto>("Failed to change RentOffer status").WithError(ex.Message);
             }
         }
+
+        public List<RentOfferDto> GetRentOffersByLocalId(long localId)
+        {
+            var rentOffers = _rentOfferRepository.GetByLocalId(localId);
+            return rentOffers.Select(ro => new RentOfferDto
+            {
+                Id = ro.Id,
+                UserId = ro.UserId,
+                LocalId = ro.LocalId,
+                Price = ro.Price,
+                DateTime = ro.DateTime,
+                RentOfferStatus = ro.RentOfferStatus.ToString()
+            }).ToList();
+        }
     }
 }

@@ -37,6 +37,17 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpPost("rent")]
+        public IActionResult CreateRentEvent(EventDto eventDto)
+        {
+            var result = _eventService.CreateBasicEvent(eventDto);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            return BadRequest(result.Errors);
+        }
+
         [HttpGet("getAll")]
         public IActionResult GetAll()
         {
@@ -131,6 +142,35 @@ namespace Coffee.QR_BackEnd.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+        [HttpGet("future")]
+        public IActionResult GetFutureEvents()
+        {
+            var result = _eventService.GetFutureEvents();
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
+        [HttpGet("future/byUser/{userId}")]
+        public IActionResult GetFutureEventsByUserId(long userId)
+        {
+            var result = _eventService.GetFutureEventsByUserId(userId);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
             }
         }
 

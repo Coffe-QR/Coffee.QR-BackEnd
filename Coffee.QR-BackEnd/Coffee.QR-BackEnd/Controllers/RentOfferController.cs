@@ -90,5 +90,16 @@ namespace Coffee.QR_BackEnd.Controllers
             }
             return BadRequest(result.Errors);
         }
+
+        [HttpGet("local/{localId}")]
+        public IActionResult GetByLocalId(long localId)
+        {
+            var rentOffers = _rentOfferService.GetRentOffersByLocalId(localId);
+            if (rentOffers != null && rentOffers.Any())
+            {
+                return Ok(rentOffers);
+            }
+            return NotFound("No rent offers found for the given LocalId.");
+        }
     }
 }

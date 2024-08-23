@@ -15,5 +15,7 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         Task<Event> GetByIdAsync(long id);
         Task<IEnumerable<DateTime>> GetEventDatesByLocalId(long localId);
         Task<IEnumerable<Event>> GetEventsByLocalId(long localId);
+        List<Event> GetFutureEvents();
+        List<Event> GetFutureEventsByUserId(long userId);
     }
 }

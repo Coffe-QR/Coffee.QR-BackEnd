@@ -13,5 +13,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         IEnumerable<RentOffer> GetAll();
         RentOffer Update(RentOffer rentOffer);
         bool Delete(long id);
+        IEnumerable<RentOffer> GetByLocalId(long localId);
     }
 }

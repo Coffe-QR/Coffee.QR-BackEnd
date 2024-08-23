@@ -16,6 +16,7 @@ namespace Coffee.QR.API.Public
         Result<RentOfferDto> UpdateRentOffer(long id, RentOfferDto rentOfferDto);
         Result DeleteRentOffer(long id);
         Result<RentOfferDto> ChangeRentOfferStatus(long id, string status);
+        List<RentOfferDto> GetRentOffersByLocalId(long localId);
 
 
     }
