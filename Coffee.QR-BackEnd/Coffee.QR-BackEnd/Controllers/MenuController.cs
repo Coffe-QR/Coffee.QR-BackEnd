@@ -3,6 +3,7 @@ using Coffee.QR.API.DTOs;
 using Coffee.QR.API.Public;
 using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Services;
+using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coffee.QR_BackEnd.Controllers

@@ -11,6 +11,8 @@ using Coffee.QR.Infrastructure.Auth;
 using Coffee.QR.Infrastructure.Database;
 using Coffee.QR.Infrastructure.Database.Repositories;
 using Coffee.QR.Infrastructure.Repositories;
+using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -128,6 +130,14 @@ namespace Coffee.QR.Infrastructure
             services.AddDbContext<Context>(opt =>
                 opt.UseNpgsql(DbConnectionStringBuilder.Build("CoffeeQRSchema"),
                     x => x.MigrationsHistoryTable("__EFMigrationsHistory", "CoffeeQRSchema")));
+
+            services.AddHangfire(configuration => configuration
+           .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+           .UseSimpleAssemblyNameTypeSerializer()
+           .UseRecommendedSerializerSettings()
+           .UsePostgreSqlStorage(DbConnectionStringBuilder.Build("InternshipProjectSchema")));
+
+            services.AddHangfireServer();
         }
 
     }

@@ -2,6 +2,8 @@
 using Coffee.QR.API.DTOs;
 using Coffee.QR.API.Public;
 using Coffee.QR.Core.Services;
+using FluentResults;
+using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coffee.QR_BackEnd.Controllers
@@ -102,6 +104,14 @@ namespace Coffee.QR_BackEnd.Controllers
             {
                 return BadRequest(result.Errors);
             }
+        }
+
+        [HttpGet("DataExport")]
+        public IActionResult OrderDataExport()
+        {
+            var userId = long.Parse(User.FindFirst("id")?.Value);
+            //BackgroundJob.Enqueue(() => _dataExportService.Export(userId, fail));
+            return CreateResponse(Result.Ok());
         }
     }
 }

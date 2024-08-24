@@ -5,6 +5,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,13 +54,17 @@ app.UseAuthorization();
 
 
 
-//app.UseHttpsRedirection();
-
-/*app.UseRouting(); // Use after static files
-app.UseCors(corsPolicy);
 app.UseHttpsRedirection();
-// app.UseAuthentication(); // Uncomment if authentication is required
-app.UseAuthorization();*/
+
+app.UseRouting();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
+
+app.UseHttpsRedirection();
+
+app.UseHangfireDashboard("/dashboard");
 
 app.MapControllers();
 
