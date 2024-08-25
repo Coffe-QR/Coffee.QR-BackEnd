@@ -16,5 +16,6 @@ namespace Coffee.QR.API.Public
         Result<List<OrderDto>> getByLocalIdAndIsActive(long localId);
         public void DeactivateOrder(long orderId);
         Result<OrderDto> GetById(long orderId);
+        Result Export(long userId);
     }
 }

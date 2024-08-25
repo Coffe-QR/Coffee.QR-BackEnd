@@ -44,6 +44,11 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             return _dbContext.Orders.Where(o=>o.LocalId== localId && o.IsActive).ToList();
         }
 
+        public List<Order> GetOrdersByLocalId(long localId)
+        {
+            return _dbContext.Orders.Where(o => o.LocalId == localId).ToList();
+        }
+
         public void UpdateOrderIsActive(long orderId, bool isActive)
         {
             var order = _dbContext.Orders.FirstOrDefault(o => o.Id == orderId);

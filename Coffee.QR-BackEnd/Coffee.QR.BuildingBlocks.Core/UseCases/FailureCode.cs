@@ -10,6 +10,8 @@ public static class FailureCode
 
     public static readonly IError InvalidArgument = new Error("Invalid data supplied.")
         .WithMetadata("code", 400);
+    public static readonly IError InvalidUser = new Error("User with supplied id does not exist.")
+            .WithMetadata("code", 400);
     public static readonly IError Forbidden = new Error("Access to resource is restricted.")
         .WithMetadata("code", 403);
     public static readonly IError NotFound = new Error("Accessed resource not found.")
@@ -18,4 +20,6 @@ public static class FailureCode
         .WithMetadata("code", 409);
     public static readonly IError Internal = new Error("Internal server error.")
         .WithMetadata("code", 500);
+    public static readonly IError EmailError = new Error("We were not able to send the email.")
+            .WithMetadata("code", 500);
 }

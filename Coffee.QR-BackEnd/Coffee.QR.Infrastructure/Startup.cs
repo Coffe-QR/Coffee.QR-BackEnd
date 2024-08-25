@@ -77,6 +77,7 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<IReportService, ReportService>();
             services.AddScoped<IReceiptService, ReceiptService>();
             services.AddScoped<ICardSaleReportService,CardSaleReportService>();
+            services.AddScoped<IEmailSender, EmailSender>();
         }
 
         private static void SetupInfrastructure(IServiceCollection services)
