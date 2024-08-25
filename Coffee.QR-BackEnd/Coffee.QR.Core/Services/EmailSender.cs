@@ -16,6 +16,7 @@ using System.Text.Json;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Net.Mime;
 
 namespace Coffee.QR.Core.Services
 {
@@ -103,7 +104,7 @@ namespace Coffee.QR.Core.Services
             }
         }
 
-        public Result SendEmailWithAttachments(string emailDestination, string emailSubject, string emailBody, List<string> attachmentNames)
+        /*public Result SendEmailWithAttachments(string emailDestination, string emailSubject, string emailBody, List<string> attachmentNames)
         {
             string filePath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/appEmailSettings.json";
             string jsonString = File.ReadAllText(filePath);
@@ -146,6 +147,86 @@ namespace Coffee.QR.Core.Services
             finally
             {
                 MailMessage.Dispose();
+                smtpClient.Dispose();
+            }
+        }
+*/
+        public Result SendEmailWithAttachments(string emailDestination, string emailSubject, string emailBody, List<string> attachmentNames)
+        {
+            string filePath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/appEmailSettings.json";
+            string templatePath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/emailTemplate.html";
+            string jsonString = File.ReadAllText(filePath);
+            string templateString = File.ReadAllText(templatePath);
+
+            EmailCredentialsDto credentials = JsonSerializer.Deserialize<EmailCredentialsDto>(jsonString);
+
+            SmtpClient smtpClient = new SmtpClient(credentials.SmtpServer)
+            {
+                Port = credentials.Port,
+                Credentials = new NetworkCredential(credentials.SenderEmail, credentials.SenderPassword),
+                EnableSsl = true,
+            };
+
+            // Replace placeholders in the template
+            string mailBody = templateString.Replace("{UserName}", "Customer").Replace("{TicketDetails}", emailBody);
+
+            MailMessage mailMessage = new MailMessage
+            {
+                From = new MailAddress(credentials.SenderEmail, "Coffee.QR"),
+                To = { emailDestination },
+                Subject = emailSubject,
+                Body = mailBody,
+                IsBodyHtml = true,
+            };
+
+            // Embedding images
+            string logoPath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/Images/logoWhite.png"; // Adjust path as necessary
+            string logoFatmanPath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/Images/fatmanqrLogo.png"; // Adjust path as necessary
+
+            if (File.Exists(logoPath) && File.Exists(logoFatmanPath))
+            {
+                LinkedResource logo = new LinkedResource(logoPath, MediaTypeNames.Image.Png)
+                {
+                    ContentId = "logoWhite",
+                    TransferEncoding = TransferEncoding.Base64
+                };
+                LinkedResource logoFatman = new LinkedResource(logoFatmanPath, MediaTypeNames.Image.Png)
+                {
+                    ContentId = "fatmanqrLogo",
+                    TransferEncoding = TransferEncoding.Base64
+                };
+
+                AlternateView avHtml = AlternateView.CreateAlternateViewFromString(mailBody, null, MediaTypeNames.Text.Html);
+                avHtml.LinkedResources.Add(logo);
+                avHtml.LinkedResources.Add(logoFatman);
+
+                mailMessage.AlternateViews.Add(avHtml);
+            }
+
+            
+
+
+            try
+            {
+                foreach (var attachmentName in attachmentNames)
+                {
+                    if (!string.IsNullOrEmpty(attachmentName) && File.Exists(attachmentName))
+                    {
+                        Attachment attachment = new Attachment(attachmentName);
+                        mailMessage.Attachments.Add(attachment);
+                    }
+                }
+
+                smtpClient.Send(mailMessage);
+                return null;
+            }
+            catch (Exception e)
+            {
+                return Result.Fail(FailureCode.EmailError);
+            }
+            finally
+            {
+                mailMessage.Dispose();
                 smtpClient.Dispose();
             }
         }

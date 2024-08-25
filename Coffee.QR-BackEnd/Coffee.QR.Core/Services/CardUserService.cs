@@ -72,7 +72,7 @@ namespace Coffee.QR.Core.Services
                     _emailSender.SendEmailWithAttachments(
                         cardUserDto.ReceiverEmail,
                         "Coffee.QR - Bought Ticket",
-                        "You successfully bought your tickets on Coffee.QR",
+                        "You successfully bought tickets, they are in the section below",
                         attachments
                     );
                 }
