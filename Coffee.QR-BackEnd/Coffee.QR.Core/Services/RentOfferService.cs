@@ -12,10 +12,12 @@ namespace Coffee.QR.Core.Services
     public class RentOfferService : IRentOfferService
     {
         private readonly IRentOfferRepository _rentOfferRepository;
+        private readonly IEmailSender _emailSender;
 
-        public RentOfferService(IRentOfferRepository rentOfferRepository)
+        public RentOfferService(IRentOfferRepository rentOfferRepository, IEmailSender emailSender)
         {
             _rentOfferRepository = rentOfferRepository;
+            _emailSender = emailSender;
         }
 
         public Result<RentOfferDto> CreateRentOffer(RentOfferDto rentOfferDto)
@@ -161,6 +163,8 @@ namespace Coffee.QR.Core.Services
                     DateTime = updatedRentOffer.DateTime,
                     RentOfferStatus = updatedRentOffer.RentOfferStatus.ToString() // Convert enum back to string
                 };
+
+                _emailSender.SendEmail(rentOffer.User.Email, "Rent Offer Review", "Your rent offer for the " + rentOffer.DateTime + " has been " + status );
 
                 return Result.Ok(resultDto);
             }

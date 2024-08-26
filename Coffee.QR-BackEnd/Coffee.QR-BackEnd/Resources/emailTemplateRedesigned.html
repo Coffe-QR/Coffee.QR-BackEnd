@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #6d4c41;
+            padding: 20px;
+            text-align: center;
+        }
+
+            .header img {
+                max-width: 120px;
+                margin-bottom: 10px;
+            }
+
+            .header h1 {
+                color: #ffffff;
+                margin: 0;
+                font-size: 24px;
+            }
+
+        .banner {
+            width: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .content {
+            padding: 20px;
+            color: #000;
+        }
+
+        .content a{
+            color: #fff;
+        }
+
+            .content h2 {
+                font-size: 20px;
+                margin-bottom: 10px;
+            }
+
+            .content p {
+                line-height: 1.6;
+                margin-bottom: 10px;
+                font-size: 16px;
+            }
+
+        .highlight {
+            background-color: #fff5e6;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 20px 0;
+            background-color: #6d4c41;
+            color: #ffffff !important; 
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #5a4036;
+        }
+
+
+        .footer {
+            background-color: #6d4c41;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+        }
+
+            .footer img {
+                max-width: 40px;
+                margin-top: 10px;
+            }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <img src="cid:logoWhite" alt="Coffee.QR Logo">
+            <h1>Welcome to Coffee.QR!</h1>
+        </div>
+
+        <!-- Banner Image -->
+        <img src="cid:realCoffeeBanner" alt="Coffee Banner" class="banner">
+
+        <!-- Content -->
+        <div class="content">
+            <h2>Hello, Customer!</h2>
+            <div class="highlight">
+                <p>{TicketDetails}</p>
+            </div>
+            <p>Thank you for choosing Coffee.QR, your personalized QR code solution for coffee shops. We are thrilled to have you on board!</p>
+
+            <p>Here’s what you can do next:</p>
+            <ul>
+                <li>Explore our latest features</li>
+                <li>Create custom QR codes for your coffee shop</li>
+                <li>Track customer interactions with real-time analytics</li>
+            </ul>
+            <p>Ready to get started?</p>
+            <a href="https://github.com/Coffe-QR" class="button">Get Started</a>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>App is powered by FatManTeam</p>
+            <img src="cid:fatmanqrLogo" alt="FatManTeam Logo">
+            <p>&copy; 2024 Coffee.QR. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -25,7 +25,13 @@ namespace Coffee.QR.Core.Services
         public Result SendEmail(string emailDestination, string emailSubject, string emailBody)
         {
             string filePath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/appEmailSettings.json";
+            string templatePath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/emailTemplateRedesigned.html";
+
+
             string jsonString = File.ReadAllText(filePath);
+            string templateString = File.ReadAllText(templatePath);
+
+
             EmailCredentialsDto credentials = JsonSerializer.Deserialize<EmailCredentialsDto>(jsonString);
 
             SmtpClient smtpClient = new SmtpClient(credentials.SmtpServer)
@@ -35,30 +41,67 @@ namespace Coffee.QR.Core.Services
                 EnableSsl = true,
             };
 
-            MailMessage MailMessage = new MailMessage
+            string mailBody = templateString.Replace("{UserName}", "Customer").Replace("{TicketDetails}", emailBody);
+
+            MailMessage mailMessage = new MailMessage
             {
-                From = new MailAddress(credentials.SenderEmail),
-                To = { emailDestination },
+                From = new MailAddress(credentials.SenderEmail, "Coffee.QR"),
                 Subject = emailSubject,
-                Body = emailBody,
                 IsBodyHtml = true,
             };
+            mailMessage.To.Add(emailDestination);
+
+            string logoPath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/Images/logoWhite.png";
+            string logoFatmanPath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/Images/fatmanqrLogo.png";
+            string realCoffeeBannerPath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/Images/realCoffeeBanner.png";
+
+            if (File.Exists(logoPath) && File.Exists(logoFatmanPath) && File.Exists(realCoffeeBannerPath))
+            {
+                LinkedResource logo = new LinkedResource(logoPath, MediaTypeNames.Image.Png)
+                {
+                    ContentId = "logoWhite",
+                    TransferEncoding = TransferEncoding.Base64
+                };
+
+                LinkedResource logoFatman = new LinkedResource(logoFatmanPath, MediaTypeNames.Image.Png)
+                {
+                    ContentId = "fatmanqrLogo",
+                    TransferEncoding = TransferEncoding.Base64
+                };
+
+                LinkedResource coffeeBanner = new LinkedResource(realCoffeeBannerPath, MediaTypeNames.Image.Png)
+                {
+                    ContentId = "realCoffeeBanner",
+                    TransferEncoding = TransferEncoding.Base64
+                };
+
+                AlternateView avHtml = AlternateView.CreateAlternateViewFromString(mailBody, null, MediaTypeNames.Text.Html);
+                avHtml.LinkedResources.Add(logo);
+                avHtml.LinkedResources.Add(logoFatman);
+                avHtml.LinkedResources.Add(coffeeBanner);
+
+                mailMessage.AlternateViews.Add(avHtml);
+            }
+
             try
             {
-                smtpClient.Send(MailMessage);
-                return null;
+                // Send email
+                smtpClient.Send(mailMessage);
+                return null; // Success
             }
             catch (Exception e)
             {
+                // Handle error
                 return Result.Fail(FailureCode.EmailError);
             }
             finally
             {
-                MailMessage.Dispose();
+                // Clean up
+                mailMessage.Dispose();
                 smtpClient.Dispose();
-
             }
         }
+
 
         public Result SendEmailWithAttachment(string emailDestination, string emailSubject, string emailBody, string attachmentName)
         {
@@ -104,62 +147,99 @@ namespace Coffee.QR.Core.Services
             }
         }
 
-        /*public Result SendEmailWithAttachments(string emailDestination, string emailSubject, string emailBody, List<string> attachmentNames)
-        {
-            string filePath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/appEmailSettings.json";
-            string jsonString = File.ReadAllText(filePath);
-            EmailCredentialsDto credentials = JsonSerializer.Deserialize<EmailCredentialsDto>(jsonString);
-
-            SmtpClient smtpClient = new SmtpClient(credentials.SmtpServer)
-            {
-                Port = credentials.Port,
-                Credentials = new NetworkCredential(credentials.SenderEmail, credentials.SenderPassword),
-                EnableSsl = true,
-            };
-
-            MailMessage MailMessage = new MailMessage
-            {
-                From = new MailAddress(credentials.SenderEmail),
-                To = { emailDestination },
-                Subject = emailSubject,
-                Body = emailBody,
-                IsBodyHtml = true,
-            };
-
-            try
-            {
-                foreach (var attachmentName in attachmentNames)
+        /*        public Result SendEmailWithAttachments(string emailDestination, string emailSubject, string emailBody, List<string> attachmentNames)
                 {
-                    if (!string.IsNullOrEmpty(attachmentName) && File.Exists(attachmentName))
-                    {
-                        Attachment attachment = new Attachment(attachmentName);
-                        MailMessage.Attachments.Add(attachment);
-                    }
-                }
+                    string filePath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/appEmailSettings.json";
+                    string templatePath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/emailTemplate.html";
+                    string jsonString = File.ReadAllText(filePath);
+                    string templateString = File.ReadAllText(templatePath);
 
-                smtpClient.Send(MailMessage);
-                return null;
-            }
-            catch (Exception e)
-            {
-                return Result.Fail(FailureCode.EmailError);
-            }
-            finally
-            {
-                MailMessage.Dispose();
-                smtpClient.Dispose();
-            }
-        }
-*/
+                    EmailCredentialsDto credentials = JsonSerializer.Deserialize<EmailCredentialsDto>(jsonString);
+
+                    SmtpClient smtpClient = new SmtpClient(credentials.SmtpServer)
+                    {
+                        Port = credentials.Port,
+                        Credentials = new NetworkCredential(credentials.SenderEmail, credentials.SenderPassword),
+                        EnableSsl = true,
+                    };
+
+                    // Replace placeholders in the template
+                    string mailBody = templateString.Replace("{UserName}", "Customer").Replace("{TicketDetails}", emailBody);
+
+                    MailMessage mailMessage = new MailMessage
+                    {
+                        From = new MailAddress(credentials.SenderEmail, "Coffee.QR"),
+                        To = { emailDestination },
+                        Subject = emailSubject,
+                        Body = mailBody,
+                        IsBodyHtml = true,
+                    };
+
+                    // Embedding images
+                    string logoPath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/Images/logoWhite.png"; // Adjust path as necessary
+                    string logoFatmanPath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/Images/fatmanqrLogo.png"; // Adjust path as necessary
+
+                    if (File.Exists(logoPath) && File.Exists(logoFatmanPath))
+                    {
+                        LinkedResource logo = new LinkedResource(logoPath, MediaTypeNames.Image.Png)
+                        {
+                            ContentId = "logoWhite",
+                            TransferEncoding = TransferEncoding.Base64
+                        };
+                        LinkedResource logoFatman = new LinkedResource(logoFatmanPath, MediaTypeNames.Image.Png)
+                        {
+                            ContentId = "fatmanqrLogo",
+                            TransferEncoding = TransferEncoding.Base64
+                        };
+
+                        AlternateView avHtml = AlternateView.CreateAlternateViewFromString(mailBody, null, MediaTypeNames.Text.Html);
+                        avHtml.LinkedResources.Add(logo);
+                        avHtml.LinkedResources.Add(logoFatman);
+
+                        mailMessage.AlternateViews.Add(avHtml);
+                    }
+
+
+
+
+                    try
+                    {
+                        foreach (var attachmentName in attachmentNames)
+                        {
+                            if (!string.IsNullOrEmpty(attachmentName) && File.Exists(attachmentName))
+                            {
+                                Attachment attachment = new Attachment(attachmentName);
+                                mailMessage.Attachments.Add(attachment);
+                            }
+                        }
+
+                        smtpClient.Send(mailMessage);
+                        return null;
+                    }
+                    catch (Exception e)
+                    {
+                        return Result.Fail(FailureCode.EmailError);
+                    }
+                    finally
+                    {
+                        mailMessage.Dispose();
+                        smtpClient.Dispose();
+                    }
+                }*/
+
         public Result SendEmailWithAttachments(string emailDestination, string emailSubject, string emailBody, List<string> attachmentNames)
         {
             string filePath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/appEmailSettings.json";
-            string templatePath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/emailTemplate.html";
+            string templatePath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/emailTemplateRedesigned.html";
+
+            // Read email settings and HTML template
             string jsonString = File.ReadAllText(filePath);
             string templateString = File.ReadAllText(templatePath);
 
+            // Deserialize email settings from JSON
             EmailCredentialsDto credentials = JsonSerializer.Deserialize<EmailCredentialsDto>(jsonString);
 
+            // Configure SMTP client
             SmtpClient smtpClient = new SmtpClient(credentials.SmtpServer)
             {
                 Port = credentials.Port,
@@ -167,47 +247,56 @@ namespace Coffee.QR.Core.Services
                 EnableSsl = true,
             };
 
-            // Replace placeholders in the template
+            // Replace placeholders in the HTML template
             string mailBody = templateString.Replace("{UserName}", "Customer").Replace("{TicketDetails}", emailBody);
 
+            // Create mail message
             MailMessage mailMessage = new MailMessage
             {
                 From = new MailAddress(credentials.SenderEmail, "Coffee.QR"),
-                To = { emailDestination },
                 Subject = emailSubject,
-                Body = mailBody,
                 IsBodyHtml = true,
             };
+            mailMessage.To.Add(emailDestination);
 
-            // Embedding images
-            string logoPath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/Images/logoWhite.png"; // Adjust path as necessary
-            string logoFatmanPath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/Images/fatmanqrLogo.png"; // Adjust path as necessary
+            // Embedding images using Content-ID (CID)
+            string logoPath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/Images/logoWhite.png";
+            string logoFatmanPath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/Images/fatmanqrLogo.png";
+            string realCoffeeBannerPath = "../../Coffee.QR-BackEnd/Coffee.QR-BackEnd/Resources/Images/realCoffeeBanner.png";
 
-            if (File.Exists(logoPath) && File.Exists(logoFatmanPath))
+            if (File.Exists(logoPath) && File.Exists(logoFatmanPath) && File.Exists(realCoffeeBannerPath))
             {
                 LinkedResource logo = new LinkedResource(logoPath, MediaTypeNames.Image.Png)
                 {
                     ContentId = "logoWhite",
                     TransferEncoding = TransferEncoding.Base64
                 };
+
                 LinkedResource logoFatman = new LinkedResource(logoFatmanPath, MediaTypeNames.Image.Png)
                 {
                     ContentId = "fatmanqrLogo",
                     TransferEncoding = TransferEncoding.Base64
                 };
 
+                LinkedResource coffeeBanner = new LinkedResource(realCoffeeBannerPath, MediaTypeNames.Image.Png)
+                {
+                    ContentId = "realCoffeeBanner",
+                    TransferEncoding = TransferEncoding.Base64
+                };
+
+                // Create alternate view for HTML email and add linked resources
                 AlternateView avHtml = AlternateView.CreateAlternateViewFromString(mailBody, null, MediaTypeNames.Text.Html);
                 avHtml.LinkedResources.Add(logo);
                 avHtml.LinkedResources.Add(logoFatman);
+                avHtml.LinkedResources.Add(coffeeBanner);
 
+                // Attach alternate view to mail message
                 mailMessage.AlternateViews.Add(avHtml);
             }
 
-            
-
-
             try
             {
+                // Attachments
                 foreach (var attachmentName in attachmentNames)
                 {
                     if (!string.IsNullOrEmpty(attachmentName) && File.Exists(attachmentName))
@@ -217,19 +306,23 @@ namespace Coffee.QR.Core.Services
                     }
                 }
 
+                // Send email
                 smtpClient.Send(mailMessage);
-                return null;
+                return null; // Success
             }
             catch (Exception e)
             {
+                // Handle error
                 return Result.Fail(FailureCode.EmailError);
             }
             finally
             {
+                // Clean up
                 mailMessage.Dispose();
                 smtpClient.Dispose();
             }
         }
+
 
     }
 }
