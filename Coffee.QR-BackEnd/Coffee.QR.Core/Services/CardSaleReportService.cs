@@ -24,13 +24,15 @@ namespace Coffee.QR.Core.Services
         private readonly ICardRepository _cardRepository;
         private readonly ICardUserRepository _cardUserRepository;
         private readonly IEventRepository _eventRepository;
+        private readonly ICardEventRepository _cardEventRepository;
 
-        public CardSaleReportService(ICrudRepository<CardSaleReport> crudRepository, IMapper mapper, ICardSaleRepository cardSaleRepository, ICardRepository cardRepository, ICardUserRepository cardUserRepository, IEventRepository eventRepository) : base(crudRepository, mapper)
+        public CardSaleReportService(ICrudRepository<CardSaleReport> crudRepository, IMapper mapper, ICardSaleRepository cardSaleRepository, ICardRepository cardRepository, ICardUserRepository cardUserRepository, IEventRepository eventRepository, ICardEventRepository cardEventRepository) : base(crudRepository, mapper)
         {
             _cardSaleRepository = cardSaleRepository;
             _cardRepository = cardRepository;
             _cardUserRepository = cardUserRepository;
             _eventRepository = eventRepository;
+            _cardEventRepository = cardEventRepository;
 
         }
         public Result<CardSaleReportDto> CreateReport(CardSaleReportDto cardSaleReportDto)
@@ -85,26 +87,31 @@ namespace Coffee.QR.Core.Services
 
         private async Task<List<EventCardSaleDto>> GetEventCardSaleData(long authorId)
         {
-            var events = _eventRepository.GetAllByUserId(authorId);
+            var events = _eventRepository.GetAllByUserId(authorId); // treba mi samo aktivne uzme a ne i one stare
             var result = new List<EventCardSaleDto>();
 
             foreach (var eventItem in events)
             {
-                var cards = _cardRepository.GetAllByEventId(eventItem.Id);
+                //var cards = _cardRepository.GetAllByEventId(eventItem.Id);
+                var cards = _cardEventRepository.GetAllByEventId(eventItem.Id);
 
                 foreach (var card in cards)
                 {
                     var purchases = _cardUserRepository.GetAll()
-                                                       .Where(cu => cu.CardId == card.Id);
+                                                       .Where(cu => cu.CardId == card.CardId);
 
                     var purchasedCount = purchases.Sum(p => p.Quantity);
                     var totalMoney = purchases.Sum(p => p.Amount);
 
+
+                    Card carddd = await _cardRepository.GetByIdAsync(card.CardId);
+                    string cardName = carddd.Type.ToString();
+
                     result.Add(new EventCardSaleDto
                     {
                         EventName = eventItem.Name,
-                        CardName = card.Type,
-                        //CardPrice = card.Price,
+                        CardName = cardName.ToString(),
+                        CardPrice = card.Price,
                         PurchasedCount = (int)purchasedCount,
                         TotalMoney = (double)totalMoney
                     });
