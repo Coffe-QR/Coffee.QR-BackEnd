@@ -106,11 +106,10 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
-        [HttpGet("DataExport")]
-        public IActionResult OrderDataExport()
+        [HttpGet("DataExport/{id}")]
+        public IActionResult OrderDataExport(long id)
         {
-            var userId = long.Parse(User.FindFirst("id")?.Value);
-            BackgroundJob.Enqueue(() => _orderService.Export(userId));
+            BackgroundJob.Enqueue(() => _orderService.Export(id));
             return CreateResponse(Result.Ok());
         }
     }
