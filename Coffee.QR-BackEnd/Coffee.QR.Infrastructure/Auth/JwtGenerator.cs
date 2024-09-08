@@ -14,24 +14,14 @@ namespace Coffee.QR.Infrastructure.Auth
 {
     public class JwtGenerator : ITokenGenerator
     {
-        private readonly string _key;
-        private readonly string _issuer;
-        private readonly string _audience;
-        private readonly IUserService _userService;
-        private const double dayInMinutes = 60 * 24;
-        private const string idPlaceholder = "id";
-        private const string usernamePlaceholder = "username";
+        private readonly string _key = Environment.GetEnvironmentVariable("JWT_KEY") ?? "coffeeQR_secret_key";
+        private readonly string _issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "coffeeQR";
+        private readonly string _audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "coffeeQR-front.com";
 
-        public JwtGenerator(IUserService userService)
+        public JwtGenerator()
         {
-            _userService = userService;
-            string filePath = "../Coffee.QR-BackEnd/Resources/appJwtSettings.json";
-            string jsonString = File.ReadAllText(filePath);
-            JWTCredentialsDto credentials = JsonSerializer.Deserialize<JWTCredentialsDto>(jsonString);
-
-            _key = Environment.GetEnvironmentVariable("JWT_KEY") ?? credentials.Key;
-            _issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? credentials.Issuer;
-            _audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? credentials.Audience;
+            // Generisanje ključa samo za demostracione svrhe. Za produkciju, koristite fiksni ključ definisan u konfiguraciji ili varijablama okruženja.
+            _key = GenerateSecureKey();
         }
 
 
@@ -42,11 +32,12 @@ namespace Coffee.QR.Infrastructure.Auth
             var claims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new(idPlaceholder, user.Id.ToString()),
-                new(usernamePlaceholder, user.Username),
+                new("id", user.Id.ToString()),
+                new("username", user.Username),
+                new("role", user.GetPrimaryRoleName())
             };
 
-            var jwt = CreateToken(claims, dayInMinutes);
+            var jwt = CreateToken(claims, 60 * 24);
             authenticationResponse.Id = user.Id;
             authenticationResponse.AccessToken = jwt;
 

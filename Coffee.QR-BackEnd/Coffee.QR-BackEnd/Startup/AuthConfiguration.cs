@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Text.Json;
-using Coffee.QR.API.DTOs;
 
 namespace Coffee.QR_BackEnd.Startup
 {
@@ -18,13 +16,9 @@ namespace Coffee.QR_BackEnd.Startup
 
         private static void ConfigureAuthentication(IServiceCollection services)
         {
-            string filePath = "Resources/appJwtSettings.json";
-            string jsonString = File.ReadAllText(filePath);
-            JWTCredentialsDto credentials = JsonSerializer.Deserialize<JWTCredentialsDto>(jsonString);
-
-            var key = Environment.GetEnvironmentVariable("JWT_KEY") ?? credentials.Key;
-            var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? credentials.Issuer;
-            var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? credentials.Audience;
+            var key = Environment.GetEnvironmentVariable("JWT_KEY") ?? "coffeQR_secret_key";
+            var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "coffeQR";
+            var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "coffeQR-front.com";
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
