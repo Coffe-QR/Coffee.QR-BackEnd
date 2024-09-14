@@ -34,6 +34,8 @@ namespace Coffee.QR.Infrastructure.Database
         public DbSet<Receipt> Receipts { get; set; }
         public DbSet<CardSaleReport> CardSaleReports { get; set; }
 
+        public DbSet<MenuRegion> MenuRegions { get; set; }
+
         public Context(DbContextOptions<Context> options) : base(options){}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -130,6 +132,12 @@ namespace Coffee.QR.Infrastructure.Database
             .HasOne(cu => cu.User)
             .WithMany()
             .HasForeignKey(cu => cu.UserId)
+            .IsRequired();
+
+            modelBuilder.Entity<MenuRegion>()
+            .HasOne(mr => mr.Menu)
+            .WithMany()
+            .HasForeignKey(mr => mr.MenuId)
             .IsRequired();
 
             Configure(modelBuilder);
