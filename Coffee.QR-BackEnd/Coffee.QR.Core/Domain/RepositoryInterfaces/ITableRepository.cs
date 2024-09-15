@@ -12,5 +12,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         List<Table> GetAll();
         Table Delete(long tableId);
         Table GetById(long tableId);
+        List<Table> GetAllForLocal(long localId);
     }
 }

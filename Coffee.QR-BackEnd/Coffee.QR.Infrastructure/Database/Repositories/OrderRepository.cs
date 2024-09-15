@@ -44,6 +44,11 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             return _dbContext.Orders.Where(o=>o.LocalId== localId && o.IsActive).ToList();
         }
 
+        public List<Order> GetActiveOrdersByTableId(long tableId)
+        {
+            return _dbContext.Orders.Where(o => o.TableId == tableId && o.IsActive).ToList();
+        }
+
         public List<Order> GetOrdersByLocalId(long localId)
         {
             return _dbContext.Orders.Where(o => o.LocalId == localId).ToList();

@@ -14,5 +14,7 @@ namespace Coffee.QR.API.Public
         Result<List<TableDto>> GetAllTables();
         bool DeleteTable(long tableId);
         Result<TableDto> GetById(long tableId);
+        Result<double> GetPriceForAllTableOrders(long tableId);
+        Result<List<TableDto>> GetAllTablesForLocal(long localId);
     }
 }

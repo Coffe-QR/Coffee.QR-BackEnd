@@ -88,7 +88,6 @@ namespace Coffee.QR.Core.Services
             }
         }
 
-
         public bool DeleteOrder(long orderId)
         {
             var orderToDelete = _orderRepository.Delete(orderId);
@@ -122,6 +121,15 @@ namespace Coffee.QR.Core.Services
         public void DeactivateOrder(long orderId)
         {
             _orderRepository.UpdateOrderIsActive(orderId, false);
+        }
+
+        public void DeactivateAllForTableOrders(long tableId)
+        {
+            List<Order> ordersForTable = _orderRepository.GetActiveOrdersByTableId(tableId);
+            foreach (var orderForTable in ordersForTable) 
+            {
+                _orderRepository.UpdateOrderIsActive(orderForTable.Id, false);
+            }
         }
 
         public Result<OrderDto> GetById(long orderId)

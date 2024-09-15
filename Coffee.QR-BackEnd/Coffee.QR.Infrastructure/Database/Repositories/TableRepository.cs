@@ -28,6 +28,11 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             return _dbContext.Tables.ToList();
         }
 
+        public List<Table> GetAllForLocal(long localId)
+        {
+            return _dbContext.Tables.Where(t => t.LocalId == localId).ToList();
+        }
+
         public Table GetById(long tableId)
         {
             return _dbContext.Tables.Find(tableId);

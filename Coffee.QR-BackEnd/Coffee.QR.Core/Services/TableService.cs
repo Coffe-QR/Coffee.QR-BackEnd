@@ -16,11 +16,13 @@ namespace Coffee.QR.Core.Services
     public class TableService : CrudService<TableDto, Table>, ITableService
     {
         private readonly ITableRepository _tableRepository;
+        private readonly IOrderRepository _orderRepository;
 
-        public TableService(ICrudRepository<Table> crudRepository, IMapper mapper, ITableRepository tableRepository)
+        public TableService(ICrudRepository<Table> crudRepository, IMapper mapper, ITableRepository tableRepository, IOrderRepository orderRepository)
             : base(crudRepository, mapper)
         {
             _tableRepository = tableRepository;
+            _orderRepository = orderRepository;
         }
 
         public Result<TableDto> CreateTable(TableDto tableDto)
@@ -45,11 +47,45 @@ namespace Coffee.QR.Core.Services
                 return Result.Fail<TableDto>(FailureCode.InvalidArgument).WithError(e.Message);
             }
         }
+
+        public Result<double> GetPriceForAllTableOrders(long tableId) 
+        {
+            double totalPrice = 0;
+            List<Order> oredersForTable = _orderRepository.GetActiveOrdersByTableId(tableId);
+            foreach (Order order in oredersForTable) 
+            {
+                totalPrice += order.Price;
+            }
+            return totalPrice;
+        }
+
         public Result<List<TableDto>> GetAllTables()
         {
             try
             {
                 var tables = _tableRepository.GetAll();
+                var tableDtos = tables.Select(t => new TableDto
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    Capacity = t.Capacity,
+                    IsSmokingArea = t.IsSmokingArea,
+                    LocalId = t.LocalId,
+                }).ToList();
+
+                return Result.Ok(tableDtos);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<List<TableDto>>("Failed to retrieve tables").WithError(e.Message);
+            }
+        }
+
+        public Result<List<TableDto>> GetAllTablesForLocal(long localId)
+        {
+            try
+            {
+                var tables = _tableRepository.GetAllForLocal(localId);
                 var tableDtos = tables.Select(t => new TableDto
                 {
                     Id = t.Id,

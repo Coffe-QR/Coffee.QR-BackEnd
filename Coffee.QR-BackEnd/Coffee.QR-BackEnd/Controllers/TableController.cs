@@ -52,10 +52,40 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpGet("getAllForLocal/{id}")]
+        public IActionResult GetAllForLocal(long id)
+        {
+            var result = _tableService.GetAllTablesForLocal(id);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
         [HttpGet("getById/{id}")]
         public IActionResult GetById(int id)
         {
             var result = _tableService.GetById(id);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
+        [HttpGet("getTotalPriceForTable/{tableId}")]
+        public IActionResult GetTotalPriceForTable(long tableId)
+        {
+            var result = _tableService.GetPriceForAllTableOrders(tableId);
 
             if (result.IsSuccess)
             {
