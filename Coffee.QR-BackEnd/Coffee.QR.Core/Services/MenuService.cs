@@ -5,6 +5,7 @@ using Coffee.QR.BuildingBlocks.Core.UseCases;
 using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
 using FluentResults;
+using Hangfire.Dashboard;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +17,18 @@ namespace Coffee.QR.Core.Services
     public class MenuService : CrudService<MenuDto, Menu>, IMenuService
     {
         private readonly IMenuRepository _menuRepository;
+        private readonly IMenuRegionRepository _menuRegionRepository;
+        private readonly IRegionItemRepository _regionItemRepository;
+        private readonly IItemRepository _itemRepository;
 
 
-        public MenuService(ICrudRepository<Menu> crudRepository, IMapper mapper, IMenuRepository menuRepository)
+        public MenuService(ICrudRepository<Menu> crudRepository, IMapper mapper, IMenuRepository menuRepository, IMenuRegionRepository menuRegionRepository, IRegionItemRepository regionItemRepository, IItemRepository itemRepository)
             : base(crudRepository, mapper)
         {
             _menuRepository = menuRepository;
+            _menuRegionRepository = menuRegionRepository;
+            _regionItemRepository = regionItemRepository;
+            _itemRepository = itemRepository;
         }
 
         public Result<MenuDto> CreateMenu(MenuDto menuDto)
@@ -143,6 +150,41 @@ namespace Coffee.QR.Core.Services
                 oldMenu.Description = newMenu.Description;
                 oldMenu.IsActive = newMenu.IsActive;
                 return _menuRepository.UpdateMenu(oldMenu);
+        }
+
+        public Result<List<AllMenuItemsDto>> GetAllForMenu(long menuId)
+        {
+            try
+            {
+                List<MenuRegion> regions = _menuRegionRepository.GetAllByMenuId(menuId);
+                List<Item> items = new List<Item>();
+                List<AllMenuItemsDto> menuItemsDtos = new List<AllMenuItemsDto>();
+                foreach (var region in regions)
+                {
+                    List<RegionItem> regionItems = _regionItemRepository.GetAllByRegionId(region.Id);
+                    foreach (var regionItem in regionItems) 
+                    {
+                        Item item = _itemRepository.GetById(regionItem.Id);
+                        AllMenuItemsDto allMenuItem = new AllMenuItemsDto
+                        {
+                            Id = item.Id,
+                            RegionId = region.Id,
+                            Name = item.Name,
+                            Description = item.Description,
+                            Price = item.Price,
+                            Picture = item.Picture,
+                            Quantity = 0
+                        };
+                        menuItemsDtos.Add(allMenuItem);
+                    }
+                }
+
+                return Result.Ok(menuItemsDtos);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<List<AllMenuItemsDto>>("Failed to retrieve menu items").WithError(e.Message);
+            }
         }
     }
 }

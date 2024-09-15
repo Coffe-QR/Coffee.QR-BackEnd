@@ -138,5 +138,20 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpGet("for-menu/{menuId}")]
+        public IActionResult GetAllForMenu(long menuId)
+        {
+            var result = _menuService.GetAllForMenu(menuId);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
     }
 }

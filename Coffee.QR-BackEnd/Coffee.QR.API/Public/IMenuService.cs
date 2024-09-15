@@ -18,5 +18,6 @@ namespace Coffee.QR.API.Public
         Result<List<MenuDto>> GetAllByLocalId(long localId);
         Result<MenuDto> GetById(long menuId);
         bool UpdateMenu(MenuDto menu);
+        Result<List<AllMenuItemsDto>> GetAllForMenu(long menuId);
     }
 }
