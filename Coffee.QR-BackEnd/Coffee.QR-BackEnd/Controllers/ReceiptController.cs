@@ -37,6 +37,21 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpPost("ForWholeTable/{moneyReceived}/{tableId}/{waiterId}")]
+        public IActionResult CreateReceiptForWholeTable (double moneyReceived, long tableId, long waiterId)
+        {
+            var result = _receiptService.CreateReceiptForWholeTable(moneyReceived, tableId, waiterId);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteReceipt(long id)
         {

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Coffee.QR.Core.Services
 {
@@ -54,6 +55,26 @@ namespace Coffee.QR.Core.Services
             catch (ArgumentException e)
             {
                 return Result.Fail<ReceiptDto>(FailureCode.InvalidArgument).WithError(e.Message);
+            }
+        }
+
+        public Result<ActionResult> CreateReceiptForWholeTable(double datoPara, long tableId, long waiterId)
+        {
+            try
+            {
+                var ordersForTable = _orderRepository.GetActiveOrdersByTableId(tableId);
+                foreach (var order in ordersForTable) 
+                {
+                    var receipt = _receiptRepository.Create(new Receipt(CreateReceiptPdfForOrderForTable(datoPara, order.Id, waiterId), DateOnly.FromDateTime(DateTime.Now), order.Id, waiterId));
+                }
+
+                var receiptForTable = CreateReceiptPdfForTable(datoPara, tableId, waiterId);
+
+                return Result.Ok();
+            }
+            catch (ArgumentException e)
+            {
+                return Result.Fail("could not print receipt");
             }
         }
 
@@ -154,6 +175,129 @@ namespace Coffee.QR.Core.Services
             doc.Add(new Paragraph("Dj                  O-PDV       20.00%       " + priceSum/5));
             doc.Add(new Paragraph("------------------------------------------------------------"));
             doc.Add(new Paragraph("Ukupan iznos poreza                         " + priceSum/5));
+            doc.Add(new Paragraph("=================================="));
+            DateTime now = DateTime.Now;
+            doc.Add(new Paragraph("PFR Vreme                    " + now.ToString("dd.MM.yyyy HH:mm:ss")));
+            doc.Add(new Paragraph("======KRAJ FISKALNOG RACUNA======"));
+
+            doc.Close();
+
+            try
+            {
+                Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Could not open the PDF file.");
+                Console.WriteLine(ex.Message);
+            }
+            return path;
+        }
+
+        private string CreateReceiptPdfForOrderForTable(double moneyReceived, long orderId, long waiterId)
+        {
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+            string formattedDate = today.ToString("dd_MM_yyyy");
+            string path = "..\\Coffee.QR-BackEnd\\Resources\\Pdfs\\Test" + "_Order" + orderId + "_Date" + formattedDate + ".pdf";
+            Document doc = new Document();
+            PdfWriter.GetInstance(doc, new FileStream(path, FileMode.Create));
+            doc.Open();
+            doc.Add(new Paragraph("===========Fiskalni racun==========="));
+            Random random = new Random();
+            int randomNumber = random.Next(100000000, 1000000000);
+            doc.Add(new Paragraph("                         " + randomNumber));
+            Order order = _orderRepository.GetById(orderId);
+            Local local = _localRepository.GetById(order.LocalId);
+            doc.Add(new Paragraph("                              " + local.Name));
+            doc.Add(new Paragraph("                           " + local.City));
+            doc.Add(new Paragraph("----------------------------------------------------------"));
+            User waiter = _userRepository.GetById(waiterId);
+            doc.Add(new Paragraph("Id kupca                                                 20"));
+            doc.Add(new Paragraph("Konobar                                            " + waiter.FirstName));
+            doc.Add(new Paragraph("--------------PROMET - PRODAJA--------------"));
+            doc.Add(new Paragraph("                              Artikli                             "));
+            doc.Add(new Paragraph("=================================="));
+            doc.Add(new Paragraph("Naziv                    Cena        Kol.     Ukupno"));
+            List<ReceiptItemDto> dtos = OrderItems(orderId);
+            double priceSum = 0;
+            foreach (ReceiptItemDto receiptItemDto in dtos)
+            {
+                doc.Add(new Paragraph(receiptItemDto.Name + "                    " + receiptItemDto.Price + "           " + receiptItemDto.Quantity + "          " + receiptItemDto.Price * receiptItemDto.Quantity));
+                priceSum = priceSum + receiptItemDto.Price * receiptItemDto.Quantity;
+            }
+            doc.Add(new Paragraph("------------------------------------------------------------"));
+            doc.Add(new Paragraph("Za uplatu                                              " + priceSum));
+            doc.Add(new Paragraph("Prenos na racun                                   " + moneyReceived));
+            double change = moneyReceived - priceSum;
+            doc.Add(new Paragraph("Povracaj                                               " + change));
+            doc.Add(new Paragraph("=================================="));
+            doc.Add(new Paragraph("Oznaka              Ime         Stopa         Porez"));
+            doc.Add(new Paragraph("Dj                  O-PDV       20.00%       " + priceSum / 5));
+            doc.Add(new Paragraph("------------------------------------------------------------"));
+            doc.Add(new Paragraph("Ukupan iznos poreza                         " + priceSum / 5));
+            doc.Add(new Paragraph("=================================="));
+            DateTime now = DateTime.Now;
+            doc.Add(new Paragraph("PFR Vreme                    " + now.ToString("dd.MM.yyyy HH:mm:ss")));
+            doc.Add(new Paragraph("======KRAJ FISKALNOG RACUNA======"));
+
+            doc.Close();
+
+            try
+            {
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Could not open the PDF file.");
+                Console.WriteLine(ex.Message);
+            }
+            return path;
+        }
+
+        private string CreateReceiptPdfForTable(double moneyReceived, long tableId, long waiterId)
+        {
+            var ordersForTable = _orderRepository.GetActiveOrdersByTableId(tableId);
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+            string formattedDate = today.ToString("dd_MM_yyyy");
+            string path = "..\\Coffee.QR-BackEnd\\Resources\\Pdfs\\Test" + "_Table" + tableId + "_Date" + formattedDate + ".pdf";
+            Document doc = new Document();
+            PdfWriter.GetInstance(doc, new FileStream(path, FileMode.Create));
+            doc.Open();
+            doc.Add(new Paragraph("===========Fiskalni racun==========="));
+            Random random = new Random();
+            int randomNumber = random.Next(100000000, 1000000000);
+            doc.Add(new Paragraph("                         " + randomNumber));
+            Order order = _orderRepository.GetById(ordersForTable[0].Id);
+            Local local = _localRepository.GetById(order.LocalId);
+            doc.Add(new Paragraph("                              " + local.Name));
+            doc.Add(new Paragraph("                           " + local.City));
+            doc.Add(new Paragraph("----------------------------------------------------------"));
+            User waiter = _userRepository.GetById(waiterId);
+            doc.Add(new Paragraph("Id kupca                                                 20"));
+            doc.Add(new Paragraph("Konobar                                            " + waiter.FirstName));
+            doc.Add(new Paragraph("--------------PROMET - PRODAJA--------------"));
+            doc.Add(new Paragraph("                              Artikli                             "));
+            doc.Add(new Paragraph("=================================="));
+            doc.Add(new Paragraph("Naziv                    Cena        Kol.     Ukupno"));
+            double priceSum = 0;
+            foreach (var orderForTable in ordersForTable)
+            {
+                List<ReceiptItemDto> dtos = OrderItems(orderForTable.Id);
+                foreach (ReceiptItemDto receiptItemDto in dtos)
+                {
+                    doc.Add(new Paragraph(receiptItemDto.Name + "                    " + receiptItemDto.Price + "           " + receiptItemDto.Quantity + "          " + receiptItemDto.Price * receiptItemDto.Quantity));
+                    priceSum = priceSum + receiptItemDto.Price * receiptItemDto.Quantity;
+                }    
+            }
+            doc.Add(new Paragraph("------------------------------------------------------------"));
+            doc.Add(new Paragraph("Za uplatu                                              " + priceSum));
+            doc.Add(new Paragraph("Prenos na racun                                   " + moneyReceived));
+            double change = moneyReceived - priceSum;
+            doc.Add(new Paragraph("Povracaj                                               " + change));
+            doc.Add(new Paragraph("=================================="));
+            doc.Add(new Paragraph("Oznaka              Ime         Stopa         Porez"));
+            doc.Add(new Paragraph("Dj                  O-PDV       20.00%       " + priceSum / 5));
+            doc.Add(new Paragraph("------------------------------------------------------------"));
+            doc.Add(new Paragraph("Ukupan iznos poreza                         " + priceSum / 5));
             doc.Add(new Paragraph("=================================="));
             DateTime now = DateTime.Now;
             doc.Add(new Paragraph("PFR Vreme                    " + now.ToString("dd.MM.yyyy HH:mm:ss")));
