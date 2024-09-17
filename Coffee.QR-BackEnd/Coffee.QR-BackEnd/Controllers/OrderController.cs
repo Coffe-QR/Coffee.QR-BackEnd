@@ -91,6 +91,13 @@ namespace Coffee.QR_BackEnd.Controllers
             return Ok();
         }
 
+        [HttpPut("markOrderAsTaken/{id}")]
+        public IActionResult markOrderAsTaken(long id)
+        {
+            _orderService.MarkOrderAsTaken(id);
+            return Ok();
+        }
+
         [HttpPut("deactivateAllForTable/{id}")]
         public IActionResult DeactivateAllForTableOrders(long id)
         {

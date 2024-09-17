@@ -64,6 +64,16 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             }
         }
 
+        public void UpdateOrderIsTaken(long orderId, bool isTaken)
+        {
+            var order = _dbContext.Orders.FirstOrDefault(o => o.Id == orderId);
+            if (order != null)
+            {
+                order.IsTaken = isTaken;
+                _dbContext.SaveChanges();
+            }
+        }
+
         public Order GetById(long orderId)
         {
             return _dbContext.Orders.Find(orderId);

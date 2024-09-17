@@ -17,9 +17,10 @@ namespace Coffee.QR.Core.Domain
         public Local Local { get; private set; }
         public DateOnly Date { get; set; }
         public Boolean IsActive { get; set; }
+        public Boolean IsTaken { get; set; }
 
 
-        public Order(double price, string description, long tableId, long localId, DateOnly date, Boolean isActive)
+        public Order(double price, string description, long tableId, long localId, DateOnly date, Boolean isActive, Boolean isTaken)
         {
             Price = price;
             Description = description;
@@ -27,6 +28,7 @@ namespace Coffee.QR.Core.Domain
             LocalId = localId;
             Date = date;
             IsActive = isActive;
+            IsTaken = isTaken;
         }
 
         

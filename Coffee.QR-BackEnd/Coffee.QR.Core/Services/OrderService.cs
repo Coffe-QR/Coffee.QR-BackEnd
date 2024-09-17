@@ -44,7 +44,7 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var ordert = _orderRepository.Create(new Domain.Order(orderDto.Price, orderDto.Description, orderDto.TableId, orderDto.LocalId, DateOnly.FromDateTime(DateTime.Now), orderDto.IsActive));
+                var ordert = _orderRepository.Create(new Domain.Order(orderDto.Price, orderDto.Description, orderDto.TableId, orderDto.LocalId, DateOnly.FromDateTime(DateTime.Now), orderDto.IsActive, false));
 
                 OrderDto resultDto = new OrderDto
                 {
@@ -55,6 +55,7 @@ namespace Coffee.QR.Core.Services
                     Date = ordert.Date,
                     LocalId = ordert.LocalId,
                     IsActive = ordert.IsActive,
+                    IsTaken = false,
                 };
 
                 return Result.Ok(resultDto);
@@ -78,6 +79,7 @@ namespace Coffee.QR.Core.Services
                     Date = o.Date,
                     LocalId = o.LocalId,
                     IsActive = o.IsActive,
+                    IsTaken = o.IsTaken,
                 }).ToList();
 
                 return Result.Ok(orderDtos);
@@ -108,6 +110,7 @@ namespace Coffee.QR.Core.Services
                     Date = o.Date,
                     LocalId = o.LocalId,
                     IsActive = o.IsActive,
+                    IsTaken = o.IsTaken,
                 }).ToList();
 
                 return Result.Ok(orderDtos);
@@ -121,6 +124,11 @@ namespace Coffee.QR.Core.Services
         public void DeactivateOrder(long orderId)
         {
             _orderRepository.UpdateOrderIsActive(orderId, false);
+        }
+
+        public void MarkOrderAsTaken(long orderId)
+        {
+            _orderRepository.UpdateOrderIsTaken(orderId, true);
         }
 
         public void DeactivateAllForTableOrders(long tableId)
@@ -147,7 +155,8 @@ namespace Coffee.QR.Core.Services
                         TableId = order.TableId,
                         LocalId = order.LocalId,
                         Date = order.Date,
-                        IsActive = order.IsActive
+                        IsActive = order.IsActive,
+                        IsTaken = order.IsTaken,
                     };
                     return Result.Ok(orderDto);
                 }

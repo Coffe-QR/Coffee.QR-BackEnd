@@ -16,5 +16,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         List<Order> GetOrdersByLocalId(long localId);
         Order GetById(long orderId);
         List<Order> GetActiveOrdersByTableId(long tableId);
+        void UpdateOrderIsTaken(long orderId, bool isTaken);
     }
 }

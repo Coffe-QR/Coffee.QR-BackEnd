@@ -18,5 +18,6 @@ namespace Coffee.QR.API.Public
         Result<OrderDto> GetById(long orderId);
         Result Export(long userId);
         void DeactivateAllForTableOrders(long tableId);
+        void MarkOrderAsTaken(long orderId);
     }
 }
