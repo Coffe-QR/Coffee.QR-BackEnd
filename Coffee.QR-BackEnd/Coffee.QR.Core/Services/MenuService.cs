@@ -162,9 +162,9 @@ namespace Coffee.QR.Core.Services
                 foreach (var region in regions)
                 {
                     List<RegionItem> regionItems = _regionItemRepository.GetAllByRegionId(region.Id);
-                    foreach (var regionItem in regionItems) 
+                    foreach (var regionItem in regionItems)
                     {
-                        Item item = _itemRepository.GetById(regionItem.Id);
+                        Item item = _itemRepository.GetById(regionItem.ItemId);
                         AllMenuItemsDto allMenuItem = new AllMenuItemsDto
                         {
                             Id = item.Id,
@@ -175,7 +175,10 @@ namespace Coffee.QR.Core.Services
                             Picture = item.Picture,
                             Quantity = 0
                         };
-                        menuItemsDtos.Add(allMenuItem);
+                        if (!menuItemsDtos.Any(m => m.Id == allMenuItem.Id))
+                        {
+                            menuItemsDtos.Add(allMenuItem);
+                        }
                     }
                 }
 
