@@ -81,7 +81,6 @@ namespace Coffee.QR.Core.Services
                     Id = i.Id,
                     Name = i.Name,
                     Description = i.Description,
-                    Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), i.Type.ToString(), true),
                     Price = i.Price,
                     Picture = i.Picture,
                 }).ToList();
@@ -129,7 +128,6 @@ namespace Coffee.QR.Core.Services
                     Id = i.Id,
                     Name = i.Name,
                     Description = i.Description,
-                    Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), i.Type.ToString(), true),
                     Price = i.Price,
                     Picture = i.Picture,
                 }).ToList();

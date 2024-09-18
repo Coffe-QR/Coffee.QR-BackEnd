@@ -30,14 +30,13 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var item = _itemRepository.Create(new Item((ItemType)Enum.Parse(typeof(ItemType), itemDto.Type.ToString(), true), itemDto.Name, itemDto.Description, itemDto.Price, itemDto.Picture));
+                var item = _itemRepository.Create(new Item(itemDto.Name, itemDto.Description, itemDto.Price, itemDto.Picture));
 
                 ItemDto resultDto = new ItemDto
                 {
                     Id = item.Id,
                     Name = itemDto.Name,
                     Description = itemDto.Description,
-                    Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), itemDto.Type.ToString(), true),
                     Price = itemDto.Price,
                     Picture = itemDto.Picture,
                 };
@@ -66,7 +65,6 @@ namespace Coffee.QR.Core.Services
                     Id = i.Id,
                     Name = i.Name,
                     Description = i.Description,
-                    Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), i.Type.ToString(), true),
                     Price = i.Price,
                     Picture = i.Picture,
                 }).ToList();
@@ -94,7 +92,6 @@ namespace Coffee.QR.Core.Services
                         Id = item.Id,
                         Name = item.Name,
                         Description = item.Description,
-                        Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), item.Type.ToString(), true),
                         Price = item.Price,
                         Picture = item.Picture,
                         Quantity = si.Quantity,
@@ -134,7 +131,6 @@ namespace Coffee.QR.Core.Services
                         Description = item.Description,
                         Price = item.Price,
                         Picture = item.Picture,
-                        Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), item.Type.ToString(), true),
                     };
                     return Result.Ok(itemDto);
                 }

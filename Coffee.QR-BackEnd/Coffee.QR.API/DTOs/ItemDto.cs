@@ -7,16 +7,9 @@ using System.Threading.Tasks;
 
 namespace Coffee.QR.API.DTOs
 {
-    public enum ItemTypeDto
-    {
-        FOOD,
-        DRINK,
-        INGREDIENT
-    };
     public class ItemDto
     {
         public long Id { get; set; }
-        public ItemTypeDto Type { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public double Price { get; set; }

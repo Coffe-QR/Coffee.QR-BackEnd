@@ -132,7 +132,6 @@ namespace Coffee.QR.Core.Services
                                 Quantity = orderItem.Quantity,
                                 Price = domain.Price,
                                 Picture = domain.Picture,
-                                Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), domain.Type.ToString(), true),
                             };
                             items.Add(dto);
                         }

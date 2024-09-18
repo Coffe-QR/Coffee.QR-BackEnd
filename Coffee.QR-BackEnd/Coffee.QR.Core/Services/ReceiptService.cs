@@ -256,9 +256,9 @@ namespace Coffee.QR.Core.Services
         private string CreateReceiptPdfForTable(double moneyReceived, long tableId, long waiterId)
         {
             var ordersForTable = _orderRepository.GetActiveOrdersByTableId(tableId);
-            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
-            string formattedDate = today.ToString("dd_MM_yyyy");
-            string path = "..\\Coffee.QR-BackEnd\\Resources\\Pdfs\\Test" + "_Table" + tableId + "_Date" + formattedDate + ".pdf";
+            DateTime dateTimeWithCurrentTime = DateTime.Now;
+            string formattedDateTime = dateTimeWithCurrentTime.ToString("dd_MM_yyyy_HH_mm_ss");
+            string path = "..\\Coffee.QR-BackEnd\\Resources\\Pdfs\\Test" + "_Table" + tableId + "_Date" + formattedDateTime + ".pdf";
             Document doc = new Document();
             PdfWriter.GetInstance(doc, new FileStream(path, FileMode.Create));
             doc.Open();
