@@ -36,6 +36,13 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
                       .ToList();
         }
 
+        public List<Notification> GetAllActiveForTable(long tableId)
+        {
+            return _dbContext.Notifications
+                      .Where(n => n.TableId == tableId && n.IsActive)
+                      .ToList();
+        }
+
         public void UpdateNotificationIsActive(long notificationId, bool isActive)
         {
             var notification = _dbContext.Notifications.FirstOrDefault(n => n.Id == notificationId);

@@ -13,5 +13,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         Notification Delete(long notificationId);
         List<Notification> GetAllActive(long localId);
         void UpdateNotificationIsActive(long notificationId, bool isActive);
+        List<Notification> GetAllActiveForTable(long tableId);
     }
 }

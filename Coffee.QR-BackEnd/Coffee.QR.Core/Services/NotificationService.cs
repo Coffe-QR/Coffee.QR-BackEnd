@@ -98,6 +98,15 @@ namespace Coffee.QR.Core.Services
             _notificationRepository.UpdateNotificationIsActive(notificationId, false);
         }
 
+        public void DeactivateAllForTable(long tableId) 
+        {
+            var notifications = _notificationRepository.GetAllActiveForTable(tableId);
+            foreach (var notification in notifications) 
+            {
+                DeactivateNotification(notification.Id);
+            }
+        }
+
         public bool DeleteNotification(long notificationId)
         {
             var notificationToDelete = _notificationRepository.Delete(notificationId);
