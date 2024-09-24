@@ -117,5 +117,19 @@ namespace Coffee.QR_BackEnd.Controllers
                 return NotFound(new { message = "Item not found." });
             }
         }
+
+        [HttpGet("getAllForBuy")]
+        public IActionResult GetAllForBuy()
+        {
+            var result = _itemService.GetAllForBuy();
+            return CreateResponse(result);
+        }
+
+        [HttpGet("get-name/{itemId}")]
+        public IActionResult GetAllForBuy(long itemId)
+        {
+            var result = _itemService.GetAllForBuy();
+            return CreateResponse(result);
+        }
     }
 }

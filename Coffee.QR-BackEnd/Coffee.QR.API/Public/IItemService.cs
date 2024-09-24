@@ -16,5 +16,7 @@ namespace Coffee.QR.API.Public
         Result<List<ItemDto>> GetAllForStorage(long storageId);
         bool UpdateItem(ItemDto newItem);
         Result<ItemDto> GetById(long itemId);
+        Result<List<ItemDto>> GetAllForBuy();
+        Result<string> GetName(long itemId);
     }
 }

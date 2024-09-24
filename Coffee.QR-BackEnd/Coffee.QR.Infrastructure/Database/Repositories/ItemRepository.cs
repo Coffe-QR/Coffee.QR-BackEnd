@@ -1,5 +1,6 @@
 ﻿using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
 
         public List<Item> GetAll()
         {
-            return _dbContext.Items.ToList();
+            return _dbContext.Items.Include(i => i.Company).ToList();
         }
         
         public Item GetItem(long itemId)
@@ -48,7 +49,7 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
         }
         public Item GetById(long itemId)
         {
-            return _dbContext.Items.Find(itemId);
+            return _dbContext.Items.Include(c => c.Company).FirstOrDefault(item => item.Id == itemId);
         }
 
         public bool UpdateItem(Item item)

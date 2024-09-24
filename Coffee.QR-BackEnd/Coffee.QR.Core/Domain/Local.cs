@@ -13,7 +13,7 @@ namespace Coffee.QR.Core.Domain
         public string City { get; set; }
         public DateOnly DateOfStartingPartnership { get; set; }
         public Boolean IsActive { get; set; }
-
+        public ICollection<Item> Items { get; } = [];
         public Local(string name, string city, DateOnly dateOfStartingPartnership, bool isActive)
         {
             Name = name;

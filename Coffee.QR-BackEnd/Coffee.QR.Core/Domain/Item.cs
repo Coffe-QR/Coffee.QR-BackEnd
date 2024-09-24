@@ -14,15 +14,25 @@ namespace Coffee.QR.Core.Domain
         DRINK,
         INGREDIENT
     };
+
+    public enum Belong
+    {
+        COMPANY,
+        LOCAL
+    }
+
     public class Item : Entity
     {
         public ItemType Type { get; set; }  
         public string Name { get; set; }
         public string Description { get; set; }
-
         public double Price { get; set; }
-
         public string Picture { get; set; }
+        public long? CompanyId { get; set; }
+        public Company Company { get; set; }
+        public long LocalId { get; set; }
+        public Local Local { get; set; }
+        public Belong Belong { get; set; }  
 
         public Item(ItemType type, string name, string description, double price, string picture)
         {

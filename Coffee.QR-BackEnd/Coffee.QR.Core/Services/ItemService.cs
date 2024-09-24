@@ -4,23 +4,21 @@ using Coffee.QR.API.Public;
 using Coffee.QR.BuildingBlocks.Core.UseCases;
 using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
-using FluentResults;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Mail;
+using System.Net;
+using FluentResults;
+
 
 namespace Coffee.QR.Core.Services
 {
-    public class ItemService : CrudService<ItemDto, Item>, IItemService
+    public class ItemService : BaseService<ItemDto, Item>, IItemService
     {
         private readonly IItemRepository _itemRepository;
         private readonly IStorageItemRepository _storageItemRepository;
         public ItemService(ICrudRepository<Item> crudRepository, IMapper mapper, IItemRepository itemRepository, IStorageItemRepository storageItemRepository)
-            : base(crudRepository, mapper)
+            : base(mapper)
         {
             _itemRepository = itemRepository;
             _storageItemRepository = storageItemRepository;
@@ -149,5 +147,46 @@ namespace Coffee.QR.Core.Services
             }
         }
 
+
+        public Result<List<ItemDto>> GetAllForBuy()
+        {
+            try
+            {
+                var items = _itemRepository.GetAll().Where(i => i.Belong == Belong.COMPANY).ToList();
+                List<ItemDto> dtos = new();
+                foreach (var si in items)
+                {
+                    ItemDto dto = new ItemDto()
+                    {
+                        Id = si.Id,
+                        Name = si.Name,
+                        Description = si.Description,
+                        Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), si.Type.ToString(), true),
+                        Price = si.Price,
+                        Picture = si.Picture,
+                        CompanyName = si.Company.Name
+                    };
+                    dtos.Add(dto);
+                }
+                return Result.Ok(dtos);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<List<ItemDto>>("Failed to retrieve events").WithError(e.Message);
+            }
+        }
+
+        public Result<string> GetName(long itemId)
+        {
+            try
+            {
+                var item = _itemRepository.GetById(itemId);
+                return Result.Ok(item.Company.Name);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<string>("Failed to retrieve events").WithError(e.Message);
+            }
+        }
     }
 }

@@ -22,7 +22,6 @@ namespace Coffee.QR.API.DTOs
         public double Price { get; set; }
         public string Picture { get; set; }
         public long Quantity { get; set; }
+        public string CompanyName { get; set; }    
     }
-
-
 }

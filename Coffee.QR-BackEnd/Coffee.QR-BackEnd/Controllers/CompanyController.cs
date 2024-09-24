@@ -1,4 +1,4 @@
-﻿using Coffee.QR.API.Controllers;
+﻿ using Coffee.QR.API.Controllers;
 using Coffee.QR.API.DTOs;
 using Coffee.QR.API.Public;
 using Microsoft.AspNetCore.Mvc;
@@ -84,6 +84,7 @@ namespace Coffee.QR_BackEnd.Controllers
                 return Ok(result.Value);
             return BadRequest(result.Errors);
         }
+
 
     }
 }

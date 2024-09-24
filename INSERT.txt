@@ -1,0 +1,191 @@
+-- Insert za Company
+INSERT INTO "CoffeeQRSchema"."Companies" ("Name", "DaysDelivery")
+VALUES 
+    ('CoffeeCo', 7),
+    ('BrewMasters', 3),
+    ('Cafe Suppliers', 5),
+    ('LatteKing', 4),
+    ('RoastMasters', 6);
+
+-- Insert za Contract
+INSERT INTO "CoffeeQRSchema"."Contracts" ("LocalId", "CompanyId", "Description", "Date", "Frequency", "SupplyId")
+VALUES 
+    (1, 1, 'Monthly coffee supply', '2024-01-15', 30, 2),
+    (2, 2, 'Weekly delivery of beans', '2024-02-01', 7, 3),
+    (3, 3, 'Bi-weekly delivery', '2024-03-10', 14, 4),
+    (1, 4, 'Seasonal blend supply', '2024-04-05', 90, 5);
+
+-- Insert za JobApplication
+INSERT INTO "CoffeeQRSchema"."JobApplications" ("FirstName", "LastName", "Email", "Phone", "DateOfBirth", "Address", "ApplicationDate", "LocalId", "ApplicantDescription", "Position")
+VALUES 
+    ('John', 'Doe', 'john.doe@example.com', '123456789', '1990-03-22', '123 Coffee St', '2024-03-01', 1, 'Experienced barista', 1),
+    ('Jane', 'Smith', 'jane.smith@example.com', '987654321', '1985-08-15', '456 Latte Ave', '2024-04-12', 2, 'Customer service expert', 2),
+    ('Peter', 'Parker', 'peter.parker@example.com', '222333444', '1995-06-18', '789 Spider Rd', '2024-05-15', 3, 'Fast learner', 3),
+    ('Mary', 'Jane', 'mary.jane@example.com', '111222333', '1993-09-30', '101 Coffee Way', '2024-06-01', 1, 'Coffee lover', 1);
+
+-- Insert za Local
+INSERT INTO "CoffeeQRSchema"."Locals" ("Name", "City", "DateOfStartingPartnership", "IsActive")
+VALUES 
+    ('Downtown Coffee', 'New York', '2020-05-01', TRUE),
+    ('Suburb Cafe', 'Los Angeles', '2021-06-15', FALSE),
+    ('Beachside Cafe', 'Miami', '2022-07-10', TRUE),
+    ('City Central Cafe', 'Chicago', '2019-09-05', TRUE);
+
+-- Insert za LocalUser
+INSERT INTO "CoffeeQRSchema"."LocalUsers" ("LocalId", "UserId")
+VALUES 
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (1, 4);
+
+-- Insert za MenuItem
+INSERT INTO "CoffeeQRSchema"."MenuItems" ("MenuId", "ItemId")
+VALUES 
+    (1, 1),
+    (1, 2),
+    (2, 3),
+    (3, 4),
+    (2, 5);
+
+-- Insert za Menu
+INSERT INTO "CoffeeQRSchema"."Menus" ("Name", "Description", "IsActive", "CafeId")
+VALUES 
+    ('Breakfast Menu', 'A selection of morning coffee and pastries', TRUE, 1),
+    ('Lunch Menu', 'Sandwiches and salads with coffee', FALSE, 2),
+    ('Dinner Menu', 'Pasta and wine selection', TRUE, 3),
+    ('Dessert Menu', 'Cakes, cookies, and coffee', TRUE, 4);
+
+-- Insert za Report
+INSERT INTO "CoffeeQRSchema"."Reports" ("Path", "Type", "Date", "LocalId", "Kind")
+VALUES 
+    ('/reports/sales_jan_2024.pdf', 1, '2024-01-31', 1, 2),
+    ('/reports/inventory_feb_2024.pdf', 2, '2024-02-28', 2, 1),
+    ('/reports/events_mar_2024.pdf', 3, '2024-03-31', 3, 3),
+    ('/reports/employee_perf_apr_2024.pdf', 4, '2024-04-30', 4, 1);
+
+-- Insert za StorageItem
+INSERT INTO "CoffeeQRSchema"."StorageItems" ("StorageId", "ItemId", "Quantity")
+VALUES 
+    (1, 1, 50),
+    (1, 2, 30),
+    (2, 3, 20),
+    (3, 4, 100),
+    (2, 5, 75);
+
+-- Insert za Supply
+INSERT INTO "CoffeeQRSchema"."Supplies" ("CompanyId", "TotalPrice", "Status")
+VALUES 
+    (1, 1000.50, 1),
+    (2, 1500.75, 2),
+    (3, 1200.00, 1),
+    (4, 500.00, 3);
+
+-- Insert za SupplyItem
+INSERT INTO "CoffeeQRSchema"."SupplyItems" ("SupplyId", "ItemId", "Quantity", "Price")
+VALUES 
+    (1, 1, 20, 25.50),
+    (2, 2, 15, 30.75),
+    (3, 3, 50, 22.00),
+    (4, 4, 40, 28.00);
+
+-- Insert za User
+INSERT INTO "CoffeeQRSchema"."Users" ("Username", "Password", "Email", "FirstName", "LastName", "Role", "IsActive")
+VALUES 
+    ('john_doe', 'password123', 'john.doe@example.com', 'John', 'Doe', 1, TRUE),
+    ('jane_smith', 'password456', 'jane.smith@example.com', 'Jane', 'Smith', 2, FALSE),
+    ('peter_parker', 'password789', 'peter.parker@example.com', 'Peter', 'Parker', 3, TRUE),
+    ('mary_jane', 'password101', 'mary.jane@example.com', 'Mary', 'Jane', 1, TRUE);
+
+-- Insert za Sales
+INSERT INTO "CoffeeQRSchema"."Sales" ("Pieces", "Discount", "CompanyId")
+VALUES 
+    (20, 5, 1),
+    (15, 10, 2),
+    (30, 8, 3),
+    (10, 2, 4);
+
+-- Insert za Item
+INSERT INTO "CoffeeQRSchema"."Items" ("Type", "Name", "Description", "Price", "Picture", "CompanyId", "LocalId")
+VALUES 
+    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1),
+    (2, 'Latte', 'Creamy coffee with milk', 3.75, '/images/latte.png', 2, 2),
+    (3, 'Cappuccino', 'Coffee with steamed milk foam', 4.00, '/images/cappuccino.png', 3, 3),
+    (1, 'Americano', 'Watered-down espresso', 2.25, '/images/americano.png', 4, 4),
+    (2, 'Mocha', 'Coffee with chocolate syrup and milk', 4.50, '/images/mocha.png', 1, 1),
+    (3, 'Flat White', 'Steamed milk with espresso', 3.50, '/images/flat_white.png', 2, 2),
+    (1, 'Black Coffee', 'Simple brewed coffee', 2.00, '/images/black_coffee.png', 3, 3),
+    (2, 'Iced Coffee', 'Chilled coffee over ice', 3.00, '/images/iced_coffee.png', 4, 4),
+    (2, 'Macchiato', 'Espresso with a dash of foamed milk', 3.75, '/images/macchiato.png', 1, 1),
+    (1, 'Ristretto', 'Short and strong espresso', 2.80, '/images/ristretto.png', 2, 2),
+    (3, 'Frappuccino', 'Blended coffee with ice and cream', 5.00, '/images/frappuccino.png', 3, 3),
+    (2, 'Cold Brew', 'Slow brewed cold coffee', 4.00, '/images/cold_brew.png', 4, 4),
+    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1), -- duplicate
+    (2, 'Latte', 'Creamy coffee with milk', 3.75, '/images/latte.png', 2, 2), -- duplicate
+    (3, 'Affogato', 'Espresso poured over ice cream', 4.50, '/images/affogato.png', 3, 3),
+    (2, 'Café au Lait', 'Coffee with steamed milk', 3.25, '/images/cafe_au_lait.png', 1, 1),
+    (3, 'Cortado', 'Equal parts espresso and milk', 3.00, '/images/cortado.png', 2, 2),
+    (2, 'Iced Latte', 'Chilled latte with ice', 3.75, '/images/iced_latte.png', 4, 4),
+    (1, 'Doppio', 'Double espresso shot', 3.00, '/images/doppio.png', 3, 3),
+    (3, 'Irish Coffee', 'Coffee with whiskey and cream', 5.50, '/images/irish_coffee.png', 2, 2),
+    (2, 'Mocha', 'Coffee with chocolate syrup and milk', 4.50, '/images/mocha.png', 1, 1), -- duplicate
+    (1, 'Espresso Con Panna', 'Espresso with whipped cream', 3.25, '/images/espresso_con_panna.png', 4, 4),
+    (2, 'Breve', 'Espresso with steamed half-and-half', 4.00, '/images/breve.png', 2, 2),
+    (1, 'Long Black', 'Hot water with espresso', 2.75, '/images/long_black.png', 3, 3),
+    (3, 'Turkish Coffee', 'Strong, unfiltered coffee', 3.50, '/images/turkish_coffee.png', 1, 1),
+    (2, 'Vienna Coffee', 'Espresso with whipped cream', 4.00, '/images/vienna_coffee.png', 4, 4),
+    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1), -- duplicate
+    (2, 'Latte', 'Creamy coffee with milk', 3.75, '/images/latte.png', 2, 2), -- duplicate
+    (3, 'Frappe', 'Iced coffee with milkshake consistency', 4.25, '/images/frappe.png', 3, 3),
+    (2, 'Iced Mocha', 'Chilled mocha with ice', 4.50, '/images/iced_mocha.png', 4, 4),
+    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1), -- duplicate
+    (2, 'Flat White', 'Steamed milk with espresso', 3.50, '/images/flat_white.png', 2, 2), -- duplicate
+    (3, 'Cafe Bombon', 'Espresso with condensed milk', 4.25, '/images/cafe_bombon.png', 3, 3),
+    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1), -- duplicate
+    (2, 'Latte', 'Creamy coffee with milk', 3.75, '/images/latte.png', 2, 2), -- duplicate
+    (3, 'Caramel Macchiato', 'Espresso with caramel syrup and milk', 4.75, '/images/caramel_macchiato.png', 4, 4),
+    (2, 'Dirty Chai Latte', 'Chai tea with espresso and milk', 4.25, '/images/dirty_chai_latte.png', 1, 1),
+    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1), -- duplicate
+    (3, 'Cappuccino', 'Coffee with steamed milk foam', 4.00, '/images/cappuccino.png', 3, 3), -- duplicate
+    (1, 'Americano', 'Watered-down espresso', 2.25, '/images/americano.png', 4, 4); -- duplicate
+
+
+-- Insert za Table
+INSERT INTO "CoffeeQRSchema"."Tables" ("Name", "Capacity", "IsSmokingArea", "LocalId")
+VALUES 
+    ('Table 1', 4, FALSE, 1),
+    ('Table 2', 2, TRUE, 2),
+    ('Table 3', 6, FALSE, 3),
+    ('Table 4', 8, TRUE, 4);
+
+-- Insert za Event
+INSERT INTO "CoffeeQRSchema"."Events" ("Name", "DateTime", "Description", "Image", "UserId", "LocalId")
+VALUES 
+    ('Coffee Tasting', '2024-09-30 14:00:00', 'Sample the finest coffees from around the world', '/images/event1.jpg', 1, 1),
+    ('Barista Training', '2024-10-07 10:00:00', 'Learn to make perfect espresso', '/images/event2.jpg', 2, 2),
+    ('Latte Art Competition', '2024-11-15 12:00:00', 'Show off your latte art skills', '/images/event3.jpg', 3, 3),
+    ('Espresso 101 Workshop', '2024-12-05 09:00:00', 'Learn the secrets of making great espresso', '/images/event4.jpg', 4, 4);
+
+-- Insert za ContractItem
+INSERT INTO "CoffeeQRSchema"."ContractItems" ("ContractId", "ItemId", "Quantity", "Price")
+VALUES 
+    (1, 1, 100, 500),
+    (2, 2, 50, 250),
+    (3, 3, 200, 800),
+    (4, 4, 75, 300);
+
+-- Insert za Notification
+INSERT INTO "CoffeeQRSchema"."Notifications" ("Message", "DateTime", "IsActive", "TableId", "LocalId")
+VALUES 
+    ('Your order is ready!', '2024-09-23 12:00:00', TRUE, 1, 1),
+    ('Table 2 needs assistance.', '2024-09-23 12:05:00', FALSE, 2, 2),
+    ('Table 3 is requesting a bill.', '2024-09-23 12:10:00', TRUE, 3, 3),
+    ('Reservation confirmed for Table 4.', '2024-09-23 12:15:00', TRUE, 4, 4);
+
+-- Insert za Order
+INSERT INTO "CoffeeQRSchema"."Orders" ("Price", "Description", "TableId", "LocalId", "Date", "IsActive")
+VALUES 
+    (10.50, 'Order of 2 espressos', 1, 1, '2024-03-01', TRUE),
+    (15.75, 'Order of 1 latte and 1 croissant', 2, 2, '2024-03-02', FALSE),
+    (20.00, 'Order of 2 cappuccinos', 3, 3, '2024-03-03', TRUE),
+    (12.25, 'Order of 1 americano and 1 sandwich', 4, 4, '2024-03-04', TRUE);
