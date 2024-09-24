@@ -43,7 +43,7 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
         
         public Item GetItem(long itemId)
         {
-            Item item = _dbContext.Items.FirstOrDefault(item => item.Id == itemId);
+            Item item = _dbContext.Items.Include(i => i.Company).FirstOrDefault(item => item.Id == itemId);
             if (item == null) throw new KeyNotFoundException("Not found.");
             return item;
         }

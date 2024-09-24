@@ -10,18 +10,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Net.Mail;
+using System.Net;
 
 namespace Coffee.QR.Core.Services
 {
     public class SupplyItemService : CrudService<SupplyItemDto, SupplyItem>, ISupplyItemService
     {
         private readonly ISupplyItemRepository _supplyItemRepository;
+        private readonly ICompanyRepository _companyRepository;
+        private IItemRepository _itemRepository;
 
-
-        public SupplyItemService(ICrudRepository<SupplyItem> crudRepository, IMapper mapper, ISupplyItemRepository supplyItemRepository)
+        public SupplyItemService(ICrudRepository<SupplyItem> crudRepository, IMapper mapper, ISupplyItemRepository supplyItemRepository, ICompanyRepository companyRepository, IItemRepository itemRepository)
             : base(crudRepository, mapper)
         {
             _supplyItemRepository = supplyItemRepository;
+            _companyRepository = companyRepository;
+            _itemRepository = itemRepository;
         }
 
         public Result<SupplyItemDto> CreateSupplyItem(SupplyItemDto supplyItemDto)
@@ -86,27 +92,74 @@ namespace Coffee.QR.Core.Services
             throw new NotImplementedException();
         }
 
+        private void SendEmail(List<SupplyItem> supplyItems)
+        {
+            SmtpClient client = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential("markoandjelicpsw@gmail.com", "yasg svva qiep ddfo"),
+                EnableSsl = true,
+            };
+
+            string value = "";
+            foreach(var si in supplyItems)
+            {
+                value += si.Item.Name + " kom: " + si.Quantity + "<br>";
+            }
+
+            MailMessage mailMessage = new MailMessage
+            {
+                From = new MailAddress("markoandjelicpsw@gmail.com"),
+                To = { "milospisaric001@gmail.com" },
+                Subject = "Potvrdjena narudzbina",
+                Body = "Postovani,<br>" +
+                    "Narudzbina Vam je poslata, stize u roku od " + supplyItems[0].Item.Company.DaysDelivery + " dana.<br>" +
+                    "Sadrzaj narudzbine je " +
+                    value +
+                    "<br>Srdacan pozdrav,<br>" +
+                    supplyItems[0].Item.Company.Name,
+                IsBodyHtml = true
+            };
+
+
+            try
+            {
+                client.Send(mailMessage);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Failed to send email: {ex.Message}");
+            }
+            finally
+            {
+                mailMessage.Dispose();
+                client.Dispose();
+            }
+        }
+
         public Result<List<SupplyItemDto>> CreateSupplyItems(List<SupplyItemDto> supplyItemDtos)
         {
             try
             {
-                List<SupplyItemDto> resultDtos = new();
-                foreach(var supplyItemDto in supplyItemDtos)
-                {
-                    var supplyItemt = _supplyItemRepository.Create(new SupplyItem(supplyItemDto.SupplyId, supplyItemDto.ItemId, supplyItemDto.Quantity, supplyItemDto.Price));
+                List<SupplyItem> supplyItems = new();
 
-                    SupplyItemDto resultDto = new SupplyItemDto
-                    {
-                        Id = supplyItemt.Id,
-                        Quantity = supplyItemt.Quantity,
-                        Price = supplyItemt.Price,
-                        SupplyId = supplyItemt.SupplyId,
-                        ItemId = supplyItemt.ItemId,
-                    };
-                    resultDtos.Add(resultDto);
+                foreach (var item in supplyItemDtos)
+                {
+                    supplyItems.Add(_supplyItemRepository.Get(item.ItemId));
                 }
 
-                return Result.Ok(resultDtos);
+                List<long> companyIds = new();
+
+                foreach (var item in supplyItems)
+                {
+                    if (companyIds.FirstOrDefault(c => c == item.Supply.CompanyId) == null) continue;
+                    List<SupplyItem> dtos = supplyItems.Where(s => s.Item.CompanyId == item.Item.CompanyId).ToList();
+                    SendEmail(dtos);
+                    companyIds.Add(item.Supply.CompanyId);
+
+                    //    dtos.ForEach(dto => supplyItems.Remove(dto));
+                }
+                return MapToDto(supplyItems);
             }
             catch (ArgumentException e)
             {

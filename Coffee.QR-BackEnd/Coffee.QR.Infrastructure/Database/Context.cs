@@ -142,6 +142,21 @@ namespace Coffee.QR.Infrastructure.Database
            .WithMany(l => l.Sales)
            .HasForeignKey(i => i.CompanyId);
 
+            modelBuilder.Entity<SupplyItem>()
+           .HasOne(i => i.Item)
+           .WithMany()
+           .HasForeignKey(i => i.ItemId);
+
+            modelBuilder.Entity<Supply>()
+            .HasOne(s => s.Company)
+            .WithMany()
+            .HasForeignKey(s => s.CompanyId);
+
+            modelBuilder.Entity<SupplyItem>()
+           .HasOne(s => s.Supply)
+           .WithMany()
+           .HasForeignKey(s => s.SupplyId);
+
             Configure(modelBuilder);
         }
 

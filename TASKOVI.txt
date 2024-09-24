@@ -3,8 +3,11 @@ CREATE SCHEMA "CoffeeQRSchema"
 Add-Migration -Name Init -Context Context -Project Coffee.QR.Infrastructure -StartupProject Coffee.QR-BackEnd
 Update-Database -Context Context -Project Coffee.QR.Infrastructure -StartupProject Coffee.QR-BackEnd
 
+Pass: CoffeeQr2001!
+
 
 KREIRANJE NABAVKE
-1. Definisanje popusta za svaku kompaniju 			-- URADJENO
-2. Slanje mailova o poslatoj narudzbini				
-3. Algoritam za podelu korpe na sve kompanije
+1. Definisanje popusta za svaku kompaniju 						-- URADJENO
+2. Nakon izabira itema i ako predje broj koji odredjuje popust uraditi to 		-- URADJENO
+3. Slanje mailova o poslatoj narudzbini							
+4. Algoritam za podelu korpe na sve kompanije

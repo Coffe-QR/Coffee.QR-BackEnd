@@ -10,7 +10,9 @@ namespace Coffee.QR.Core.Domain
     public class SupplyItem : Entity
     {
         public long SupplyId { get; set; }
+        public Supply Supply { get; set; }  
         public long ItemId { get; set; }
+        public Item Item { get; set; }
         public long Quantity { get; set; }  
         public double Price { get; set; }
 

@@ -164,7 +164,8 @@ namespace Coffee.QR.Core.Services
                         Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), si.Type.ToString(), true),
                         Price = si.Price,
                         Picture = si.Picture,
-                        CompanyName = si.Company.Name
+                        CompanyName = si.Company.Name,
+                        DaysDelivery = si.Company.DaysDelivery
                     };
                     dtos.Add(dto);
                 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Coffee.QR.Infrastructure.Database.Repositories
 {
@@ -37,6 +38,11 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
                 _dbContext.SaveChanges();
             }
             return eventToDelete;
+        }
+
+        public SupplyItem Get(long supplyId)
+        {
+            return _dbContext.SupplyItems.Include(s => s.Item).Include(s => s.Item.Company).Include(s => s.Supply.Company).FirstOrDefault(s => s.Id == supplyId);
         }
     }
 }
