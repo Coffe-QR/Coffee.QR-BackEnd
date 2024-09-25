@@ -9,9 +9,10 @@ namespace Coffee.QR.Core.Domain
 {
     public enum SupplyStatus
     {
-        INPROGRESS,
-        END,
-        CREATED
+        ORDERED,
+        TAKEN, 
+        MISTAKE,
+        CONFIRMED
     }
     public class Supply : Entity
     {

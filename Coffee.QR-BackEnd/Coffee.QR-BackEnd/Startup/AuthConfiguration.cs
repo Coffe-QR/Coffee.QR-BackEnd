@@ -58,6 +58,7 @@ namespace Coffee.QR_BackEnd.Startup
                 options.AddPolicy("clientPolicy", policy => policy.RequireRole("Client"));
                 options.AddPolicy("managerPolicy", policy => policy.RequireRole("manager"));
                 options.AddPolicy("itSupportPolicy", policy => policy.RequireRole("itsupport"));
+                options.AddPolicy("warehousemanPolicy", policy => policy.RequireRole("warehouseman"));
             });
         }
 

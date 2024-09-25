@@ -9,5 +9,14 @@ Pass: CoffeeQr2001!
 KREIRANJE NABAVKE
 1. Definisanje popusta za svaku kompaniju 						-- URADJENO
 2. Nakon izabira itema i ako predje broj koji odredjuje popust uraditi to 		-- URADJENO
-3. Slanje mailova o poslatoj narudzbini							
-4. Algoritam za podelu korpe na sve kompanije
+3. Slanje mailova o poslatoj narudzbini							-- URADJENO
+4. Algoritam za podelu korpe na sve kompanije						-- URADJENO
+5. Srediti skroller na supply-create							-- URADJNENO
+6. Izmeniti pocetnu stranu managera
+
+
+PREGLED NARUDZBINE
+1. Treba dodati magacionera(backend, frontend)						
+2. Ubacivanje novih status narudzbine (naruceno, preuzeto, greska, potvrdjeno)		
+3. Prijavljivanje greske								
+	
