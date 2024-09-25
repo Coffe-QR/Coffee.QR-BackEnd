@@ -11,5 +11,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         Company Create(Company company);
         List<Company> GetAll();
         Company Delete(long companyId);
+        Company Get(long companyId);
     }
 }

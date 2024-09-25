@@ -38,5 +38,10 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
             }
             return companyToDelete;
         }
+
+        public Company Get(long companyId)
+        {
+            return _dbContext.Companies.FirstOrDefault(c => c.Id == companyId);
+        }
     }
 }

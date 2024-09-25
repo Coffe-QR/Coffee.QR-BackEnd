@@ -16,12 +16,13 @@ namespace Coffee.QR.Core.Services
     public class SupplyService : CrudService<SupplyDto, Supply>, ISupplyService
     {
         private readonly ISupplyRepository _supplyRepository;
+        private readonly ICompanyRepository _companyRepository;
 
-
-        public SupplyService(ICrudRepository<Supply> crudRepository, IMapper mapper, ISupplyRepository supplyRepository)
+        public SupplyService(ICrudRepository<Supply> crudRepository, IMapper mapper, ISupplyRepository supplyRepository, ICompanyRepository companyRepository)
             : base(crudRepository, mapper)
         {
             _supplyRepository = supplyRepository;
+            _companyRepository = companyRepository;
         }
 
         public Result<SupplyDto> CreateSupply(SupplyDto supplyDto)
@@ -56,6 +57,7 @@ namespace Coffee.QR.Core.Services
                     CompanyId = s.CompanyId,
                     TotalPrice = s.TotalPrice,
                     Status = (SupplyStatusDto)Enum.Parse(typeof(SupplyStatusDto), s.Status.ToString(), true),
+                    CompanyName = _companyRepository.Get(s.CompanyId).Name
                 }).ToList();
 
                 return Result.Ok(supplyDtos);

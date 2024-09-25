@@ -13,10 +13,15 @@ KREIRANJE NABAVKE
 4. Algoritam za podelu korpe na sve kompanije						-- URADJENO
 5. Srediti skroller na supply-create							-- URADJNENO
 6. Izmeniti pocetnu stranu managera
+7. Treba definisati dan kada je porudzbina napravljena
 
 
-PREGLED NARUDZBINE
-1. Treba dodati magacionera(backend, frontend)						
-2. Ubacivanje novih status narudzbine (naruceno, preuzeto, greska, potvrdjeno)		
+PREUZIMANJE NARUDZBINE
+1. Treba dodati magacionera(backend, frontend)						--URADJENO
+2. Ubacivanje novih status narudzbine (naruceno, preuzeto, greska, potvrdjeno)		--URADJENO
 3. Prijavljivanje greske								
 	
+
+PREGLED NARUDZBINE
+1. Pregled svih narudzbina								--URADJENO
+2. Filter po svima greskama (ORDERED, TAKEN, MISTAKE, CONFIRMED) 			--URADJENO
