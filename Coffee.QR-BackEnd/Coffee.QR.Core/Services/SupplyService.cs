@@ -104,5 +104,20 @@ namespace Coffee.QR.Core.Services
                 return Result.Fail<SupplyDto>("Failed to retrieve supplys").WithError(e.Message);
             }
         }
+
+        public Result<SupplyDto> Taken(long supplyId)
+        {
+            try
+            {
+                Supply supply = _supplyRepository.GetById(supplyId);
+                supply.Taken();
+                _supplyRepository.Save();
+                return MapToDto(supply);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<SupplyDto>("Failed to retrieve supplys").WithError(e.Message);
+            }
+        }
     }
 }

@@ -101,5 +101,12 @@ namespace Coffee.QR_BackEnd.Controllers
                 return BadRequest(result.Errors);
             }
         }
+
+        [HttpPut("taken")]
+        public IActionResult Taken([FromBody] SupplyDto updateSupplyDto)
+        {
+            var result = _supplyService.Taken(updateSupplyDto.Id);
+            return CreateResponse(result);
+        }
     }
 }

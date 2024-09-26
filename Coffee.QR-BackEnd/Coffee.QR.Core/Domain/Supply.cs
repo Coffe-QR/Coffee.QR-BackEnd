@@ -29,5 +29,10 @@ namespace Coffee.QR.Core.Domain
             TotalPrice = totalPrice;
             Status = supplyStatus;
         }
+
+        public void Taken()
+        {
+            Status = SupplyStatus.TAKEN;
+        }
     }
 }

@@ -43,5 +43,10 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
         {
             return _dbContext.Supplies.Find(supplyId);
         }
+
+        public void Save()
+        {
+            _dbContext.SaveChanges();
+        }
     }
 }
