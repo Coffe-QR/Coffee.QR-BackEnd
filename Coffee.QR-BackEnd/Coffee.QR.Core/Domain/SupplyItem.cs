@@ -15,7 +15,6 @@ namespace Coffee.QR.Core.Domain
         public Item Item { get; set; }
         public long Quantity { get; set; }  
         public double Price { get; set; }
-
         public SupplyItem(long supplyId, long itemId, long quantity, double price)
         {
             SupplyId = supplyId;

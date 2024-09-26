@@ -12,5 +12,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         List<SupplyItem> GetAll();
         SupplyItem Delete(long supplyId);
         SupplyItem Get(long supplyId);
+        List<SupplyItem> GetAllForSupply(long supplyId);
     }
 }

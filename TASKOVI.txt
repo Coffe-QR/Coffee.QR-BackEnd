@@ -14,14 +14,18 @@ KREIRANJE NABAVKE
 5. Srediti skroller na supply-create							-- URADJNENO
 6. Izmeniti pocetnu stranu managera
 7. Treba definisati dan kada je porudzbina napravljena
+8. Bag prilikom kreiranja supply
+9. Promeniti boju na pop up
 
 
 PREUZIMANJE NARUDZBINE
 1. Treba dodati magacionera(backend, frontend)						--URADJENO
 2. Ubacivanje novih status narudzbine (naruceno, preuzeto, greska, potvrdjeno)		--URADJENO
-3. Prijavljivanje greske								
-	
+3. Prijavljivanje greske	
+4. Omoguciti da se prebaci u stanje preuzeto							
+
 
 PREGLED NARUDZBINE
 1. Pregled svih narudzbina								--URADJENO
 2. Filter po svima greskama (ORDERED, TAKEN, MISTAKE, CONFIRMED) 			--URADJENO
+3. Prikaz svi detalja

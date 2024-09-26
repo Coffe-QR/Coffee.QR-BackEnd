@@ -131,5 +131,12 @@ namespace Coffee.QR_BackEnd.Controllers
             var result = _itemService.GetAllForBuy();
             return CreateResponse(result);
         }
+
+        [HttpGet("get-for-supply/{supplyId}")]
+        public IActionResult GetAllForSupply(long supplyId)
+        {
+            var result = _itemService.GetAllForSupply(supplyId);
+            return CreateResponse(result);
+        }
     }
 }

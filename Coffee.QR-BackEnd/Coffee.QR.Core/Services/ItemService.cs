@@ -17,11 +17,13 @@ namespace Coffee.QR.Core.Services
     {
         private readonly IItemRepository _itemRepository;
         private readonly IStorageItemRepository _storageItemRepository;
-        public ItemService(ICrudRepository<Item> crudRepository, IMapper mapper, IItemRepository itemRepository, IStorageItemRepository storageItemRepository)
+        private readonly ISupplyItemRepository _supplyItemRepository;
+        public ItemService(ICrudRepository<Item> crudRepository, IMapper mapper, IItemRepository itemRepository, IStorageItemRepository storageItemRepository, ISupplyItemRepository supplyItemRepository)
             : base(mapper)
         {
             _itemRepository = itemRepository;
             _storageItemRepository = storageItemRepository;
+            _supplyItemRepository = supplyItemRepository;
         }
 
         public Result<ItemDto> CreateItem(ItemDto itemDto)
@@ -187,6 +189,41 @@ namespace Coffee.QR.Core.Services
             catch (Exception e)
             {
                 return Result.Fail<string>("Failed to retrieve events").WithError(e.Message);
+            }
+        }
+
+        public Result<List<ItemDto>> GetAllForSupply(long supplyId)
+        {
+            try
+            {
+                var supplyItems1 = _supplyItemRepository.GetAll().FindAll(s => s.SupplyId == supplyId);
+
+                List<ItemDto> items = new();
+
+                foreach(var si in supplyItems1)
+                {
+
+                    Item item = _itemRepository.GetById(si.ItemId);
+                    ItemDto dto = new ItemDto()
+                    {
+                        Id = item.Id,
+                        Name = item.Name,
+                        Description = item.Description,
+                        Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), item.Type.ToString(), true),
+                        Price = item.Price,
+                        Picture = item.Picture,
+                        CompanyName = item.Company.Name,
+                        DaysDelivery = item.Company.DaysDelivery,
+                        Quantity = si.Quantity
+                    };
+                    items.Add(dto);
+                }
+
+                return Result.Ok(items); 
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<List<ItemDto>>("Failed to retrieve events").WithError(e.Message);
             }
         }
     }

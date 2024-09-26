@@ -18,8 +18,9 @@ namespace Coffee.QR.Core.Domain
     {
         public long CompanyId { get; set; }
         public Company Company { get; set; }
-        public double TotalPrice { get; set; }  
+        public double TotalPrice { get; set; }
         public SupplyStatus Status { get; set; }
+        
 
         public Supply() { }
         public Supply(long companyId, double totalPrice, SupplyStatus supplyStatus)

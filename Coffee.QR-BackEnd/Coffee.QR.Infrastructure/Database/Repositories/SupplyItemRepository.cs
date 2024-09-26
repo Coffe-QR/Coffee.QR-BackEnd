@@ -44,5 +44,10 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
         {
             return _dbContext.SupplyItems.Include(s => s.Item).Include(s => s.Item.Company).Include(s => s.Supply.Company).FirstOrDefault(s => s.Id == supplyId);
         }
+
+        public List<SupplyItem> GetAllForSupply(long supplyId)
+        {
+            return _dbContext.SupplyItems.Where(s => s.SupplyId == supplyId).ToList();
+        }
     }
 }
