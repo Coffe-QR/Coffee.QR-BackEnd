@@ -17,5 +17,6 @@ namespace Coffee.QR.API.Public
         Task<Result<SupplyDto>> UpdateSupplyAsync(SupplyDto supplyDto);
         Result<SupplyDto> GetById(long supplyId);
         Result<SupplyDto> Taken(long supplyId);
+        Result<SupplyDto> Confirm(long supplyId);
     }
 }

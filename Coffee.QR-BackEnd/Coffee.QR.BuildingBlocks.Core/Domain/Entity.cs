@@ -5,7 +5,7 @@ namespace Coffee.QR.BuildingBlocks.Core.Domain;
 public abstract class Entity
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public long Id { get; protected set; }
+    public long Id { get; set; }
 
     public override bool Equals(object? obj)
     {

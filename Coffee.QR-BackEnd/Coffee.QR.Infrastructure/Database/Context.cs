@@ -1,4 +1,5 @@
-﻿using Coffee.QR.Core.Domain;
+﻿using Coffee.QR.BuildingBlocks.Core.Domain;
+using Coffee.QR.Core.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
@@ -34,7 +35,7 @@ namespace Coffee.QR.Infrastructure.Database
         public DbSet<Report> Reports { get; set; }
         public DbSet<ContractItem> ContractItems{ get; set; }
         public DbSet<Sale> Sales { get; set; }  
-
+        public DbSet<ErrorSupply> ErrorSupplies { get; set; }
         public Context(DbContextOptions<Context> options) : base(options){}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -157,6 +158,16 @@ namespace Coffee.QR.Infrastructure.Database
            .HasOne(s => s.Supply)
            .WithMany()
            .HasForeignKey(s => s.SupplyId);
+
+            modelBuilder.Entity<ErrorSupply>()
+            .HasOne(i => i.Item)
+            .WithMany(i => i.ErrorSupplies)
+            .HasForeignKey(i => i.ItemId);
+
+            modelBuilder.Entity<ErrorSupply>()
+            .HasOne(i => i.Supply)
+            .WithMany(i => i.ErrorSupplies)
+            .HasForeignKey(i => i.SupplyId);
 
             Configure(modelBuilder);
         }

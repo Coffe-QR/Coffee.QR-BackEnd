@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Net.Mail;
 using System.Net;
+using static iTextSharp.text.pdf.AcroFields;
 
 namespace Coffee.QR.Core.Services
 {
@@ -21,13 +22,15 @@ namespace Coffee.QR.Core.Services
         private readonly ISupplyItemRepository _supplyItemRepository;
         private readonly ICompanyRepository _companyRepository;
         private IItemRepository _itemRepository;
+        private ISupplyRepository _supplyRepository;
 
-        public SupplyItemService(ICrudRepository<SupplyItem> crudRepository, IMapper mapper, ISupplyItemRepository supplyItemRepository, ICompanyRepository companyRepository, IItemRepository itemRepository)
+        public SupplyItemService(ICrudRepository<SupplyItem> crudRepository, IMapper mapper, ISupplyItemRepository supplyItemRepository, ICompanyRepository companyRepository, IItemRepository itemRepository, ISupplyRepository supplyRepository)
             : base(crudRepository, mapper)
         {
             _supplyItemRepository = supplyItemRepository;
             _companyRepository = companyRepository;
             _itemRepository = itemRepository;
+            _supplyRepository = supplyRepository;
         }
 
         public Result<SupplyItemDto> CreateSupplyItem(SupplyItemDto supplyItemDto)
@@ -91,6 +94,7 @@ namespace Coffee.QR.Core.Services
         {
             throw new NotImplementedException();
         }
+      
 
         private void SendEmail(List<SupplyItem> supplyItems)
         {
@@ -137,28 +141,54 @@ namespace Coffee.QR.Core.Services
             }
         }
 
+
+        private void CreateSupply(List<SupplyItem> supplyItems)
+        {
+            Supply supply = new();
+            supply.CompanyId = (long)supplyItems[0].Item.CompanyId;
+            supply.TotalPrice = 0;
+            foreach(var si in supplyItems)
+            {
+                supply.TotalPrice += si.Price;
+            }
+            supply.Status = SupplyStatus.ORDERED;
+            var dateTime = DateTime.UtcNow;
+            supply.Ordered = new DateOnly(dateTime.Year, dateTime.Month, dateTime.Day);
+            long supplyId =  _supplyRepository.Create(supply).Id;
+            
+            foreach(var si in supplyItems)
+            {
+                si.SupplyId = supplyId;
+                _supplyItemRepository.Create(si);
+            }
+
+        }
+
+
         public Result<List<SupplyItemDto>> CreateSupplyItems(List<SupplyItemDto> supplyItemDtos)
         {
             try
             {
-                List<SupplyItem> supplyItems = new();
-
-                foreach (var item in supplyItemDtos)
-                {
-                    supplyItems.Add(_supplyItemRepository.Get(item.ItemId));
-                }
-
-                List<long> companyIds = new();
-
+                List<SupplyItem> supplyItems = MapToDomain(supplyItemDtos);
+                
                 foreach (var item in supplyItems)
                 {
-                    if (companyIds.FirstOrDefault(c => c == item.Supply.CompanyId) == null) continue;
-                    List<SupplyItem> dtos = supplyItems.Where(s => s.Item.CompanyId == item.Item.CompanyId).ToList();
-                    SendEmail(dtos);
-                    companyIds.Add(item.Supply.CompanyId);
-
-                    //    dtos.ForEach(dto => supplyItems.Remove(dto));
+                    item.Id = 0;
+                    item.Item = _itemRepository.GetItem(item.ItemId);
                 }
+                
+                List<string> companyIds = new();
+
+                for(int i = 0; i < supplyItemDtos.Count; i++)
+                {
+                    if (companyIds.FirstOrDefault(c => c == supplyItemDtos[i].CompanyName) != null) continue;
+                    List<SupplyItem> dtos = supplyItems.Where(s => s.Item.Company.Name == supplyItemDtos[i].CompanyName).ToList();
+                    SendEmail(dtos);
+                    CreateSupply(dtos);
+                    companyIds.Add(supplyItemDtos[i].CompanyName);
+
+                }
+            
                 return MapToDto(supplyItems);
             }
             catch (ArgumentException e)

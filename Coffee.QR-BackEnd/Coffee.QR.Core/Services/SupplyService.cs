@@ -29,7 +29,10 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var supplyt = _supplyRepository.Create(new Supply(supplyDto.CompanyId, supplyDto.TotalPrice, (SupplyStatus)Enum.Parse(typeof(SupplyStatus), supplyDto.Status.ToString(), true)));
+                var supply = new Supply(supplyDto.CompanyId, supplyDto.TotalPrice, (SupplyStatus)Enum.Parse(typeof(SupplyStatus), supplyDto.Status.ToString(), true));
+                var dateTime = DateTime.UtcNow;
+                supply.Ordered = new DateOnly(dateTime.Year, dateTime.Month, dateTime.Day);
+                var supplyt = _supplyRepository.Create(supply);
 
                 SupplyDto resultDto = new SupplyDto
                 {
@@ -37,6 +40,7 @@ namespace Coffee.QR.Core.Services
                     CompanyId = supplyt.CompanyId,
                     TotalPrice = supplyt.TotalPrice,
                     Status = (SupplyStatusDto)Enum.Parse(typeof(SupplyStatusDto), supplyDto.Status.ToString(), true),
+                    Ordered = supplyt.Ordered
                 };
 
                 return Result.Ok(resultDto);
@@ -57,7 +61,8 @@ namespace Coffee.QR.Core.Services
                     CompanyId = s.CompanyId,
                     TotalPrice = s.TotalPrice,
                     Status = (SupplyStatusDto)Enum.Parse(typeof(SupplyStatusDto), s.Status.ToString(), true),
-                    CompanyName = _companyRepository.Get(s.CompanyId).Name
+                    CompanyName = _companyRepository.Get(s.CompanyId).Name,
+                    Ordered = s.Ordered
                 }).ToList();
 
                 return Result.Ok(supplyDtos);
@@ -111,6 +116,21 @@ namespace Coffee.QR.Core.Services
             {
                 Supply supply = _supplyRepository.GetById(supplyId);
                 supply.Taken();
+                _supplyRepository.Save();
+                return MapToDto(supply);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<SupplyDto>("Failed to retrieve supplys").WithError(e.Message);
+            }
+        }
+
+        public Result<SupplyDto> Confirm(long supplyId)
+        {
+            try
+            {
+                Supply supply = _supplyRepository.GetById(supplyId);
+                supply.Confirm();
                 _supplyRepository.Save();
                 return MapToDto(supply);
             }

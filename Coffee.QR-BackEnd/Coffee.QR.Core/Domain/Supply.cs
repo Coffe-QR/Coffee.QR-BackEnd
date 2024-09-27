@@ -1,4 +1,5 @@
 ﻿using Coffee.QR.BuildingBlocks.Core.Domain;
+using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,12 @@ namespace Coffee.QR.Core.Domain
         public Company Company { get; set; }
         public double TotalPrice { get; set; }
         public SupplyStatus Status { get; set; }
-        
+        public DateOnly? Ordered { get; set; }
+        public ICollection<ErrorSupply> ErrorSupplies { get; } = [];
 
-        public Supply() { }
+        public Supply() {
+            Id = 0;
+        }
         public Supply(long companyId, double totalPrice, SupplyStatus supplyStatus)
         {
             CompanyId = companyId;
@@ -34,5 +38,10 @@ namespace Coffee.QR.Core.Domain
         {
             Status = SupplyStatus.TAKEN;
         }
+        public void Confirm()
+        {
+            Status = SupplyStatus.CONFIRMED;
+        }
+
     }
 }

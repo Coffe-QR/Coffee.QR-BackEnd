@@ -11,21 +11,35 @@ KREIRANJE NABAVKE
 2. Nakon izabira itema i ako predje broj koji odredjuje popust uraditi to 		-- URADJENO
 3. Slanje mailova o poslatoj narudzbini							-- URADJENO
 4. Algoritam za podelu korpe na sve kompanije						-- URADJENO
-5. Srediti skroller na supply-create							-- URADJNENO
-6. Izmeniti pocetnu stranu managera
-7. Treba definisati dan kada je porudzbina napravljena
-8. Bag prilikom kreiranja supply
-9. Promeniti boju na pop up
+5. Srediti skroller na supply-create							-- URADJENO
+6. Izmeniti pocetnu stranu managera							-- URADJENO
+7. Treba definisati dan kada je porudzbina napravljena					-- URADJENO
+8. Bag prilikom kreiranja supply							-- URADJENO
+9. Promeniti boju na pop up								-- URADJENO
 
 
 PREUZIMANJE NARUDZBINE
-1. Treba dodati magacionera(backend, frontend)						--URADJENO
-2. Ubacivanje novih status narudzbine (naruceno, preuzeto, greska, potvrdjeno)		--URADJENO
+1. Treba dodati magacionera(backend, frontend)						-- URADJENO
+2. Ubacivanje novih status narudzbine (naruceno, preuzeto, greska, potvrdjeno)		-- URADJENO
 3. Prijavljivanje greske	
-4. Omoguciti da se prebaci u stanje preuzeto							
+Smisliti kako da izgleda klase
+Implementirati klase
+4. Omoguciti da se prebaci u stanje preuzeto						-- URADJENO			
 
 
 PREGLED NARUDZBINE
-1. Pregled svih narudzbina								--URADJENO
-2. Filter po svima greskama (ORDERED, TAKEN, MISTAKE, CONFIRMED) 			--URADJENO
-3. Prikaz svi detalja
+1. Pregled svih narudzbina								-- URADJENO
+2. Filter po svima greskama (ORDERED, TAKEN, MISTAKE, CONFIRMED) 			-- URADJENO
+3. Prikaz svi detalja									-- URADJENO
+4. Fiksna velicina prozora, da se vidi scroller
+5. Omoguciti da admin stavi u stanje potvrdjen 						--URADJENO
+
+
+PREGLED MAGACINA
+1. Napraviti prikaz za mendazera 
+2. Kod menadzer prikaza omogucava da doda u korpu item
+3. Prikaz za konobara i magacionera
+4. Konobar i magacionera omoguciti da preporuci menadzeru sta da naruci
+
+
+

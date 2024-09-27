@@ -108,5 +108,12 @@ namespace Coffee.QR_BackEnd.Controllers
             var result = _supplyService.Taken(updateSupplyDto.Id);
             return CreateResponse(result);
         }
+
+        [HttpPut("confirm")]
+        public IActionResult Confirm([FromBody] SupplyDto updateSupplyDto)
+        {
+            var result = _supplyService.Confirm(updateSupplyDto.Id);
+            return CreateResponse(result);
+        }
     }
 }

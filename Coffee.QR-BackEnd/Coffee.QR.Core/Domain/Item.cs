@@ -32,7 +32,8 @@ namespace Coffee.QR.Core.Domain
         public Company Company { get; set; }
         public long LocalId { get; set; }
         public Local Local { get; set; }
-        public Belong Belong { get; set; }  
+        public Belong Belong { get; set; }
+        public ICollection<ErrorSupply> ErrorSupplies { get; } = []; 
 
         public Item(ItemType type, string name, string description, double price, string picture)
         {
