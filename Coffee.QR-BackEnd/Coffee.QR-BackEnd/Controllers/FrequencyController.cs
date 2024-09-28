@@ -44,5 +44,19 @@ namespace Coffee.QR_BackEnd.Controllers
                 return BadRequest(result.Errors);
             }
         }
+
+        [HttpGet("units")]
+        public IActionResult GetAllFrequencysUnit()
+        {
+            var result = _frequencyService.GetAllFrequencysUnit();
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
     }
 }

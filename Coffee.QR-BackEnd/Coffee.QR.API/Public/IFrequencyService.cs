@@ -12,5 +12,7 @@ namespace Coffee.QR.API.Public
     {
         Result<FrequencyDto> Create(FrequencyDto item);
         Result<List<FrequencyDto>> GetAll();
+        Result<List<string>> GetAllFrequencysUnit();
+
     }
 }

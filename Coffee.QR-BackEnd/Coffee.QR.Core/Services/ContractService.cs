@@ -14,13 +14,13 @@ using System.Diagnostics.Contracts;
 
 namespace Coffee.QR.Core.Services
 {
-    public class ContractService : CrudService<ContractDto, Domain.Contract>, IContractService
+    public class ContractService : BaseService<ContractDto, Domain.Contract>, IContractService
     {
         private readonly IContractRepository _contractRepository;
 
 
         public ContractService(ICrudRepository<Domain.Contract> crudRepository, IMapper mapper, IContractRepository contractRepository)
-            : base(crudRepository, mapper)
+            : base(mapper)
         {
             _contractRepository = contractRepository;
         }
@@ -28,20 +28,9 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var contractt = _contractRepository.Create(new Domain.Contract(contractDto.LocalId, contractDto.CompanyId, contractDto.Description, contractDto.Start,  contractDto.SupplyId));
-
-                ContractDto resultDto = new ContractDto
-                {
-                    Id = contractt.Id,
-                    Start = contractt.Start,
-                    Frequency = (FrequencyDto)Enum.Parse(typeof(FrequencyDto), contractt.Frequency.ToString(), true),
-                    CompanyId = contractt.CompanyId,
-                    Description = contractt.Description,
-                    LocalId = contractt.LocalId,
-                    SupplyId = contractt.SupplyId
-                };
-
-                return Result.Ok(resultDto);
+                Domain.Contract contract = MapToDomain(contractDto);
+                var contractt = _contractRepository.Create(contract);
+                return MapToDto(contractt);
             }
             catch (ArgumentException e)
             {
@@ -57,7 +46,7 @@ namespace Coffee.QR.Core.Services
                 {
                     Id = contractt.Id,
                     Start = contractt.Start,
-                    Frequency = (FrequencyDto)Enum.Parse(typeof(FrequencyDto), contractt.Frequency.ToString(), true),
+                    //Frequency = (FrequencyDto)Enum.Parse(typeof(FrequencyDto), contractt.Frequency.ToString(), true),
                     CompanyId = contractt.CompanyId,
                     Description = contractt.Description,
                     LocalId = contractt.LocalId,
@@ -85,7 +74,7 @@ namespace Coffee.QR.Core.Services
                 {
                     Id = contractt.Id,
                     Start = contractt.Start,
-                    Frequency = (FrequencyDto)Enum.Parse(typeof(FrequencyDto), contractt.Frequency.ToString(), true),
+                    //Frequency = (FrequencyDto)Enum.Parse(typeof(FrequencyDto), contractt.Frequency.ToString(), true),
                     CompanyId = contractt.CompanyId,
                     Description = contractt.Description,
                     LocalId = contractt.LocalId,

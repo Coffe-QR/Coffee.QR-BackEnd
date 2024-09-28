@@ -42,5 +42,15 @@ namespace Coffee.QR.Core.Services
         {
             return MapToDto(_frequencyRepository.GetAll());
         }
+
+        public Result<List<string>> GetAllFrequencysUnit()
+        {
+            List<string> units = new List<string>();
+            units.Add("DAY");
+            units.Add("WEEK");
+            units.Add("MONTH");
+            units.Add("YEAR");
+            return Result.Ok(units);
+        }
     }
 }

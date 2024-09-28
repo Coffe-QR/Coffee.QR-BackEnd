@@ -15,7 +15,6 @@ namespace Coffee.QR.API.DTOs
         public DateOnly Start { get; set; }
         public DateOnly End { get; set; }
         public long FrequencyId { get; set; }
-        public FrequencyDto Frequency { get; set; }
         public long SupplyId { get; set; }
     }
 }
