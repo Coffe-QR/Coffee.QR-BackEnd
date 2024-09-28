@@ -88,7 +88,8 @@ namespace Coffee.QR.Core.Services
                 List<ItemDto> dtos = new();
                 foreach (var si in _storageItemRepository.GetAll().FindAll(s => s.StorageId == storageId))
                 {
-                    Item item = _itemRepository.GetItem(si.Id);
+                    Item item = _itemRepository.GetItem(si.ItemId);
+                    if (item.Belong != Belong.LOCAL) continue;
                     ItemDto dto = new ItemDto()
                     {
                         Id = item.Id,
@@ -98,6 +99,7 @@ namespace Coffee.QR.Core.Services
                         Price = item.Price,
                         Picture = item.Picture,
                         Quantity = si.Quantity,
+                        Reccomended = (bool)item.Reccomended,
                     };
                     dtos.Add(dto);
                 }
@@ -224,6 +226,21 @@ namespace Coffee.QR.Core.Services
             catch (Exception e)
             {
                 return Result.Fail<List<ItemDto>>("Failed to retrieve events").WithError(e.Message);
+            }
+        }
+
+        public Result<ItemDto> Reccomend(long itemId)
+        {
+            try
+            {
+                Item item = _itemRepository.GetItem(itemId);
+                item.Reccomend();
+                _itemRepository.UpdateItem(item);
+                return MapToDto(item);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<ItemDto>("Failed to retrieve events").WithError(e.Message);
             }
         }
     }

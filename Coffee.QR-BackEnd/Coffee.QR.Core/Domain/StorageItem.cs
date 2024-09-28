@@ -10,7 +10,9 @@ namespace Coffee.QR.Core.Domain
     public class StorageItem : Entity
     {
         public long StorageId { get; set; }
+        public virtual Storage Storage { get; set; }
         public long ItemId { get; set; }
+        public virtual Item Item { get; set; }
         public long Quantity { get; set; }
 
         public StorageItem(long storageId, long itemId, long quantity)

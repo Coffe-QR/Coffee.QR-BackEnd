@@ -34,50 +34,14 @@ VALUES
     ('Beachside Cafe', 'Miami', '2022-07-10', TRUE),
     ('City Central Cafe', 'Chicago', '2019-09-05', TRUE);
 
-
--- Insert za Item
-INSERT INTO "CoffeeQRSchema"."Items" ("Type", "Name", "Description", "Price", "Picture", "CompanyId", "LocalId", "Belong")
+-- Insert za Storage
+INSERT INTO "CoffeeQRSchema"."Storages" ("LocalId")
 VALUES 
-    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0),
-    (2, 'Latte', 'Creamy coffee with milk', 3.75, '/images/latte.png', 2, 2, 0),
-    (3, 'Cappuccino', 'Coffee with steamed milk foam', 4.00, '/images/cappuccino.png', 3, 3, 0),
-    (1, 'Americano', 'Watered-down espresso', 2.25, '/images/americano.png', 4, 4, 0),
-    (2, 'Mocha', 'Coffee with chocolate syrup and milk', 4.50, '/images/mocha.png', 1, 1, 0),
-    (3, 'Flat White', 'Steamed milk with espresso', 3.50, '/images/flat_white.png', 2, 2, 0),
-    (1, 'Black Coffee', 'Simple brewed coffee', 2.00, '/images/black_coffee.png', 3, 3, 0),
-    (2, 'Iced Coffee', 'Chilled coffee over ice', 3.00, '/images/iced_coffee.png', 4, 4, 0),
-    (2, 'Macchiato', 'Espresso with a dash of foamed milk', 3.75, '/images/macchiato.png', 1, 1, 0),
-    (1, 'Ristretto', 'Short and strong espresso', 2.80, '/images/ristretto.png', 2, 2, 0),
-    (3, 'Frappuccino', 'Blended coffee with ice and cream', 5.00, '/images/frappuccino.png', 3, 3, 0),
-    (2, 'Cold Brew', 'Slow brewed cold coffee', 4.00, '/images/cold_brew.png', 4, 4, 0),
-    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0), -- duplicate
-    (2, 'Latte', 'Creamy coffee with milk', 3.75, '/images/latte.png', 2, 2, 0), -- duplicate
-    (3, 'Affogato', 'Espresso poured over ice cream', 4.50, '/images/affogato.png', 3, 3, 0),
-    (2, 'Café au Lait', 'Coffee with steamed milk', 3.25, '/images/cafe_au_lait.png', 1, 1, 0),
-    (3, 'Cortado', 'Equal parts espresso and milk', 3.00, '/images/cortado.png', 2, 2, 0),
-    (2, 'Iced Latte', 'Chilled latte with ice', 3.75, '/images/iced_latte.png', 4, 4, 0),
-    (1, 'Doppio', 'Double espresso shot', 3.00, '/images/doppio.png', 3, 3, 0),
-    (3, 'Irish Coffee', 'Coffee with whiskey and cream', 5.50, '/images/irish_coffee.png', 2, 2, 0),
-    (2, 'Mocha', 'Coffee with chocolate syrup and milk', 4.50, '/images/mocha.png', 1, 1, 0), -- duplicate
-    (1, 'Espresso Con Panna', 'Espresso with whipped cream', 3.25, '/images/espresso_con_panna.png', 4, 4, 0),
-    (2, 'Breve', 'Espresso with steamed half-and-half', 4.00, '/images/breve.png', 2, 2, 0),
-    (1, 'Long Black', 'Hot water with espresso', 2.75, '/images/long_black.png', 3, 3, 0),
-    (3, 'Turkish Coffee', 'Strong, unfiltered coffee', 3.50, '/images/turkish_coffee.png', 1, 1, 0),
-    (2, 'Vienna Coffee', 'Espresso with whipped cream', 4.00, '/images/vienna_coffee.png', 4, 4, 0),
-    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0), -- duplicate
-    (2, 'Latte', 'Creamy coffee with milk', 3.75, '/images/latte.png', 2, 2, 0), -- duplicate
-    (3, 'Frappe', 'Iced coffee with milkshake consistency', 4.25, '/images/frappe.png', 3, 3, 0),
-    (2, 'Iced Mocha', 'Chilled mocha with ice', 4.50, '/images/iced_mocha.png', 4, 4, 0),
-    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0), -- duplicate
-    (2, 'Flat White', 'Steamed milk with espresso', 3.50, '/images/flat_white.png', 2, 2, 0), -- duplicate
-    (3, 'Cafe Bombon', 'Espresso with condensed milk', 4.25, '/images/cafe_bombon.png', 3, 3, 0),
-    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0), -- duplicate
-    (2, 'Latte', 'Creamy coffee with milk', 3.75, '/images/latte.png', 2, 2, 0), -- duplicate
-    (3, 'Caramel Macchiato', 'Espresso with caramel syrup and milk', 4.75, '/images/caramel_macchiato.png', 4, 4, 0),
-    (2, 'Dirty Chai Latte', 'Chai tea with espresso and milk', 4.25, '/images/dirty_chai_latte.png', 1, 1, 0),
-    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0), -- duplicate
-    (3, 'Cappuccino', 'Coffee with steamed milk foam', 4.00, '/images/cappuccino.png', 3, 3, 0), -- duplicate
-    (1, 'Americano', 'Watered-down espresso', 2.25, '/images/americano.png', 4, 4, 0); -- duplicate
+    (1),
+    (2),
+    (3),
+    (4);
+
 
 
 -- Insert za LocalUser
@@ -113,14 +77,7 @@ VALUES
     ('/reports/events_mar_2024.pdf', 3, '2024-03-31', 3, 3),
     ('/reports/employee_perf_apr_2024.pdf', 4, '2024-04-30', 4, 1);
 
--- Insert za StorageItem
-INSERT INTO "CoffeeQRSchema"."StorageItems" ("StorageId", "ItemId", "Quantity")
-VALUES 
-    (1, 1, 50),
-    (1, 2, 30),
-    (2, 3, 20),
-    (3, 4, 100),
-    (2, 5, 75);
+
 
 -- Insert za Supply
 INSERT INTO "CoffeeQRSchema"."Supplies" ("CompanyId", "TotalPrice", "Status")
@@ -129,14 +86,6 @@ VALUES
     (2, 1500.75, 2),
     (3, 1200.00, 1),
     (4, 500.00, 3);
-
--- Insert za SupplyItem
-INSERT INTO "CoffeeQRSchema"."SupplyItems" ("SupplyId", "ItemId", "Quantity", "Price")
-VALUES 
-    (1, 1, 20, 25.50),
-    (2, 2, 15, 30.75),
-    (3, 3, 50, 22.00),
-    (4, 4, 40, 28.00);
 
 -- Insert za User
 INSERT INTO "CoffeeQRSchema"."Users" ("Username", "Password", "Email", "FirstName", "LastName", "Role", "IsActive")
@@ -154,50 +103,69 @@ VALUES
     (30, 8, 3),
     (10, 2, 4);
 
-
 -- Insert za Item
-INSERT INTO "CoffeeQRSchema"."Items" ("Type", "Name", "Description", "Price", "Picture", "CompanyId", "LocalId", "Belong")
+INSERT INTO "CoffeeQRSchema"."Items" ("Type", "Name", "Description", "Price", "Picture", "CompanyId", "LocalId", "Belong", "Reccomended")
 VALUES 
-    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0),
-    (2, 'Latte', 'Creamy coffee with milk', 3.75, '/images/latte.png', 2, 2, 0),
-    (3, 'Cappuccino', 'Coffee with steamed milk foam', 4.00, '/images/cappuccino.png', 3, 3, 0),
-    (1, 'Americano', 'Watered-down espresso', 2.25, '/images/americano.png', 4, 4, 0),
-    (2, 'Mocha', 'Coffee with chocolate syrup and milk', 4.50, '/images/mocha.png', 1, 1, 0),
-    (3, 'Flat White', 'Steamed milk with espresso', 3.50, '/images/flat_white.png', 2, 2, 0),
-    (1, 'Black Coffee', 'Simple brewed coffee', 2.00, '/images/black_coffee.png', 3, 3, 0),
-    (2, 'Iced Coffee', 'Chilled coffee over ice', 3.00, '/images/iced_coffee.png', 4, 4, 0),
-    (2, 'Macchiato', 'Espresso with a dash of foamed milk', 3.75, '/images/macchiato.png', 1, 1, 0),
-    (1, 'Ristretto', 'Short and strong espresso', 2.80, '/images/ristretto.png', 2, 2, 0),
-    (3, 'Frappuccino', 'Blended coffee with ice and cream', 5.00, '/images/frappuccino.png', 3, 3, 0),
-    (2, 'Cold Brew', 'Slow brewed cold coffee', 4.00, '/images/cold_brew.png', 4, 4, 0),
-    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0), -- duplicate
-    (2, 'Latte', 'Creamy coffee with milk', 3.75, '/images/latte.png', 2, 2, 0), -- duplicate
-    (3, 'Affogato', 'Espresso poured over ice cream', 4.50, '/images/affogato.png', 3, 3, 0),
-    (2, 'Café au Lait', 'Coffee with steamed milk', 3.25, '/images/cafe_au_lait.png', 1, 1, 0),
-    (3, 'Cortado', 'Equal parts espresso and milk', 3.00, '/images/cortado.png', 2, 2, 0),
-    (2, 'Iced Latte', 'Chilled latte with ice', 3.75, '/images/iced_latte.png', 4, 4, 0),
-    (1, 'Doppio', 'Double espresso shot', 3.00, '/images/doppio.png', 3, 3, 0),
-    (3, 'Irish Coffee', 'Coffee with whiskey and cream', 5.50, '/images/irish_coffee.png', 2, 2, 0),
-    (2, 'Mocha', 'Coffee with chocolate syrup and milk', 4.50, '/images/mocha.png', 1, 1, 0), -- duplicate
-    (1, 'Espresso Con Panna', 'Espresso with whipped cream', 3.25, '/images/espresso_con_panna.png', 4, 4, 0),
-    (2, 'Breve', 'Espresso with steamed half-and-half', 4.00, '/images/breve.png', 2, 2, 0),
-    (1, 'Long Black', 'Hot water with espresso', 2.75, '/images/long_black.png', 3, 3, 0),
-    (3, 'Turkish Coffee', 'Strong, unfiltered coffee', 3.50, '/images/turkish_coffee.png', 1, 1, 0),
-    (2, 'Vienna Coffee', 'Espresso with whipped cream', 4.00, '/images/vienna_coffee.png', 4, 4, 0),
-    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0), -- duplicate
-    (2, 'Latte', 'Creamy coffee with milk', 3.75, '/images/latte.png', 2, 2, 0), -- duplicate
-    (3, 'Frappe', 'Iced coffee with milkshake consistency', 4.25, '/images/frappe.png', 3, 3, 0),
-    (2, 'Iced Mocha', 'Chilled mocha with ice', 4.50, '/images/iced_mocha.png', 4, 4, 0),
-    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0), -- duplicate
-    (2, 'Flat White', 'Steamed milk with espresso', 3.50, '/images/flat_white.png', 2, 2, 0), -- duplicate
-    (3, 'Cafe Bombon', 'Espresso with condensed milk', 4.25, '/images/cafe_bombon.png', 3, 3, 0),
-    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0), -- duplicate
-    (2, 'Latte', 'Creamy coffee with milk', 3.75, '/images/latte.png', 2, 2, 0), -- duplicate
-    (3, 'Caramel Macchiato', 'Espresso with caramel syrup and milk', 4.75, '/images/caramel_macchiato.png', 4, 4, 0),
-    (2, 'Dirty Chai Latte', 'Chai tea with espresso and milk', 4.25, '/images/dirty_chai_latte.png', 1, 1, 0),
-    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0), -- duplicate
-    (3, 'Cappuccino', 'Coffee with steamed milk foam', 4.00, '/images/cappuccino.png', 3, 3, 0), -- duplicate
-    (1, 'Americano', 'Watered-down espresso', 2.25, '/images/americano.png', 4, 4, 0); -- duplicate
+    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0, FALSE),
+    (2, 'Latte', 'Creamy coffee with milk', 3.75, '/images/latte.png', 2, 2, 0, FALSE),
+    (3, 'Cappuccino', 'Coffee with steamed milk foam', 4.00, '/images/cappuccino.png', 3, 3, 0, FALSE),
+    (1, 'Americano', 'Watered-down espresso', 2.25, '/images/americano.png', 4, 4, 0, FALSE),
+    (2, 'Mocha', 'Coffee with chocolate syrup and milk', 4.50, '/images/mocha.png', 1, 1, 0, FALSE),
+    (3, 'Flat White', 'Steamed milk with espresso', 3.50, '/images/flat_white.png', 2, 2, 0, FALSE),
+    (1, 'Black Coffee', 'Simple brewed coffee', 2.00, '/images/black_coffee.png', 3, 3, 0, FALSE),
+    (2, 'Iced Coffee', 'Chilled coffee over ice', 3.00, '/images/iced_coffee.png', 4, 4, 0, FALSE),
+    (2, 'Macchiato', 'Espresso with a dash of foamed milk', 3.75, '/images/macchiato.png', 1, 1, 0, FALSE),
+    (1, 'Ristretto', 'Short and strong espresso', 2.80, '/images/ristretto.png', 2, 2, 0, FALSE),
+    (3, 'Frappuccino', 'Blended coffee with ice and cream', 5.00, '/images/frappuccino.png', 3, 3, 0, FALSE),
+    (2, 'Cold Brew', 'Slow brewed cold coffee', 4.00, '/images/cold_brew.png', 4, 4, 0, FALSE),
+    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0, FALSE), -- duplicate
+    (2, 'Latte', 'Creamy coffee with milk', 3.75, '/images/latte.png', 2, 2, 0, FALSE), -- duplicate
+    (3, 'Affogato', 'Espresso poured over ice cream', 4.50, '/images/affogato.png', 3, 3, 0, FALSE),
+    (2, 'Café au Lait', 'Coffee with steamed milk', 3.25, '/images/cafe_au_lait.png', 1, 1, 0, FALSE),
+    (3, 'Cortado', 'Equal parts espresso and milk', 3.00, '/images/cortado.png', 2, 2, 0, FALSE),
+    (2, 'Iced Latte', 'Chilled latte with ice', 3.75, '/images/iced_latte.png', 4, 4, 0, FALSE),
+    (1, 'Doppio', 'Double espresso shot', 3.00, '/images/doppio.png', 3, 3, 0, FALSE),
+    (3, 'Irish Coffee', 'Coffee with whiskey and cream', 5.50, '/images/irish_coffee.png', 2, 2, 0, FALSE),
+    (2, 'Mocha', 'Coffee with chocolate syrup and milk', 4.50, '/images/mocha.png', 1, 1, 0, FALSE), -- duplicate
+    (1, 'Espresso Con Panna', 'Espresso with whipped cream', 3.25, '/images/espresso_con_panna.png', 4, 4, 0, FALSE),
+    (2, 'Breve', 'Espresso with steamed half-and-half', 4.00, '/images/breve.png', 2, 2, 0, FALSE),
+    (1, 'Long Black', 'Hot water with espresso', 2.75, '/images/long_black.png', 3, 3, 0, FALSE),
+    (3, 'Turkish Coffee', 'Strong, unfiltered coffee', 3.50, '/images/turkish_coffee.png', 1, 1, 0, FALSE),
+    (2, 'Vienna Coffee', 'Espresso with whipped cream', 4.00, '/images/vienna_coffee.png', 4, 4, 0, FALSE),
+    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0, FALSE), -- duplicate
+    (2, 'Latte', 'Creamy coffee with milk', 3.75, '/images/latte.png', 2, 2, 0, FALSE), -- duplicate
+    (3, 'Frappe', 'Iced coffee with milkshake consistency', 4.25, '/images/frappe.png', 3, 3, 0, FALSE),
+    (2, 'Iced Mocha', 'Chilled mocha with ice', 4.50, '/images/iced_mocha.png', 4, 4, 0, FALSE),
+    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0, FALSE), -- duplicate
+    (2, 'Flat White', 'Steamed milk with espresso', 3.50, '/images/flat_white.png', 2, 2, 0, FALSE), -- duplicate
+    (3, 'Cafe Bombon', 'Espresso with condensed milk', 4.25, '/images/cafe_bombon.png', 3, 3, 0, FALSE),
+    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0, FALSE), -- duplicate
+    (2, 'Latte', 'Creamy coffee with milk', 3.75, '/images/latte.png', 2, 2, 0, FALSE), -- duplicate
+    (3, 'Caramel Macchiato', 'Espresso with caramel syrup and milk', 4.75, '/images/caramel_macchiato.png', 4, 4, 0, FALSE),
+    (2, 'Dirty Chai Latte', 'Chai tea with espresso and milk', 4.25, '/images/dirty_chai_latte.png', 1, 1, 0, FALSE),
+    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 0, FALSE), -- duplicate
+    (3, 'Cappuccino', 'Coffee with steamed milk foam', 4.00, '/images/cappuccino.png', 3, 3, 0, FALSE), -- duplicate
+    (1, 'Americano', 'Watered-down espresso', 2.25, '/images/americano.png', 4, 4, 0, FALSE), -- duplicate
+    (1, 'Espresso', 'Strong black coffee', 2.50, '/images/espresso.png', 1, 1, 1, FALSE),
+    (2, 'Latte', 'Creamy coffee with milk', 3.75, '/images/latte.png', 2, 2, 1, FALSE),
+    (3, 'Cappuccino', 'Coffee with steamed milk foam', 4.00, '/images/cappuccino.png', 3, 3, 1, FALSE);
+
+-- Insert za StorageItem
+INSERT INTO "CoffeeQRSchema"."StorageItems" ("StorageId", "ItemId", "Quantity")
+VALUES 
+    (1, 41, 50),
+    (1, 42, 30),
+    (2, 43, 20);
+
+
+-- Insert za SupplyItem
+INSERT INTO "CoffeeQRSchema"."SupplyItems" ("SupplyId", "ItemId", "Quantity", "Price")
+VALUES 
+    (1, 1, 20, 25.50),
+    (2, 2, 15, 30.75),
+    (3, 3, 50, 22.00),
+    (4, 4, 40, 28.00);
+
 
 
 -- Insert za Table

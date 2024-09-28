@@ -32,14 +32,16 @@ PREGLED NARUDZBINE
 2. Filter po svima greskama (ORDERED, TAKEN, MISTAKE, CONFIRMED) 			-- URADJENO
 3. Prikaz svi detalja									-- URADJENO
 4. Fiksna velicina prozora, da se vidi scroller
-5. Omoguciti da admin stavi u stanje potvrdjen 						--URADJENO
+5. Omoguciti da admin stavi u stanje potvrdjen 						-- URADJENO
 
 
 PREGLED MAGACINA
-1. Napraviti prikaz za mendazera 
+1. Napraviti prikaz za mendazera 							-- URADJENO
 2. Kod menadzer prikaza omogucava da doda u korpu item
-3. Prikaz za konobara i magacionera
-4. Konobar i magacionera omoguciti da preporuci menadzeru sta da naruci
+3. Prikaz za konobara i magacionera							-- URADJENO ZA MAGACIONERA
+4. Konobar i magacionera omoguciti da preporuci menadzeru sta da naruci			-- URADJENO
+
+
 
 
 

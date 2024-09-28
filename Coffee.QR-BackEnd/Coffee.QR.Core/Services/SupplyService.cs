@@ -80,7 +80,7 @@ namespace Coffee.QR.Core.Services
             return supplyToDelete != null;
         }
 
-
+    
         public Task<Result<SupplyDto>> GetSupplyByIdAsync(long id)
         {
             throw new NotImplementedException();

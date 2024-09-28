@@ -1,4 +1,5 @@
-﻿using Coffee.QR.BuildingBlocks.Core.Domain;
+﻿
+using Coffee.QR.BuildingBlocks.Core.Domain;
 using Coffee.QR.Core.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -169,6 +170,23 @@ namespace Coffee.QR.Infrastructure.Database
             .WithMany(i => i.ErrorSupplies)
             .HasForeignKey(i => i.SupplyId);
 
+            modelBuilder.Entity<Storage>()
+            .HasOne(s => s.Local)
+            .WithOne()
+            .HasForeignKey<Storage>(s => s.LocalId);
+
+            /*
+            modelBuilder.Entity<StorageItem>()
+            .HasOne(i => i.Storage)
+            .WithMany(s => s.StorageItems)
+            .HasForeignKey(s => s.StorageId);
+            */
+            
+            modelBuilder.Entity<StorageItem>()
+            .HasOne<Item>(i => i.Item)
+            .WithOne(s => s.StorageItem)
+            .HasForeignKey<StorageItem>(i => i.ItemId);
+            
             Configure(modelBuilder);
         }
 

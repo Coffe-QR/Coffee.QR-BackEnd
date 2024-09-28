@@ -33,8 +33,9 @@ namespace Coffee.QR.Core.Domain
         public long LocalId { get; set; }
         public Local Local { get; set; }
         public Belong Belong { get; set; }
-        public ICollection<ErrorSupply> ErrorSupplies { get; } = []; 
-
+        public ICollection<ErrorSupply> ErrorSupplies { get; } = [];
+        public virtual StorageItem StorageItem { get; set; }
+        public bool? Reccomended { get; set; }
         public Item(ItemType type, string name, string description, double price, string picture)
         {
             Type = type;
@@ -42,6 +43,11 @@ namespace Coffee.QR.Core.Domain
             Description = description;
             Price = price;
             Picture = picture;
+        }
+
+        public void Reccomend()
+        {
+            Reccomended = !Reccomended;
         }
     }
 }

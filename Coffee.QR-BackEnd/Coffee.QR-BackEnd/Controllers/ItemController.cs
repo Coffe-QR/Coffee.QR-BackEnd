@@ -4,6 +4,7 @@ using Coffee.QR.API.Public;
 using FluentResults;
 using Coffee.QR.Core.Services;
 using Microsoft.AspNetCore.Mvc;
+using Coffee.QR.Core.Domain;
 
 namespace Coffee.QR_BackEnd.Controllers
 {
@@ -138,5 +139,14 @@ namespace Coffee.QR_BackEnd.Controllers
             var result = _itemService.GetAllForSupply(supplyId);
             return CreateResponse(result);
         }
+
+
+        [HttpGet("reccomend/{itemId}")]
+        public IActionResult Reccomend(long itemId)
+        {
+            var result = _itemService.Reccomend(itemId);
+            return CreateResponse(result);
+        }
+
     }
 }

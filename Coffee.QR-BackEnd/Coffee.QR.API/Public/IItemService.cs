@@ -19,5 +19,6 @@ namespace Coffee.QR.API.Public
         Result<List<ItemDto>> GetAllForBuy();
         Result<string> GetName(long itemId);
         Result<List<ItemDto>> GetAllForSupply(long supplyId);
+        Result<ItemDto> Reccomend(long itemId);
     }
 }

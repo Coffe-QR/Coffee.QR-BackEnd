@@ -24,5 +24,6 @@ namespace Coffee.QR.API.DTOs
         public long Quantity { get; set; }
         public string CompanyName { get; set; }
         public long DaysDelivery { get; set; }
+        public bool Reccomended { get; set; }
     }
 }

@@ -10,8 +10,8 @@ namespace Coffee.QR.Core.Domain
     public class Storage : Entity
     {
         public long LocalId { get; set; }
-
-
+        public Local Local { get; set; }
+        public ICollection<StorageItem> StorageItems { get; set; }
         public Storage(long localId)
         {
             LocalId = localId;
