@@ -10,13 +10,6 @@ VALUES
     ('LatteKing', 4),
     ('RoastMasters', 6);
 
--- Insert za Contract
-INSERT INTO "CoffeeQRSchema"."Contracts" ("LocalId", "CompanyId", "Description", "Date", "Frequency", "SupplyId")
-VALUES 
-    (1, 1, 'Monthly coffee supply', '2024-01-15', 30, 2),
-    (2, 2, 'Weekly delivery of beans', '2024-02-01', 7, 3),
-    (3, 3, 'Bi-weekly delivery', '2024-03-10', 14, 4),
-    (1, 4, 'Seasonal blend supply', '2024-04-05', 90, 5);
 
 -- Insert za JobApplication
 INSERT INTO "CoffeeQRSchema"."JobApplications" ("FirstName", "LastName", "Email", "Phone", "DateOfBirth", "Address", "ApplicationDate", "LocalId", "ApplicantDescription", "Position")
@@ -184,13 +177,7 @@ VALUES
     ('Latte Art Competition', '2024-11-15 12:00:00', 'Show off your latte art skills', '/images/event3.jpg', 3, 3),
     ('Espresso 101 Workshop', '2024-12-05 09:00:00', 'Learn the secrets of making great espresso', '/images/event4.jpg', 4, 4);
 
--- Insert za ContractItem
-INSERT INTO "CoffeeQRSchema"."ContractItems" ("ContractId", "ItemId", "Quantity", "Price")
-VALUES 
-    (1, 1, 100, 500),
-    (2, 2, 50, 250),
-    (3, 3, 200, 800),
-    (4, 4, 75, 300);
+
 
 -- Insert za Notification
 INSERT INTO "CoffeeQRSchema"."Notifications" ("Message", "DateTime", "IsActive", "TableId", "LocalId")
@@ -207,3 +194,14 @@ VALUES
     (15.75, 'Order of 1 latte and 1 croissant', 2, 2, '2024-03-02', FALSE),
     (20.00, 'Order of 2 cappuccinos', 3, 3, '2024-03-03', TRUE),
     (12.25, 'Order of 1 americano and 1 sandwich', 4, 4, '2024-03-04', TRUE);
+
+
+-- Insert za Frequencies
+INSERT INTO "CoffeeQRSchema"."Frequencies" ("Unit", "UnitQuantity")
+VALUES 
+    (1, 1),  -- 1 day
+    (2, 7),  -- 1 week
+    (3, 14), -- 2 weeks
+    (4, 30), -- 1 month
+    (5, 365); -- 1 year
+

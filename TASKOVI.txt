@@ -33,14 +33,23 @@ PREGLED NARUDZBINE
 3. Prikaz svi detalja									-- URADJENO
 4. Fiksna velicina prozora, da se vidi scroller
 5. Omoguciti da admin stavi u stanje potvrdjen 						-- URADJENO
+6. Nakon ovoga mora da se poveca supply u warehouse
 
 
 PREGLED MAGACINA
 1. Napraviti prikaz za mendazera 							-- URADJENO
-2. Kod menadzer prikaza omogucava da doda u korpu item
+2. Kod menadzer prikaza omogucava da doda u korpu item					-- NECU NI RADITI
 3. Prikaz za konobara i magacionera							-- URADJENO ZA MAGACIONERA
 4. Konobar i magacionera omoguciti da preporuci menadzeru sta da naruci			-- URADJENO
+5. Dodati da moze da se prikazu samo preporuceni					
 
+
+UCESTALE NARUDZBINE	
+1. Opis narudzbine									-- URADJENO						
+2. Pocetak vazenja									-- URADJENO
+3. Kraj vazenja										-- URADJENO
+4. Ucestalost (Broj odabrane jedinice i kolicina odabrane jedinice)			-- URADJENO
+5. Svi artikli koji treba da se nadju u narudzbini
 
 
 

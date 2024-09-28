@@ -37,6 +37,8 @@ namespace Coffee.QR.Infrastructure.Database
         public DbSet<ContractItem> ContractItems{ get; set; }
         public DbSet<Sale> Sales { get; set; }  
         public DbSet<ErrorSupply> ErrorSupplies { get; set; }
+        public DbSet<Frequency> Frequencies { get; set; }
+
         public Context(DbContextOptions<Context> options) : base(options){}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -186,6 +188,11 @@ namespace Coffee.QR.Infrastructure.Database
             .HasOne<Item>(i => i.Item)
             .WithOne(s => s.StorageItem)
             .HasForeignKey<StorageItem>(i => i.ItemId);
+
+            modelBuilder.Entity<Contract>()
+            .HasOne(c => c.Frequency)
+            .WithOne()
+            .HasForeignKey<Contract>(c => c.FrequencyId);
             
             Configure(modelBuilder);
         }

@@ -265,7 +265,7 @@ namespace Coffee.QR.Core.Services
                 table.AddCell(item.Id.ToString());
                 table.AddCell(item.Description);
                 table.AddCell(item.Frequency.ToString());
-                if (item.Frequency == Frequency.WEAKLY) price *= 4;
+                //if (item.Frequency == Frequency.WEAKLY) price *= 4;
                 table.AddCell(price.ToString("C"));
                 fullPrice += price;
             }

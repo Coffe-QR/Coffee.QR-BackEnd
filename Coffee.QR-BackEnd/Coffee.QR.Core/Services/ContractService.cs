@@ -28,12 +28,12 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var contractt = _contractRepository.Create(new Domain.Contract(contractDto.LocalId, contractDto.CompanyId, contractDto.Description, contractDto.Date, (Frequency)Enum.Parse(typeof(Frequency), contractDto.Frequency.ToString(), true), contractDto.SupplyId));
+                var contractt = _contractRepository.Create(new Domain.Contract(contractDto.LocalId, contractDto.CompanyId, contractDto.Description, contractDto.Start,  contractDto.SupplyId));
 
                 ContractDto resultDto = new ContractDto
                 {
                     Id = contractt.Id,
-                    Date = contractt.Date,
+                    Start = contractt.Start,
                     Frequency = (FrequencyDto)Enum.Parse(typeof(FrequencyDto), contractt.Frequency.ToString(), true),
                     CompanyId = contractt.CompanyId,
                     Description = contractt.Description,
@@ -56,7 +56,7 @@ namespace Coffee.QR.Core.Services
                 var contractDtos = contracts.Select(contractt => new ContractDto
                 {
                     Id = contractt.Id,
-                    Date = contractt.Date,
+                    Start = contractt.Start,
                     Frequency = (FrequencyDto)Enum.Parse(typeof(FrequencyDto), contractt.Frequency.ToString(), true),
                     CompanyId = contractt.CompanyId,
                     Description = contractt.Description,
@@ -84,7 +84,7 @@ namespace Coffee.QR.Core.Services
                 var contractDtos = contracts.Select(contractt => new ContractDto
                 {
                     Id = contractt.Id,
-                    Date = contractt.Date,
+                    Start = contractt.Start,
                     Frequency = (FrequencyDto)Enum.Parse(typeof(FrequencyDto), contractt.Frequency.ToString(), true),
                     CompanyId = contractt.CompanyId,
                     Description = contractt.Description,

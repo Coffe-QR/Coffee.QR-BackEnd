@@ -45,6 +45,7 @@ namespace Coffee.QR.Infrastructure
             services.AddAutoMapper(typeof(ContractItemProfile).Assembly);
             services.AddAutoMapper(typeof(SaleProfile).Assembly);
             services.AddAutoMapper(typeof(ErrorSupplyProfile).Assembly);
+            services.AddAutoMapper(typeof(FrequencyProfile).Assembly);
 
 
 
@@ -81,6 +82,8 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<IContractItemService, ContractItemService>();
             services.AddScoped<ISaleService, SaleService>();
             services.AddScoped<IErrorSupplyService, ErrorSupplyService>();
+            services.AddScoped<IFrequencyService, FrequencyService>();
+
 
         }
 
@@ -110,6 +113,8 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped(typeof(ICrudRepository<ContractItem>), typeof(CrudDatabaseRepository<ContractItem, Context>));
             services.AddScoped(typeof(ICrudRepository<Sale>), typeof(CrudDatabaseRepository<Sale, Context>));
             services.AddScoped(typeof(ICrudRepository<ErrorSupply>), typeof(CrudDatabaseRepository<ErrorSupply, Context>));
+            services.AddScoped(typeof(ICrudRepository<Frequency>), typeof(CrudDatabaseRepository<Frequency, Context>));
+
 
 
             services.AddScoped<IUserRepository, UserRepository>();
@@ -136,6 +141,8 @@ namespace Coffee.QR.Infrastructure
             services.AddScoped<IContractItemRepository, ContractItemRepository>();
             services.AddScoped<ISaleRepository, SaleRepository>();
             services.AddScoped<IErrorSupplyRepository, ErrorSupplyRepository>();
+            services.AddScoped<IFrequencyRepository, FrequencyRepository>();
+
 
 
             services.AddDbContext<Context>(opt =>
