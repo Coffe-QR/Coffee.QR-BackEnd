@@ -15,16 +15,30 @@ namespace Coffee.QR.Core.Domain
     {
         public string Path { get; set; }
         public ReportType Type { get; set; } 
-        public DateOnly Date { get; set; }
+        public DateOnly Start { get; set; }
+        public DateOnly End{ get; set; }
         public long LocalId { get; set; }
-        
         public ReportKind Kind { get; set; }
+
+        public Report(string path, ReportType type, DateOnly start, DateOnly end, long localId, ReportKind kind)
+        {
+            Path = path;
+            Type = type;
+            Start = start;
+            End = end;
+            LocalId = localId;
+            Kind = kind;
+        }
+
+        public Report()
+        {
+
+        }
 
         public Report(string path, ReportType type, DateOnly date, long localId)
         {
             Path = path;
             Type = type;
-            Date = date;
             LocalId = localId;
         }
     }

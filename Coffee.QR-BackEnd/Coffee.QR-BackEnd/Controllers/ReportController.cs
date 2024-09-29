@@ -115,5 +115,26 @@ namespace Coffee.QR_BackEnd.Controllers
                 return BadRequest(result.Errors);
             }
         }
+
+
+        [HttpPost("new-report")]
+        public IActionResult CreateNewReport([FromBody] ReportDto reportDto)
+        {
+            if (reportDto == null)
+            {
+                return BadRequest("Event data is required");
+            }
+
+            var result = _reportService.CreateNewReport(reportDto);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
     }
 }

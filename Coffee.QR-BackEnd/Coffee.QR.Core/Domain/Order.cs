@@ -17,7 +17,7 @@ namespace Coffee.QR.Core.Domain
         public Local Local { get; private set; }
         public DateOnly Date { get; set; }
         public Boolean IsActive { get; set; }
-
+        public ICollection<OrderItem> OrderItems { get; } = [];
 
         public Order(double price, string description, long tableId, long localId, DateOnly date, Boolean isActive)
         {

@@ -14,6 +14,8 @@ using System.IO;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using static System.Net.Mime.MediaTypeNames;
+using System.Security.Cryptography;
+using Stripe.Treasury;
 
 namespace Coffee.QR.Core.Services
 {
@@ -43,15 +45,15 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var report = _reportRepository.Create(new Report(CreateReportPdfProfit(reportDto), (ReportType)Enum.Parse(typeof(ReportType), reportDto.Type.ToString(), true), reportDto.Date, reportDto.LocalId));
+                var report = _reportRepository.Create(new Report(CreateReportPdfProfit(reportDto), (ReportType)Enum.Parse(typeof(ReportType), reportDto.Type.ToString(), true), reportDto.Start, reportDto.LocalId));
                 report.Kind = ReportKind.PROFIT;
 
                 ReportDto resultDto = new ReportDto
                 {
                     Id = report.Id,
                     Path = report.Path,
-                    Date = report.Date,
-                    Type = (ReportTypeDto)Enum.Parse(typeof(ReportTypeDto), report.Type.ToString(), true),
+                  //  Date = report.Date,
+                  //  Type = (ReportTypeDto)Enum.Parse(typeof(ReportTypeDto), report.Type.ToString(), true),
                     LocalId = report.LocalId,   
                 };
                 return Result.Ok(resultDto);
@@ -70,8 +72,8 @@ namespace Coffee.QR.Core.Services
                 {
                     Id = r.Id,
                     Path = r.Path,
-                    Date = r.Date,
-                    Type = (ReportTypeDto)Enum.Parse(typeof(ReportTypeDto), r.Type.ToString(), true),
+                //    Date = r.Date,
+                 //   Type = (ReportTypeDto)Enum.Parse(typeof(ReportTypeDto), r.Type.ToString(), true),
                     LocalId = r.LocalId,
                 }).ToList();
 
@@ -92,8 +94,8 @@ namespace Coffee.QR.Core.Services
                 {
                     Id = r.Id,
                     Path = r.Path,
-                    Date = r.Date,
-                    Type = (ReportTypeDto)Enum.Parse(typeof(ReportTypeDto), r.Type.ToString(), true),
+               //    Date = r.Date,
+               //     Type = (ReportTypeDto)Enum.Parse(typeof(ReportTypeDto), r.Type.ToString(), true),
                     LocalId = r.LocalId,
                 }).ToList();
 
@@ -117,8 +119,8 @@ namespace Coffee.QR.Core.Services
         {
 
             List<ItemDto> items = new List<ItemDto>();
-            if(reportDto.Type == ReportTypeDto.YEARLY)
-            { 
+       //     if(reportDto.Type == ReportTypeDto.YEARLY)
+        //    { 
                 foreach (var order in _orderRepository.GetAll().FindAll(o => o.LocalId == reportDto.LocalId))
                 {
                     foreach (var orderItem in _orderItemRepository.GetItemsForOrder(order.Id))
@@ -145,7 +147,7 @@ namespace Coffee.QR.Core.Services
                             items.Add(dto);
                         }
                     }
-                }
+          //      }
             }
             
             return items;
@@ -199,8 +201,8 @@ namespace Coffee.QR.Core.Services
                 {
                     Id = r.Id,
                     Path = r.Path,
-                    Date = r.Date,
-                    Type = (ReportTypeDto)Enum.Parse(typeof(ReportTypeDto), r.Type.ToString(), true),
+                 //   Date = r.Date,
+                  //  Type = (ReportTypeDto)Enum.Parse(typeof(ReportTypeDto), r.Type.ToString(), true),
                     LocalId = r.LocalId,
                 }).ToList();
 
@@ -217,15 +219,15 @@ namespace Coffee.QR.Core.Services
         {
             try
             {
-                var report = _reportRepository.Create(new Report(CreateReportPdfCost(reportDto), (ReportType)Enum.Parse(typeof(ReportType), reportDto.Type.ToString(), true), reportDto.Date, reportDto.LocalId));
+                var report = _reportRepository.Create(new Report(CreateReportPdfCost(reportDto), (ReportType)Enum.Parse(typeof(ReportType), reportDto.Type.ToString(), true), reportDto.Start, reportDto.LocalId));
                 report.Kind = ReportKind.COST;
 
                 ReportDto resultDto = new ReportDto
                 {
                     Id = report.Id,
                     Path = report.Path,
-                    Date = report.Date,
-                    Type = (ReportTypeDto)Enum.Parse(typeof(ReportTypeDto), report.Type.ToString(), true),
+               //     Date = report.Date,
+                //    Type = (ReportTypeDto)Enum.Parse(typeof(ReportTypeDto), report.Type.ToString(), true),
                     LocalId = report.LocalId,   
                 };
                 return Result.Ok(resultDto);
@@ -280,5 +282,105 @@ namespace Coffee.QR.Core.Services
             return "/Pdfs/Cost" + reportDto.Type + reportDto.LocalId + "_" + reportDto.Id + ".pdf";
         }
 
+
+
+        public Result<ReportDto> CreateNewReport(ReportDto reportDto)
+        {
+            try
+            {
+                Report report = MapToDomain(reportDto);
+                List<Order> orders = _orderRepository.GetOrdersByLocalId(1).FindAll(o => o.Date >= reportDto.Start && o.Date <= reportDto.End);
+
+                double earned = 0;
+                double costed = 0;
+                double orderNumber = orders.Count;
+                
+                foreach (var order in orders)
+                {
+                    earned += order.Price;
+                }
+
+                List<Supply> supplies = _supplyRepository.GetAllForLocalId(1);
+                foreach(Supply supply in supplies)
+                {
+                    costed += supply.TotalPrice;
+                }
+
+                string path = "..\\Coffee.QR-BackEnd\\Resources\\Pdfs\\REPORT" + "_" + reportDto.Start.ToString("dd-MM-yyyy") + "_" + reportDto.End.ToString("dd-MM-yyyy") + "_" + reportDto.LocalId + "_" + reportDto.Id + ".pdf";
+                Document doc = new Document();
+                PdfWriter.GetInstance(doc, new FileStream(path, FileMode.Create));
+                doc.Open();
+
+                var titleFont = FontFactory.GetFont("Arial", 18); // Font i veličina
+                doc.Add(new Paragraph("Izveštaj o Narudžbama", titleFont) { Alignment = Element.ALIGN_CENTER });
+
+                doc.Add(new Paragraph("\n"));
+                doc.Add(new Paragraph("Od " + reportDto.Start + " do " + reportDto.End));
+                doc.Add(new Paragraph("\n"));
+
+                doc.Add(new Paragraph("Zaradjeno: " + earned));
+                doc.Add(new Paragraph("\n"));
+                doc.Add(new Paragraph("Troskovi: " + costed));
+                doc.Add(new Paragraph("\n"));
+                doc.Add(new Paragraph("Broj narudzbina: " + orderNumber));
+
+
+
+                PdfPTable table = new PdfPTable(5);
+                table.WidthPercentage = 100;
+                table.SetWidths(new float[] { 3f, 3f, 2f, 2f, 2f });
+
+                table.AddCell("Item");
+                table.AddCell("Quantity");
+                table.AddCell("Price per unit");
+                table.AddCell("Price");
+                table.AddCell("Order code");
+
+                foreach (var order in orders)
+                {
+                    string hash = CreateSHA256Hash(order.Id + " " + order.Date);
+                    foreach (var orderItem in order.OrderItems)
+                    {
+                        Item item = _itemRepository.GetItem(orderItem.ItemId);
+                        table.AddCell(item.Name);
+                        table.AddCell(orderItem.Quantity.ToString());
+                        table.AddCell(item.Price.ToString("C"));
+                        table.AddCell((orderItem.Quantity * item.Price).ToString("C"));
+                        table.AddCell(hash);
+                    }
+                }
+
+                doc.Add(new Paragraph("\n"));
+
+                doc.Add(table);
+
+                doc.Close();
+                report.Path = "/Pdfs/REPORT" + "_" + reportDto.Start.ToString("dd-MM-yyyy") + "_" + reportDto.End.ToString("dd-MM-yyyy") + "_" + reportDto.LocalId + "_" + reportDto.Id + ".pdf";
+                _reportRepository.Create(report);
+
+                return MapToDto(report);
+            }
+            catch (ArgumentException e)
+            {
+                return Result.Fail<ReportDto>(FailureCode.InvalidArgument).WithError(e.Message);
+            }
+        }
+
+        private string CreateSHA256Hash(string input)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                // Convert the input string to a byte array and compute the hash
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+                // Convert the byte array to a hexadecimal string
+                var stringBuilder = new StringBuilder();
+                foreach (var b in bytes)
+                {
+                    stringBuilder.Append(b.ToString("x2"));
+                }
+                return stringBuilder.ToString();
+            }
+        }
     }
 }

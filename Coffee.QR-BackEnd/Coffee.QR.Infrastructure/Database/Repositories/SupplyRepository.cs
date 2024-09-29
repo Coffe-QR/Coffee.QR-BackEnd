@@ -48,5 +48,10 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
         {
             _dbContext.SaveChanges();
         }
+
+        public List<Supply> GetAllForLocalId(long localId)
+        {
+            return GetAll();
+        }
     }
 }

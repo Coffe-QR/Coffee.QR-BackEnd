@@ -97,7 +97,7 @@ namespace Coffee.QR.Infrastructure.Database
 
             modelBuilder.Entity<OrderItem>()
             .HasOne(oi => oi.OrderOrigin)
-            .WithMany()
+            .WithMany(o => o.OrderItems)
             .HasForeignKey(oi => oi.OrderId)
             .IsRequired();
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Stripe.Reporting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,9 @@ namespace Coffee.QR.API.DTOs
     {
         public long Id { get; set; }
         public string Path { get; set; }
-        public ReportTypeDto Type { get; set; }
-        public DateOnly Date { get; set; }
+        public string Type { get; set; }
+        public DateOnly Start { get; set; }
+        public DateOnly End { get; set; }
         public long LocalId { get; set; }
     }
 }

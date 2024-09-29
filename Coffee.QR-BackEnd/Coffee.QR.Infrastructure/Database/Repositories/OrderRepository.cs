@@ -1,5 +1,6 @@
 ﻿using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +53,11 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
                 order.IsActive = isActive;
                 _dbContext.SaveChanges();
             }
+        }
+
+        public List<Order> GetOrdersByLocalId(long localId)
+        {
+            return _dbContext.Orders.Include(o => o.OrderItems).Where(o => o.LocalId == localId).ToList();
         }
     }
 }
