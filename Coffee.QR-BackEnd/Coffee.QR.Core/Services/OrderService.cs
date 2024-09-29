@@ -201,7 +201,7 @@ namespace Coffee.QR.Core.Services
                 var orderTable = _tableRepository.GetById(order.TableId); 
                 table.AddCell(orderTable.Name);
                 table.AddCell(order.Date.ToString(dateFormat));
-                table.AddCell(order.Price.ToString() + "RSD");
+                table.AddCell(order.Price.ToString() + "$");
             }
             doc.Add(table);
             doc.Close();

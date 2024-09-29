@@ -153,7 +153,7 @@ namespace Coffee.QR.Core.Services
             doc.Add(new Paragraph("----------------------------------------------------------"));
             User waiter = _userRepository.GetById(receiptDto.WaiterId);
             doc.Add(new Paragraph("Id kupca                                                 20"));
-            doc.Add(new Paragraph("Konobar                                            " + waiter.FirstName));
+            doc.Add(new Paragraph("Konobar                                     " + waiter.FirstName));
             doc.Add(new Paragraph("--------------PROMET - PRODAJA--------------"));
             doc.Add(new Paragraph("                              Artikli                             "));
             doc.Add(new Paragraph("=================================="));
@@ -169,12 +169,12 @@ namespace Coffee.QR.Core.Services
             doc.Add(new Paragraph("Za uplatu                                              " + priceSum));
             doc.Add(new Paragraph("Prenos na racun                                   " + moneyReceived));
             double change = moneyReceived - priceSum;
-            doc.Add(new Paragraph("Povracaj                                               " + change));
+            doc.Add(new Paragraph("Povracaj                                               " + Math.Round(change, 2)));
             doc.Add(new Paragraph("=================================="));
             doc.Add(new Paragraph("Oznaka              Ime         Stopa         Porez"));
-            doc.Add(new Paragraph("Dj                  O-PDV       20.00%       " + priceSum/5));
+            doc.Add(new Paragraph("Dj                  O-PDV       20.00%       " + Math.Round(priceSum / 5, 2)));
             doc.Add(new Paragraph("------------------------------------------------------------"));
-            doc.Add(new Paragraph("Ukupan iznos poreza                         " + priceSum/5));
+            doc.Add(new Paragraph("Ukupan iznos poreza                         " + Math.Round(priceSum / 5, 2)));
             doc.Add(new Paragraph("=================================="));
             DateTime now = DateTime.Now;
             doc.Add(new Paragraph("PFR Vreme                    " + now.ToString("dd.MM.yyyy HH:mm:ss")));
