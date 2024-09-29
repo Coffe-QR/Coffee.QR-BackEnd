@@ -52,6 +52,39 @@ namespace Coffee.QR_BackEnd.Controllers
             }
         }
 
+        [HttpGet("getRecomendationForPeriod/{startDate}/{endDate}/{localId}")]
+        public IActionResult GetRecommendationForPeriod(DateOnly startDate, DateOnly endDate, long localId)
+        {
+            var request = new ItemPeriodRecommendationRequest { StartDate = startDate, EndDate = endDate, LocalId = localId };
+            var result = _orderService.GetRecommendationForTimePeriod(request);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
+        [HttpGet("getRecomendationForLastWeek/{localId}")]
+        public IActionResult GetRecommendationForLastWeek(long localId)
+        {
+            DateOnly today = DateOnly.FromDateTime(DateTime.Today);
+            var request = new ItemPeriodRecommendationRequest { StartDate = today.AddDays(-7), EndDate = today, LocalId = localId };
+            var result = _orderService.GetRecommendationForTimePeriod(request);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteOrder(int id)
         {

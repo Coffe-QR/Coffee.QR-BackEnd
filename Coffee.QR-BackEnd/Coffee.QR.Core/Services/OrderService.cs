@@ -108,5 +108,64 @@ namespace Coffee.QR.Core.Services
         {
             _orderRepository.UpdateOrderIsActive(orderId, false);
         }
+
+        public Result<ItemPeriodRecomendation> GetRecommendationForTimePeriod(ItemPeriodRecommendationRequest request) 
+        {
+            var ordersForPeriod = _orderRepository.GetAllOrdersForLocalForPeriod(request);
+
+            var returnData = new ItemPeriodRecomendation { Items = new List<ItemDto>(), MostSoldItemForMonth = "" };
+            foreach (var order in ordersForPeriod) 
+            {
+                foreach (var orderItem in order.OrderItems) 
+                {
+                    bool flag = false;
+                    foreach (var itemDto in returnData.Items) 
+                    {
+                        if (orderItem.ItemId == itemDto.Id) 
+                        {
+                            itemDto.Quantity += orderItem.Quantity;
+                            flag = true;
+                        }
+                    }
+                    if (!flag) 
+                    {
+                        ItemDto newItemDto = new ItemDto
+                        {
+                            Id = orderItem.ItemId,
+                            Type = orderItem.ItemPicked.Type != null ? (ItemTypeDto)orderItem.ItemPicked.Type : default,
+                            Name = orderItem.ItemPicked.Name ?? "Unknown",
+                            Description = orderItem.ItemPicked.Description ?? "No description",
+                            Quantity = orderItem.Quantity,
+                            Picture = orderItem.ItemPicked.Picture
+                        };
+                        returnData.Items.Add(newItemDto);
+                    }
+                }
+            }
+
+            string mostPopularItemName = "";
+            long biggestQuantity = 0;
+
+            foreach (ItemDto itemDto in returnData.Items) 
+            {
+                if (itemDto.Quantity > biggestQuantity) 
+                {
+                    biggestQuantity = itemDto.Quantity;
+                    mostPopularItemName = itemDto.Name;
+                }else if (itemDto.Quantity == biggestQuantity) 
+                {
+                    mostPopularItemName = mostPopularItemName + ", " + itemDto.Name;
+                }
+            }
+
+            returnData.MostSoldItemForMonth = $"The most sold items: {mostPopularItemName} consider ordering more of that";
+
+            if (returnData.Items.Count == 0) 
+            {
+                returnData.MostSoldItemForMonth = "You had no sold item in that period";
+            }
+
+            return returnData;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Coffee.QR.API.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +15,6 @@ namespace Coffee.QR.Core.Domain.RepositoryInterfaces
         List<Order> GetActiveOrdersByLocalId(long localId);
         void UpdateOrderIsActive(long orderId, bool isActive);
         List<Order> GetOrdersByLocalId(long localId);
+        List<Order> GetAllOrdersForLocalForPeriod(ItemPeriodRecommendationRequest request);
     }
 }

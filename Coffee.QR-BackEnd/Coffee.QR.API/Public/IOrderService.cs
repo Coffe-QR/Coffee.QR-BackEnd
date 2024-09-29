@@ -15,5 +15,6 @@ namespace Coffee.QR.API.Public
         bool DeleteOrder(long orderId);
         Result<List<OrderDto>> getByLocalIdAndIsActive(long localId);
         public void DeactivateOrder(long orderId);
+        Result<ItemPeriodRecomendation> GetRecommendationForTimePeriod(ItemPeriodRecommendationRequest request);
     }
 }

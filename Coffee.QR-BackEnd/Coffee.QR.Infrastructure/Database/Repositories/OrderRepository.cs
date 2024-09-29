@@ -1,4 +1,5 @@
-﻿using Coffee.QR.Core.Domain;
+﻿using Coffee.QR.API.DTOs;
+using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -43,6 +44,11 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
         public List<Order> GetActiveOrdersByLocalId(long localId) 
         {
             return _dbContext.Orders.Where(o=>o.LocalId== localId && o.IsActive).ToList();
+        }
+
+        public List<Order> GetAllOrdersForLocalForPeriod(ItemPeriodRecommendationRequest request)
+        {
+            return _dbContext.Orders.Include(o => o.OrderItems).ThenInclude(oi => oi.ItemPicked).Where(o => o.LocalId == request.LocalId && o.Date > request.StartDate && o.Date < request.EndDate).ToList();
         }
 
         public void UpdateOrderIsActive(long orderId, bool isActive)
