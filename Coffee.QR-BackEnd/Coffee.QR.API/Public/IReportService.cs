@@ -17,5 +17,6 @@ namespace Coffee.QR.API.Public
         Result<List<ReportDto>> GetAllForLocalCost(long localId);
         Result<ReportDto> CreateCostReport(ReportDto reportDto);
         Result<ReportDto> CreateNewReport(ReportDto reportDto);
+        Result<List<ReportDto>> GetNewReport();
     }
 }

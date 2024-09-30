@@ -46,8 +46,6 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = new PathString("/Resources/Pdfs")
 });
 
-StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
-
 app.UseRouting();
 app.UseCors(corsPolicy);
 app.UseHttpsRedirection();

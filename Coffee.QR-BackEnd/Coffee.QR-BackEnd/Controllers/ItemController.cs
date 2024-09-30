@@ -148,5 +148,14 @@ namespace Coffee.QR_BackEnd.Controllers
             return CreateResponse(result);
         }
 
+
+
+        [HttpGet("get-for-error/{supplyId}")]
+        public IActionResult GetAllForError(long supplyId)
+        {
+            var result = _itemService.GetAllForError(supplyId);
+            return CreateResponse(result);
+        }
+
     }
 }

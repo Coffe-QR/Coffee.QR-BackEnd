@@ -1,6 +1,6 @@
 CREATE SCHEMA "CoffeeQRSchema"
 
-Add-Migration -Name Init -Context Context -Project Coffee.QR.Infrastructure -StartupProject Coffee.QR-BackEnd
+Add-Migration -Name MP_V2 -Context Context -Project Coffee.QR.Infrastructure -StartupProject Coffee.QR-BackEnd
 Update-Database -Context Context -Project Coffee.QR.Infrastructure -StartupProject Coffee.QR-BackEnd
 
 Pass: CoffeeQr2001!
@@ -49,7 +49,42 @@ UCESTALE NARUDZBINE
 2. Pocetak vazenja									-- URADJENO
 3. Kraj vazenja										-- URADJENO
 4. Ucestalost (Broj odabrane jedinice i kolicina odabrane jedinice)			-- URADJENO
-5. Svi artikli koji treba da se nadju u narudzbini
+5. Svi artikli koji treba da se nadju u narudzbini					-- URADJENO
+6. Dodati logiku da se to izvrsava
+
+
+
+IZVESTAJ O ZARADI, TROSKOVIMA, POTROSNJI ARTIKALA
+1. Pocetak intervala									-- URADJENO
+2. Kraj intervala									-- URADJENO
+3. Logika za to										-- URADJENO
+4. Pravljenje stranica za kreiranje izvestaja						-- URADJENO
+5. Pravljenje stranice za prikaz svih do sada kreiranih izvestaja			-- URADJENO
+6. Na stranici za prikaz potrebno dodati da se moze sort i filter
+
+
+TREBA DODATI DA SE UPIES ODABRANI BROJ ITEMA KOJI JE POTREBAN ZA NARUCITI		-- URADJENO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

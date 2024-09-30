@@ -18,5 +18,6 @@ namespace Coffee.QR.API.Public
         Result<SupplyDto> GetById(long supplyId);
         Result<SupplyDto> Taken(long supplyId);
         Result<SupplyDto> Confirm(long supplyId);
+        Result<SupplyDto> Reorder(long supplyId);
     }
 }

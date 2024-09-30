@@ -22,5 +22,15 @@ namespace Coffee.QR.Core.Domain
             Quantity = quantity;
             Price = price;
         }
+
+        public SupplyItem(SupplyItem si, long supplyId)
+        {
+            Id = 0;
+            SupplyId = supplyId;
+            ItemId = si.ItemId;
+            Item = si.Item;
+            Quantity = si.Quantity;
+            Price = si.Price;
+        }
     }
 }

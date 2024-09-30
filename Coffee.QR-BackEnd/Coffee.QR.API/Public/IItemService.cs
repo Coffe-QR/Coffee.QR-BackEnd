@@ -20,5 +20,6 @@ namespace Coffee.QR.API.Public
         Result<string> GetName(long itemId);
         Result<List<ItemDto>> GetAllForSupply(long supplyId);
         Result<ItemDto> Reccomend(long itemId);
+        Result<List<ItemDto>> GetAllForError(long supplyId);
     }
 }

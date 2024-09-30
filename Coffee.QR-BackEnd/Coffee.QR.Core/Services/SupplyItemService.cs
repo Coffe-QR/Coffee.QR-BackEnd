@@ -204,7 +204,11 @@ namespace Coffee.QR.Core.Services
                 List<SupplyItemDto> dtos = new();
                 foreach (var item in GetAllSupplyItems().Value)
                 {
-                    if (item.SupplyId == supplyId) dtos.Add(item);
+                    if (item.SupplyId == supplyId)
+                    {
+                        item.ItemName = _itemRepository.GetItem(item.ItemId).Name;
+                        dtos.Add(item);
+                    }
                 }
                 return Result.Ok(dtos);
             }

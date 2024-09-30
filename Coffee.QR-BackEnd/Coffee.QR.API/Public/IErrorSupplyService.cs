@@ -12,5 +12,6 @@ namespace Coffee.QR.API.Public
     {
         Result<ErrorSupplyDto> Create(ErrorSupplyDto errorSupply);
         Result<List<ErrorSupplyDto>> GetAllForSupply(long supplyId);
+        Result<List<ErrorSupplyDto>> CreateList(List<ErrorSupplyDto> supplyItemDtos);
     }
 }

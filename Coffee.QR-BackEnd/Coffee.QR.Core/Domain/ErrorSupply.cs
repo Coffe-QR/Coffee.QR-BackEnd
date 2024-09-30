@@ -16,6 +16,7 @@ namespace Coffee.QR.Core.Domain
         public Supply Supply { get; set; }
         public long ReceivedQuantity { get; set; }
         public long ExpectedQuantity { get; set; }
+        public double? Price { get; set; }
         
         public ErrorSupply(ErrorStatus status, long itemId, long supplyId, long receivedQuantity, long expectedQuantity)
         {

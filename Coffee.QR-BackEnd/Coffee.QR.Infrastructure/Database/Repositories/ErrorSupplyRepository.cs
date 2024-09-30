@@ -1,5 +1,6 @@
 ﻿using Coffee.QR.Core.Domain;
 using Coffee.QR.Core.Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace Coffee.QR.Infrastructure.Database.Repositories
 
         public List<ErrorSupply> GetAllForSupply(long supplyId)
         {
-            return _dbContext.ErrorSupplies.Where(e => e.SupplyId == supplyId).ToList();
+            return _dbContext.ErrorSupplies.Include(s => s.Item).Where(e => e.SupplyId == supplyId).ToList();
         }
     }
 }

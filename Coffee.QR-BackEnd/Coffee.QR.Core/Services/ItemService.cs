@@ -18,12 +18,14 @@ namespace Coffee.QR.Core.Services
         private readonly IItemRepository _itemRepository;
         private readonly IStorageItemRepository _storageItemRepository;
         private readonly ISupplyItemRepository _supplyItemRepository;
-        public ItemService(ICrudRepository<Item> crudRepository, IMapper mapper, IItemRepository itemRepository, IStorageItemRepository storageItemRepository, ISupplyItemRepository supplyItemRepository)
+        private readonly IErrorSupplyRepository _errorSupplyRepository;
+        public ItemService(ICrudRepository<Item> crudRepository, IMapper mapper, IItemRepository itemRepository, IStorageItemRepository storageItemRepository, ISupplyItemRepository supplyItemRepository, IErrorSupplyRepository errorSupplyRepository)
             : base(mapper)
         {
             _itemRepository = itemRepository;
             _storageItemRepository = storageItemRepository;
             _supplyItemRepository = supplyItemRepository;
+            _errorSupplyRepository = errorSupplyRepository;
         }
 
         public Result<ItemDto> CreateItem(ItemDto itemDto)
@@ -222,6 +224,49 @@ namespace Coffee.QR.Core.Services
                 }
 
                 return Result.Ok(items); 
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<List<ItemDto>>("Failed to retrieve events").WithError(e.Message);
+            }
+        }
+
+        public Result<List<ItemDto>> GetAllForError(long supplyId)
+        {
+            try
+            {
+                List<ErrorSupply> errors = _errorSupplyRepository.GetAllForSupply(supplyId);
+                List<Item> items = new();
+                foreach(var e in errors)
+                {
+                    items.Add(e.Item);
+                }
+
+                var supplyItems1 = _supplyItemRepository.GetAll().FindAll(s => s.SupplyId == supplyId);
+
+                List<ItemDto> itemDtos = new();
+
+                foreach (var si in items)
+                {
+
+                    Item item = _itemRepository.GetItem(si.Id);
+                    ItemDto dto = new ItemDto()
+                    {
+                        Id = item.Id,
+                        Name = item.Name,
+                        Description = item.Description,
+                        Type = (ItemTypeDto)Enum.Parse(typeof(ItemTypeDto), item.Type.ToString(), true),
+                        Price = item.Price,
+                        Picture = item.Picture,
+                        CompanyName = item.Company.Name,
+                        DaysDelivery = item.Company.DaysDelivery,
+                        Quantity = errors.FirstOrDefault(e => e.ItemId == item.Id).ReceivedQuantity,
+                        ExceptedQuantity = errors.FirstOrDefault(e => e.ItemId == item.Id).ExpectedQuantity,
+                    };
+                    itemDtos.Add(dto);
+                }
+
+                return Result.Ok(itemDtos);
             }
             catch (Exception e)
             {

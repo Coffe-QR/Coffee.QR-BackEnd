@@ -13,16 +13,18 @@ using System.Threading.Tasks;
 
 namespace Coffee.QR.Core.Services
 {
-    public class SupplyService : CrudService<SupplyDto, Supply>, ISupplyService
+    public class SupplyService : BaseService<SupplyDto, Supply>, ISupplyService
     {
         private readonly ISupplyRepository _supplyRepository;
         private readonly ICompanyRepository _companyRepository;
+        private readonly ISupplyItemRepository _supplyItemRepository;
 
-        public SupplyService(ICrudRepository<Supply> crudRepository, IMapper mapper, ISupplyRepository supplyRepository, ICompanyRepository companyRepository)
-            : base(crudRepository, mapper)
+        public SupplyService(ICrudRepository<Supply> crudRepository, IMapper mapper, ISupplyRepository supplyRepository, ICompanyRepository companyRepository, ISupplyItemRepository supplyItemRepository)
+            : base(mapper)
         {
             _supplyRepository = supplyRepository;
             _companyRepository = companyRepository;
+            _supplyItemRepository = supplyItemRepository;
         }
 
         public Result<SupplyDto> CreateSupply(SupplyDto supplyDto)
@@ -40,8 +42,8 @@ namespace Coffee.QR.Core.Services
                     CompanyId = supplyt.CompanyId,
                     TotalPrice = supplyt.TotalPrice,
                     Status = (SupplyStatusDto)Enum.Parse(typeof(SupplyStatusDto), supplyDto.Status.ToString(), true),
-                    Ordered = supplyt.Ordered
-                };
+                    Ordered = new DateOnly(dateTime.Year, dateTime.Month, dateTime.Day)
+            };
 
                 return Result.Ok(resultDto);
             }
@@ -132,6 +134,30 @@ namespace Coffee.QR.Core.Services
                 Supply supply = _supplyRepository.GetById(supplyId);
                 supply.Confirm();
                 _supplyRepository.Save();
+                return MapToDto(supply);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<SupplyDto>("Failed to retrieve supplys").WithError(e.Message);
+            }
+        }
+
+        public Result<SupplyDto> Reorder(long supplyId)
+        {
+            try
+            {
+                Supply supply = _supplyRepository.GetById(supplyId);
+
+                supply.Id = 0;
+                supply = _supplyRepository.Create(supply);
+
+                List<SupplyItem> supplyItems = _supplyItemRepository.GetAllForSupply(supplyId);
+                foreach(var si in supplyItems)
+                {
+                    SupplyItem supplyItem = new(si, supply.Id);
+                    _supplyItemRepository.Create(supplyItem);
+                }
+
                 return MapToDto(supply);
             }
             catch (Exception e)

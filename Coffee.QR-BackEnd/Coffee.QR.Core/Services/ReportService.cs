@@ -16,6 +16,7 @@ using iTextSharp.text.pdf;
 using static System.Net.Mime.MediaTypeNames;
 using System.Security.Cryptography;
 using Stripe.Treasury;
+using System.Diagnostics;
 
 namespace Coffee.QR.Core.Services
 {
@@ -355,9 +356,10 @@ namespace Coffee.QR.Core.Services
                 doc.Add(table);
 
                 doc.Close();
-                report.Path = "/Pdfs/REPORT" + "_" + reportDto.Start.ToString("dd-MM-yyyy") + "_" + reportDto.End.ToString("dd-MM-yyyy") + "_" + reportDto.LocalId + "_" + reportDto.Id + ".pdf";
+                report.LocalId = 1;
+                report.Path = "pdfs/REPORT" + "_" + reportDto.Start.ToString("dd-MM-yyyy") + "_" + reportDto.End.ToString("dd-MM-yyyy") + "_" + reportDto.LocalId + "_" + reportDto.Id + ".pdf";
                 _reportRepository.Create(report);
-
+                Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
                 return MapToDto(report);
             }
             catch (ArgumentException e)
@@ -380,6 +382,19 @@ namespace Coffee.QR.Core.Services
                     stringBuilder.Append(b.ToString("x2"));
                 }
                 return stringBuilder.ToString();
+            }
+        }
+
+        public Result<List<ReportDto>> GetNewReport()
+        {
+            try
+            {
+                List<Report> reports = _reportRepository.GetAll().FindAll(r => r.LocalId == 1);
+                return MapToDto(reports);
+            }
+            catch (ArgumentException e)
+            {
+                return Result.Fail<List<ReportDto>>(FailureCode.InvalidArgument).WithError(e.Message);
             }
         }
     }

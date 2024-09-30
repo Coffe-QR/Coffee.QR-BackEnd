@@ -136,5 +136,19 @@ namespace Coffee.QR_BackEnd.Controllers
                 return BadRequest(result.Errors);
             }
         }
+        [HttpGet("new-report")]
+        public IActionResult GetNewReport()
+        {
+            var result = _reportService.GetNewReport();
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
     }
-}
+} 

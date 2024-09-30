@@ -115,5 +115,12 @@ namespace Coffee.QR_BackEnd.Controllers
             var result = _supplyService.Confirm(updateSupplyDto.Id);
             return CreateResponse(result);
         }
+
+        [HttpPost("reorder/{supplyId}")]
+        public IActionResult Reorder(long supplyId)
+        {
+            var resuly = _supplyService.Reorder(supplyId);
+            return CreateResponse(resuly);
+        }
     }
 }
